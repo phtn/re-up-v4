@@ -29,7 +29,7 @@ export const WavyBackground = ({
   waveOpacity = 0.5,
   ...props
 }: {
-  children?: KeyString;
+  children?: ReactElement<KeyString, string>;
   className?: string;
   containerClassName?: string;
   colors?: string[];
