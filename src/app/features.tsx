@@ -17,18 +17,22 @@ type FeatureData = {
 };
 
 const data: FeatureData[] = [
+  { id: 2, title: "Simplify", description: "Workload", tags: [""] },
   { id: 0, title: "Accept", description: "Online Payments", tags: [""] },
   { id: 1, title: "Automate", description: "Business Process", tags: [""] },
-  { id: 2, title: "Simplify", description: "Workload", tags: [""] },
+  { id: 2, title: "Secure", description: "Backend Service", tags: [""] },
 ];
 
 export function Features() {
   return (
-    <div className="z-50 grid grid-cols-3 gap-4 px-6">
+    <div className="z-50 grid w-full grid-cols-1 gap-4 px-6 pb-6 md:grid-cols-4">
       {data.map((item) => (
-        <Card key={item.id} className="border-cyan-500/30 border-opacity-50">
+        <Card
+          key={item.id}
+          className="w-full border-cyan-500/30 border-opacity-50"
+        >
           <CardHeader>
-            <CardTitle className="bg-gradient-to-r from-cyan-300 to-cyan-200 bg-clip-text text-[1.75rem] font-extrabold text-transparent">
+            <CardTitle className="mb-[-12px] bg-gradient-to-r from-cyan-300 to-cyan-50 bg-clip-text text-[1.75rem] font-extrabold text-transparent">
               {item.title}
             </CardTitle>
             <CardTitle className="bg-gradient-to-r from-cyan-100/50 to-cyan-200 bg-clip-text text-lg text-transparent">

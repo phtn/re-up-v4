@@ -14,23 +14,14 @@ export function Brand() {
   );
 }
 
-export const Original = () => (
-  <CardContainer className="inter-var">
-    <CardBody className="group/card relative flex items-center justify-center border p-6">
-      <CardItem translateZ="50">re-up.ph</CardItem>
-    </CardBody>
-  </CardContainer>
-);
-
 const Container = tw(CardContainer)`
   inter-var
 `;
 
 const Body = tw(CardBody)`
-  flex items-center justify-center 
-  rounded-full border-[0.1px] border-black/20
-  bg-gradient-to-tl from-indigo-500/20 to-transparent
-  group/card relative h-auto w-auto sm:h-[8rem] sm:w-[8rem] 
+  flex items-center justify-center rounded-full 
+  bg-gradient-to-tl from-indigo-400/20 to-transparent
+  group/card relative h-auto w-auto h-[8rem] w-[8rem] 
 `;
 
 const BrandName = tw(CardItem)`
