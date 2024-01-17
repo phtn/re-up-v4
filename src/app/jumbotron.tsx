@@ -20,7 +20,7 @@ const Tron = () => {
     onSuccess("Successful", "Email sent!");
   };
   return (
-    <section className="w-full py-64 md:py-24 lg:py-28 xl:py-48">
+    <section className="w-full py-56 md:py-24 lg:py-28 xl:py-48">
       <div className="h-fit px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center">
           <div>
