@@ -24,7 +24,12 @@ const data: FeatureData[] = [
   { id: 4, title: "Cloud", description: "Realtime Database", tags: [""] },
   { id: 5, title: "Data", description: "Reporting & Analysis", tags: [""] },
   { id: 6, title: "Insightful", description: "Projections", tags: [""] },
-  { id: 7, title: "Sales", description: "Lead Generation", tags: [""] },
+  {
+    id: 7,
+    title: "Multi-Platform",
+    description: "App Development",
+    tags: [""],
+  },
 ];
 
 export function Features() {
