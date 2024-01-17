@@ -13,9 +13,9 @@ export default function Home() {
       </div>
       <div className="absolute z-50 w-screen items-end justify-center bg-black md:h-[20vh] md:bg-transparent md:px-24">
         <Features />
-        <div className="flex h-44 items-center justify-center bg-black text-[12px] font-light text-neutral-500">
-          &copy; Re-up.ph. All rights reserved. {new Date().getFullYear()}
-        </div>
+      </div>
+      <div className="absolute top-[90vh] flex h-20 w-screen items-center justify-center bg-black text-[12px] font-light text-neutral-500">
+        &copy; Re-up.ph. All rights reserved. {new Date().getFullYear()}
       </div>
     </main>
   );
