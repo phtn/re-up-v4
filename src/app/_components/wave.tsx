@@ -1,10 +1,10 @@
 "use client";
-import { cn } from "@/utils/cn";
+import { cn } from "@@utils/cn";
 import React, {
-  type ReactElement,
-  type ReactNode,
   useEffect,
   useRef,
+  type ReactElement,
+  type ReactNode,
 } from "react";
 import { createNoise3D } from "simplex-noise";
 
@@ -75,7 +75,7 @@ export const WavyBackground = ({
     render();
   };
 
-  const waveColors = colors ?? ["#e879f9", "#000000", "#22d3ee"];
+  const waveColors = colors ?? ["#f97316", "#000000", "#bae6fd"];
   const drawWave = (n: number) => {
     nt += getSpeed();
     for (i = 0; i < n; i++) {

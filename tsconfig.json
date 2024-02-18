@@ -26,9 +26,14 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@@components/*": ["./src/app/_components/*"]
-    }
+      "@src/*": ["./src/*"],
+      "@@components/*": ["./src/app/_components/*"],
+      "@@lib/*": ["./src/lib/*"],
+      "@@server/*": ["./src/app/server/*"],
+      "@@trpc/*": ["./src/trpc/*"],
+      "@@utils/*": ["./src/utils/*"],
+      "@@styles/*": ["./src/styles/*"],
+    },
   },
   "include": [
     ".eslintrc.cjs",
@@ -37,7 +42,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "next.config.mjs",
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

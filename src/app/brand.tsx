@@ -26,6 +26,6 @@ const Body = tw(CardBody)`
 
 const BrandName = tw(CardItem)`
   text-[14px] text-transparent bg-clip-text
-  bg-gradient-to-tl from-cyan-200/80 to-cyan-100/50
-  decoration-pink-400/50 underline font-extrabold
+  bg-gradient-to-tl from-pink-100 to-cyan-100/50
+  decoration-pink-50 underline font-extrabold
 `;

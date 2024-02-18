@@ -1,8 +1,8 @@
-import "@/styles/globals.css";
+import "@@styles/globals.css";
 
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
-import { TRPCReactProvider } from "@/trpc/react";
+import { TRPCProvider } from "@@trpc/provider";
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -24,9 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          {children}
-        </TRPCReactProvider>
+        <TRPCProvider cookies={cookies().toString()}>{children}</TRPCProvider>
         <Toaster />
       </body>
     </html>
