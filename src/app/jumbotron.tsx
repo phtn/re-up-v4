@@ -9,15 +9,15 @@ import tw from "tailwind-styled-components";
 
 export function Jumbotron() {
   return (
-    <WavyBackground className="mx-auto max-w-4xl pb-40" speed="slow">
+    <WavyBackground className="w-screen pb-32" speed="slow">
       <Tron />
     </WavyBackground>
   );
 }
 
 const Header = () => (
-  <div>
-    <Title>Web Technologies for Business</Title>
+  <div className="flex flex-col items-center space-y-4">
+    <Title>Web Technologies for Business.</Title>
     <DescWrap>
       <Description>
         Building web services for modern business applications.
@@ -33,12 +33,16 @@ const Actions = () => {
   };
   return (
     <ActionWrap>
-      <form className="flex items-center justify-center space-x-4">
-        <DarkTouch size="md" tail={LogInIcon} className="w-[175px]">
+      <form className="flex items-center justify-center space-x-4 md:space-x-8">
+        <DarkTouch
+          size="md"
+          tail={LogInIcon}
+          className="w-[175px] portrait:w-[150px]"
+        >
           Sign in
         </DarkTouch>
         <Touch
-          className="w-[175px]"
+          className="w-[175px] portrait:w-[150px]"
           size="md"
           variant="default"
           tail={ArrowUpRightIcon}
@@ -63,18 +67,18 @@ const Tron = () => (
 );
 
 const Container = tw.section`
-  w-full py-48 md:py-24 lg:py-28 xl:py-48
+  w-full pt-28 pb-14 md:py-24 lg:py-24 xl:py-48
 `;
 const Outer = tw.div`
   h-fit px-4 md:px-6
 `;
 const Inner = tw.div`
-  flex flex-col items-center space-y-4 text-center
+  flex flex-col items-center space-y-8 text-center
 `;
 const Title = tw.h1`
-  mb-2 h-fit bg-gradient-to-tr from-cyan-50 to-white bg-clip-text 
-  text-4xl font-bold tracking-tighter text-transparent sm:text-4xl 
-  md:h-[66px] md:text-5xl lg:text-6xl
+  h-fit bg-gradient-to-tr from-cyan-50 to-white bg-clip-text 
+  text-3xl font-bold tracking-tighter text-transparent sm:text-4xl 
+  md:h-[100px] md:text-4xl lg:text-5xl max-w-[14ch]
 `;
 const DescWrap = tw.div`
   px-12 md:px-1

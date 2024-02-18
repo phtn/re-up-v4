@@ -25,7 +25,7 @@ const primaryClass = `
   hover:text-blue-600
 `;
 const darkClass = `
-  bg-void text-orange-300/80 border border-clay/[40%]
+  bg-void text-orange-300/80 border border-clay/[50%]
   shadow-i-br-dk-hv pointer-events-auto
   hover:text-orange-300 rounded-[8px]
   m-[1px] 

@@ -7,9 +7,13 @@ import tw from "tailwind-styled-components";
 export function Brand() {
   return (
     <Container>
-      <Body>
-        <BrandName translateZ="50">re-up.ph</BrandName>
-      </Body>
+      <div
+        className={`object-fit rounded-full bg-[url('/svg/melancholy.svg')] bg-left transition-all duration-60000 ease-in hover:bg-center`}
+      >
+        <Body>
+          <BrandName translateZ="50">re-up.ph</BrandName>
+        </Body>
+      </div>
     </Container>
   );
 }
@@ -20,7 +24,7 @@ const Container = tw(CardContainer)`
 
 const Body = tw(CardBody)`
   flex items-center justify-center rounded-full 
-  bg-gradient-to-tl from-indigo-300/20 to-transparent
+  bg-gradient-to-tl from-amber-300/10 to-transparent
   group/card relative h-auto w-auto h-[8rem] w-[8rem] 
 `;
 
