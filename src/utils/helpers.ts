@@ -1,5 +1,6 @@
 import type { Dispatch, ReactElement, SetStateAction } from "react";
 import { onError, onSuccess, onWarn } from "./toast";
+import { v4 as uuidv4 } from "uuid";
 
 export function toggleState(setState: Dispatch<SetStateAction<boolean>>): void {
   setState((prevState) => !prevState);
@@ -74,4 +75,17 @@ export const jsoq = (value: string) => {
   const replacedPi = replacedBowen.replaceAll(pi, "https://");
 
   return replacedPi;
+};
+
+export const createWebhookId = (): string => {
+  const regex = /-(.*)-/;
+  const uid = uuidv4();
+
+  const match = uid.match(regex);
+  if (match && match.length > 1) {
+    const stringBetweenDashes = match[1];
+    return `APP-${stringBetweenDashes}-x`;
+  } else {
+    return `APP-${uid.substring(0, 13)}-x`;
+  }
 };

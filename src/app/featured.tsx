@@ -77,14 +77,14 @@ const GridCol = tw.div`
   z-50 grid w-full grid-cols-1 gap-4 px-6 md:grid-cols-3
 `;
 const Item = tw(Card)`
-  w-full md:max-w-[300px] rounded-none border-cord/50
+  w-full md:max-w-[300px] rounded-none border-cord/30
 `;
 const Content = tw.div`
   flex items-center justify-center space-x-6 w-full 
 `;
 const Title = tw(CardTitle)`
   font-extrabold text-transparent md:text-xl -mb-1
-  bg-gradient-to-r from-orange-200 via-rose-100/80 via-[30%] to-sky-900 to-[90%] bg-clip-text  
+  bg-gradient-to-r from-orange-200 via-sky-100/80 via-[30%] to-sky-900 to-[90%] bg-clip-text  
 `;
 const Subtext = tw(CardTitle)`
   bg-clip-text text-sm text-transparent font-medium

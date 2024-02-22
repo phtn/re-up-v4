@@ -11,7 +11,9 @@ export const Navbar = () => {
   const AuthOptions = useCallback(() => {
     const isAuthed = creds?.user !== null;
     const options = opts(
-      <h2 className="text-xs">{creds?.profile?.email}</h2>,
+      <Link href={"/account/portal"}>
+        <h2 className="text-xs">{creds?.profile?.email}</h2>
+      </Link>,
       <h2 className="text-xs">Sign In</h2>,
     );
     return <>{options.get(isAuthed)}</>;

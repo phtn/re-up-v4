@@ -23,9 +23,9 @@ export const Strings = ({
   containerClassName,
   colors,
   backgroundFill,
-  blur = 4,
-  speed = "fast",
-  waveOpacity = 0.5,
+  blur = 2,
+  speed = "slow",
+  waveOpacity = 0.8,
   ...props
 }: {
   children?: ReactElement<KeyString, string>;
@@ -59,6 +59,8 @@ export const Strings = ({
     }
   };
 
+  const waveColors = colors ?? ["#fb923c", "#000000", "#bae6fd"];
+
   const init = () => {
     canvas = canvasRef.current!;
     ctx = canvas.getContext("2d")!;
@@ -74,16 +76,15 @@ export const Strings = ({
     render();
   };
 
-  const waveColors = colors ?? ["#ffaa6f", "#000000", "#bae6fd"];
   const drawWave = (n: number) => {
     nt += getSpeed();
     for (i = 0; i < n; i++) {
       ctx.beginPath();
-      ctx.lineWidth = i === 0 ? 3 : 6;
+      ctx.lineWidth = i === 0 ? 1 : 6;
       ctx.strokeStyle = waveColors[i % waveColors.length]!;
-      for (x = 0; x < w; x += i === 0 ? 2 : 3) {
+      for (x = 0; x < w; x += i === 0 ? 2 : 5) {
         const y = noise(x / 2000, 0.2 * i, nt) * 75;
-        ctx.lineTo(x, y + h * 0.5); // adjust for height, currently at 50% of the container
+        ctx.lineTo(x, y + h * 0.65); // adjust for height, currently at 50% of the container
       }
       ctx.stroke();
       ctx.closePath();

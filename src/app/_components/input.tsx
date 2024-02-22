@@ -84,7 +84,6 @@ export const InputField = React.forwardRef<
         {...props}
         type={type}
         ref={ref}
-        autoFocus={false}
         className="w-full rounded bg-transparent p-1 text-[15px] placeholder:text-void autofill:bg-blue-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       />
     </div>

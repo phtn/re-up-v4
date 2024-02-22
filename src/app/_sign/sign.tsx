@@ -1,10 +1,11 @@
 import { Sheet, SheetContent, SheetTrigger } from "@@components/sheet";
 import { ArrowUpRightIcon, LogInIcon } from "lucide-react";
 import {
+  forwardRef,
+  useState,
   type Dispatch,
   type ReactNode,
   type SetStateAction,
-  useState,
 } from "react";
 import tw from "tailwind-styled-components";
 import { DarkTouch, Touch } from "../_components/touch";
@@ -71,26 +72,34 @@ export const SignUpSheet = ({ open, setOpen, children }: SignSheetProps) => {
   );
 };
 
-const DarkButton = () => (
+const DarkButton = forwardRef<HTMLButtonElement>((props, ref) => (
   <DarkTouch
+    ref={ref}
     size="md"
     tail={LogInIcon}
     className="w-[175px] portrait:w-[150px]"
+    {...props}
   >
     Sign in
   </DarkTouch>
-);
+));
 
-const LightButton = () => (
+DarkButton.displayName = "DarkButton";
+
+const LightButton = forwardRef<HTMLButtonElement>((props, ref) => (
   <Touch
+    ref={ref}
     className="w-[175px] portrait:w-[150px]"
     size="md"
     variant="default"
     tail={ArrowUpRightIcon}
+    {...props}
   >
     Sign up
   </Touch>
-);
+));
+
+LightButton.displayName = "LightButton";
 
 const Container = tw.div`
   flex items-center justify-center space-x-4 md:space-x-8

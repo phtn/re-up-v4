@@ -30,9 +30,9 @@ const tertiaryClass = `
   hover:text-cyan-700
 `;
 const darkClass = `
-  bg-void text-sky-200/60 border border-clay/[50%]
+  bg-void text-sky-200/70 border border-clay/[50%]
   shadow-i-br-dk-hv pointer-events-auto
-  hover:text-orange-200/80 rounded-[6px]
+  hover:text-sky-200/90 rounded-[6px]
   m-[1px] 
 `;
 const secondaryClass = `
