@@ -1,9 +1,10 @@
 import "@@styles/globals.css";
 
+import { TRPCProvider } from "@@trpc/provider";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
-import { TRPCProvider } from "@@trpc/provider";
 import { Toaster } from "sonner";
+import { AuthProvider } from "./context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,8 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCProvider cookies={cookies().toString()}>{children}</TRPCProvider>
-        <Toaster />
+        <AuthProvider>
+          <TRPCProvider cookies={cookies().toString()}>{children}</TRPCProvider>
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

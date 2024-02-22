@@ -29,14 +29,38 @@ export default {
         "i-br-dk-hv": "inset -20px -20px 40px -30px rgba(255, 255, 255, 0.45)",
         // Meter
         "i-br-md-m": "inset -15px -30px 40px -20px rgba(175, 175, 175, 0.8)",
+        // Sign
+        "i-tl-si": "inset 20px 20px 20px -15px rgba(50, 50, 50, 0.55)",
+        "i-br-si": "inset -20px -20px 40px -30px rgba(50, 50, 50, 0.65)",
+      },
+      textColor: {
+        title:
+          "text-transparent bg-gradient-to-r from-orange-200 via-rose-100/80 via-[30%] to-sky-900 to-[90%] bg-clip-text",
+        description:
+          "bg-gradient-to-r from-sky-200/80 to-cyan-100/60 bg-clip-text text-transparent",
       },
       colors: {
         paper: "#F8F8F8",
         ash: "#D7D7D7",
+        opus: "#929292",
+        mojo: "#F2F2F2",
+        bojo: "#CFEFFF",
+        fgbojo: "#5DCCCC",
+        mod: "#D3D9FA",
+        fgmod: "#8698FF",
         clay: "#6A6A6A",
         coal: "#3A3A3A",
         fast: "#172554",
-        void: "#0F172A",
+        void: "#000712",
+        lux: "#ABBBB8",
+        luz: "#0369a1",
+        rome: "#CCD6D5",
+        zap: "#FFFDF8",
+        fire: "#fb923c",
+        kindle: "#ffaa6f",
+        cord: "#bae6fd",
+        whb: "#51bfc9",
+        whr: "#e03838",
       },
       transitionDuration: {
         "2000": "2000ms",
@@ -54,6 +78,8 @@ export default {
       },
       animation: {
         shimmer: "shimmer 5s linear infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
       keyframes: {
         shimmer: {
@@ -63,6 +89,14 @@ export default {
           to: {
             backgroundPosition: "-200% 0",
           },
+        },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
       },
     },
@@ -86,6 +120,16 @@ export default {
           "bg-dot": (value: any) => ({
             backgroundImage: `url("${svgToDataUri(
               `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
+            )}")`,
+          }),
+          "bg-dot-sm": (value: any) => ({
+            backgroundImage: `url("${svgToDataUri(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="48" height="48" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
+            )}")`,
+          }),
+          "bg-dot-big": (value: any) => ({
+            backgroundImage: `url("${svgToDataUri(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="32" height="32" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
             )}")`,
           }),
         },

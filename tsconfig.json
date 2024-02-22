@@ -28,8 +28,12 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@@components/*": ["./src/app/_components/*"],
+      "@@firebase/*": ["./src/server/firebase/*"],
+      "@@procedure/*": ["./src/server/procedure/*"],
+      "@@resource/*": ["./src/server/resource/*"],
+      "@@router/*": ["./src/server/router/*"],
+      "@@server/*": ["./src/server/*"],
       "@@lib/*": ["./src/lib/*"],
-      "@@server/*": ["./src/app/server/*"],
       "@@trpc/*": ["./src/trpc/*"],
       "@@utils/*": ["./src/utils/*"],
       "@@styles/*": ["./src/styles/*"],

@@ -7,7 +7,7 @@ import tw from "tailwind-styled-components";
 
 const touchDefaultClass = `
   text-xs font-medium border-[0.33px] cursor-pointer space-x-3
-  inline-flex items-center justify-center whitespace-nowrap rounded-[8px] 
+  inline-flex items-center justify-center whitespace-nowrap rounded-[6px] 
   focus-visible:outline-none focus-visible:ring-1  
   focus-visible:ring-ring focus-visible:ring-offset-4
   disabled:pointer-events-none disabled:opacity-70
@@ -24,16 +24,21 @@ const primaryClass = `
   hover:shadow-i-br-li-hv shadow-i-tl-li
   hover:text-blue-600
 `;
+const tertiaryClass = `
+  bg-white text-cyan-600 border-ash/[30%]
+  hover:shadow-i-br-li-hv shadow-i-tl-li
+  hover:text-cyan-700
+`;
 const darkClass = `
-  bg-void text-orange-300/80 border border-clay/[50%]
+  bg-void text-sky-200/60 border border-clay/[50%]
   shadow-i-br-dk-hv pointer-events-auto
-  hover:text-orange-300 rounded-[8px]
+  hover:text-orange-200/80 rounded-[6px]
   m-[1px] 
 `;
 const secondaryClass = `
   bg-blue-600 text-blue-100 border border-blue-300/[80%]
   shadow-i-br-dk-hv pointer-events-auto
-  hover:text-white rounded-[8px]
+  hover:text-white rounded-[6px]
   m-[1.5px]
 `;
 const destroyClass = `
@@ -54,12 +59,13 @@ const tv = cva(touchDefaultClass, {
       destroy: destroyClass,
       primary: primaryClass,
       secondary: secondaryClass,
+      tertiary: tertiaryClass,
       ghost: ghostClass,
     },
     size: {
       sm: "h-[32px] px-[14px]",
-      md: "h-[44px] px-[18px] text-[14px]",
-      lg: "h-[50px] px-[22px]",
+      md: "h-[44px] px-[18px] text-[12px]",
+      lg: "h-[50px] px-[28px] text-[13px]",
       icon: "h-[52px] w-[52px]",
       default: "h-[42px] px-[16px]",
     },
@@ -109,7 +115,7 @@ Touch.displayName = "Touch";
 
 const Case = tw.div`
   flex items-center justify-center bg-white p-[2px]
-  rounded-[9.77px] border-[0.33px] border-ash 
+  rounded-[7.67px] border-[0.33px] border-ash 
   transition-all duration-300 drop-shadow-sm 
   hover:shadow-i-tl-li-hv shadow-i-br-li
   active:scale-[95%] active:border-ash
@@ -133,7 +139,7 @@ export const DarkTouch = forwardRef<
           tv({ variant, size, className }),
           variant === "secondary" ? `h-[38px]` : ``,
           size === "sm" ? `h-[38px]` : ``,
-          size === "md" ? `h-[48px] px-[22px] text-[14px]` : ``,
+          size === "md" ? `h-[48px] px-[22px] text-[12px]` : ``,
         )}
         ref={ref}
         {...props}
@@ -151,7 +157,7 @@ DarkTouch.displayName = "DarkTouch";
 
 const DarkCase = tw.div`
   flex items-center justify-center bg-void pt-[.75px]
-  rounded-[9px] border-[0.75px] border-void/[20%]
+  rounded-[7.5px] border-[0.75px] border-orange-100/[30%]
   shadow-i-tl-dk-hv
   transition-all duration-300 
   drop-shadow-sm

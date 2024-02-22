@@ -17,12 +17,11 @@ type KeyString =
   | ReactNode
   | ReactElement;
 
-export const WavyBackground = ({
+export const Strings = ({
   children,
   className,
   containerClassName,
   colors,
-  waveWidth,
   backgroundFill,
   blur = 4,
   speed = "fast",
@@ -75,15 +74,15 @@ export const WavyBackground = ({
     render();
   };
 
-  const waveColors = colors ?? ["#f97316", "#000000", "#bae6fd"];
+  const waveColors = colors ?? ["#ffaa6f", "#000000", "#bae6fd"];
   const drawWave = (n: number) => {
     nt += getSpeed();
     for (i = 0; i < n; i++) {
       ctx.beginPath();
-      ctx.lineWidth = waveWidth ?? 5;
+      ctx.lineWidth = i === 0 ? 3 : 6;
       ctx.strokeStyle = waveColors[i % waveColors.length]!;
-      for (x = 0; x < w; x += 3) {
-        const y = noise(x / 2000, 0.2 * i, nt) * 100;
+      for (x = 0; x < w; x += i === 0 ? 2 : 3) {
+        const y = noise(x / 2000, 0.2 * i, nt) * 75;
         ctx.lineTo(x, y + h * 0.5); // adjust for height, currently at 50% of the container
       }
       ctx.stroke();
@@ -110,16 +109,22 @@ export const WavyBackground = ({
   return (
     <div
       className={cn(
-        "flex h-fit flex-col items-center justify-center",
+        "flex h-full flex-col items-center justify-center",
         containerClassName,
       )}
     >
       <canvas
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 h-full w-screen"
         ref={canvasRef}
         id="canvas"
       ></canvas>
-      <div className={cn("relative z-10", className)} {...props}>
+      <div
+        className={cn(
+          "relative z-10 flex w-full items-center justify-center",
+          className,
+        )}
+        {...props}
+      >
         {children}
       </div>
     </div>
