@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRightIcon, PenLineIcon } from "lucide-react";
-import { type UseFormReturn, useForm } from "react-hook-form";
+import { ArrowRightIcon, Disc3Icon, PenLineIcon } from "lucide-react";
+import { useForm, type UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem } from "../_components/form";
 import { InputField } from "../_components/input";
 import { Touch } from "../_components/touch";
+import { useCreateWebhookApp } from "./hooks";
 
 export const webhookSchema = z.object({
   name: z.string().min(1),
@@ -18,16 +19,21 @@ const webhookFormDefaults = {
 
 export type FormType = UseFormReturn<WebhookSchema>;
 
-export const WebhookForm = () => {
+type WebhookFormProps = {
+  uid: string | undefined;
+};
+export const WebhookForm = ({ uid }: WebhookFormProps) => {
   const form = useForm<WebhookSchema>({
     resolver: zodResolver(webhookSchema),
     defaultValues: webhookFormDefaults,
   });
 
   const { handleSubmit, control, formState } = form;
-
+  const { getName, loading } = useCreateWebhookApp({
+    uid,
+  });
   const onSubmit = (data: WebhookSchema) => {
-    console.log(data);
+    getName(data);
   };
 
   return (
@@ -54,10 +60,11 @@ export const WebhookForm = () => {
           type="submit"
           size={"lg"}
           variant={formState.isValid ? "primary" : "default"}
-          tail={ArrowRightIcon}
+          tail={loading ? Disc3Icon : ArrowRightIcon}
           className={"w-full"}
+          iconClass={loading ? `animate-spin duration-1000` : ``}
         >
-          Submit
+          {loading ? `Submitting` : `Submit`}
         </Touch>
       </form>
     </Form>

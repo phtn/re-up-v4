@@ -1,4 +1,3 @@
-import { type CreateWebhookResource } from "@src/server/resource/webhook";
 import { createWebhookId } from "@src/utils/helpers";
 import { svix } from "@@lib/svix";
 import type {
@@ -9,7 +8,7 @@ import type {
   MessageIn,
 } from "svix";
 
-export const example: CreateWebhookResource = {
+export const example = {
   name: "Adam",
   rateLimit: 100,
 

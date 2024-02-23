@@ -79,6 +79,7 @@ const tv = cva(touchDefaultClass, {
 interface ReUpButtonProps {
   icon?: LucideIcon;
   tail?: LucideIcon;
+  iconClass?: string;
 }
 
 interface TouchProps
@@ -89,27 +90,36 @@ interface TouchProps
 export const Touch = forwardRef<
   HTMLButtonElement,
   TouchProps & ReUpButtonProps
->(({ asChild, className, size, variant, children, ...props }, ref) => {
-  const Comp = asChild ? Slot : "button";
-  return (
-    <Case
-      className={cn(
-        variant === "ghost" ? `shadow-0 border-0 bg-transparent` : null,
-      )}
-    >
-      <Comp
-        className={cn(tv({ variant, size, className }))}
-        ref={ref}
-        {...props}
+>(
+  (
+    { asChild, className, size, variant, children, iconClass, ...props },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Case
+        className={cn(
+          variant === "ghost" ? `shadow-0 border-0 bg-transparent` : null,
+        )}
       >
-        {props.icon ? <props.icon strokeWidth={1} className="h-4 w-4" /> : null}
+        <Comp
+          className={cn(tv({ variant, size, className }))}
+          ref={ref}
+          {...props}
+        >
+          {props.icon ? (
+            <props.icon strokeWidth={1} className={cn(iconClass, `h-4 w-4`)} />
+          ) : null}
 
-        {children ? <div>{children}</div> : null}
-        {props.tail ? <props.tail strokeWidth={1} className="h-4 w-4" /> : null}
-      </Comp>
-    </Case>
-  );
-});
+          {children ? <div>{children}</div> : null}
+          {props.tail ? (
+            <props.tail strokeWidth={1} className={cn(iconClass, `h-4 w-4`)} />
+          ) : null}
+        </Comp>
+      </Case>
+    );
+  },
+);
 
 Touch.displayName = "Touch";
 
@@ -124,34 +134,51 @@ const Case = tw.div`
 export const DarkTouch = forwardRef<
   HTMLButtonElement,
   TouchProps & ReUpButtonProps
->(({ asChild, className, size, variant = "dark", children, ...props }, ref) => {
-  const Comp = asChild ? Slot : "button";
-  return (
-    <DarkCase
-      className={cn(
-        className,
-        variant === "secondary" ? `border-0 bg-blue-200 pt-0` : ``,
-        size === "icon" ? `m-[0px] h-[56px] w-[56px] ` : ``,
-      )}
-    >
-      <Comp
+>(
+  (
+    {
+      asChild,
+      className,
+      size,
+      variant = "dark",
+      children,
+      iconClass,
+      ...props
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <DarkCase
         className={cn(
-          tv({ variant, size, className }),
-          variant === "secondary" ? `h-[38px]` : ``,
-          size === "sm" ? `h-[38px]` : ``,
-          size === "md" ? `h-[48px] px-[22px] text-[12px]` : ``,
+          className,
+          variant === "secondary" ? `border-0 bg-blue-200 pt-0` : ``,
+          size === "icon" ? `m-[0px] h-[56px] w-[56px] ` : ``,
         )}
-        ref={ref}
-        {...props}
       >
-        {props.icon ? <props.icon strokeWidth={1} className="h-4 w-4" /> : null}
+        <Comp
+          className={cn(
+            tv({ variant, size, className }),
+            variant === "secondary" ? `h-[38px]` : ``,
+            size === "sm" ? `h-[38px]` : ``,
+            size === "md" ? `h-[48px] px-[22px] text-[12px]` : ``,
+          )}
+          ref={ref}
+          {...props}
+        >
+          {props.icon ? (
+            <props.icon strokeWidth={1} className={cn(iconClass, `h-4 w-4`)} />
+          ) : null}
 
-        {children ? <div>{children}</div> : null}
-        {props.tail ? <props.tail strokeWidth={1} className="h-4 w-4" /> : null}
-      </Comp>
-    </DarkCase>
-  );
-});
+          {children ? <div>{children}</div> : null}
+          {props.tail ? (
+            <props.tail strokeWidth={1} className={cn(iconClass, `h-4 w-4`)} />
+          ) : null}
+        </Comp>
+      </DarkCase>
+    );
+  },
+);
 
 DarkTouch.displayName = "DarkTouch";
 

@@ -1,17 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import {
   type ReactNode,
   forwardRef,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import { AuthContext } from "../context";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@src/lib/db";
 import { ArrowRightIcon, BookOpenTextIcon, WebhookIcon } from "lucide-react";
 import tw from "tailwind-styled-components";
 import { DarkTouch, Touch } from "../_components/touch";
@@ -22,15 +18,6 @@ import { WebhookCreate } from "./webhook-create";
 
 export const Content = () => {
   const creds = useContext(AuthContext);
-  const router = useRouter();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (observer) => {
-      if (!observer) {
-        router.push("/");
-      }
-    });
-  }, [creds?.user, router]);
 
   const [createActive, setCreateActive] = useState(false);
   const [signinOpen, setSigninOpen] = useState(false);

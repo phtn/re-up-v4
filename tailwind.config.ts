@@ -77,7 +77,8 @@ export default {
         "pos-100": "100% 100%",
       },
       animation: {
-        shimmer: "shimmer 5s linear infinite",
+        shimmer: "shimmer 1s linear infinite",
+        "shimmer-once": "shimmer 1s linear",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },

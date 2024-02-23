@@ -1,6 +1,6 @@
 import type { Dispatch, ReactElement, SetStateAction } from "react";
-import { onError, onSuccess, onWarn } from "./toast";
 import { v4 as uuidv4 } from "uuid";
+import { onError, onSuccess, onWarn } from "./toast";
 
 export function toggleState(setState: Dispatch<SetStateAction<boolean>>): void {
   setState((prevState) => !prevState);
@@ -87,5 +87,31 @@ export const createWebhookId = (): string => {
     return `APP-${stringBetweenDashes}-x`;
   } else {
     return `APP-${uid.substring(0, 13)}-x`;
+  }
+};
+
+export const removeLastEqualSign = (str: string) => {
+  const regex = /=+$/;
+  return str.replace(regex, "");
+};
+
+export const hashString = async (...args: string[]): Promise<string> => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(args.join(""));
+  return crypto.subtle.digest("SHA-256", data).then((hash) => {
+    const encoded = btoa(
+      String.fromCharCode.apply(null, Array.from(new Uint8Array(hash))),
+    );
+    return removeLastEqualSign(encoded);
+  });
+};
+
+export const createWebhookUID = async (
+  ...args: Array<string | undefined>
+): Promise<string> => {
+  if (args.every((arg) => arg !== undefined)) {
+    return `uid_${await hashString(...(args as string[]))}_x`;
+  } else {
+    return `uid_${await hashString(new Date().getTime().toString(36))}x`;
   }
 };

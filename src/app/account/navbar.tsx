@@ -4,6 +4,7 @@ import { useCallback, useContext } from "react";
 import { AuthContext } from "../context";
 import Link from "next/link";
 import { opts } from "@src/utils/helpers";
+import { UserNav } from "./user-nav";
 
 export const Navbar = () => {
   const creds = useContext(AuthContext);
@@ -11,9 +12,7 @@ export const Navbar = () => {
   const AuthOptions = useCallback(() => {
     const isAuthed = creds?.user !== null;
     const options = opts(
-      <Link href={"/account/portal"}>
-        <h2 className="text-xs">{creds?.profile?.email}</h2>
-      </Link>,
+      <UserNav user={creds?.profile?.email as string} />,
       <h2 className="text-xs">Sign In</h2>,
     );
     return <>{options.get(isAuthed)}</>;

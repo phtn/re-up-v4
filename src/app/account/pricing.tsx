@@ -1,20 +1,11 @@
-import { createAppPortalAccess } from "@src/trpc/svix/appPortal";
 import { DarkTouch } from "../_components/touch";
 import { FanIcon } from "lucide-react";
-import { onError } from "@src/utils/toast";
+import { removeLastEqualSign } from "@src/utils/helpers";
 
 export const Pricing = () => {
-  const handleCreateAppPortalAccess = () => {
-    createAppPortalAccess({
-      app_id: "app_2cC8maK3KWh23YAtFqEFX1mABxT",
-      resource: { featureFlags: [] },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err: Error) => {
-        onError(err.name, err.message);
-      });
+  const handleTest = () => {
+    const s = "dfsdf=";
+    console.log(removeLastEqualSign(s));
   };
   return (
     <div className="grid grid-cols-1 gap-x-[36px] md:grid-cols-3">
@@ -34,11 +25,7 @@ export const Pricing = () => {
             </p>
           </div>
           <div className="w-fit">
-            <DarkTouch
-              size={"md"}
-              onClick={handleCreateAppPortalAccess}
-              tail={FanIcon}
-            >
+            <DarkTouch size={"md"} onClick={handleTest} tail={FanIcon}>
               Access Portal
             </DarkTouch>
           </div>
