@@ -10,7 +10,7 @@ const touchDefaultClass = `
   inline-flex items-center justify-center whitespace-nowrap rounded-[6px] 
   focus-visible:outline-none focus-visible:ring-1  
   focus-visible:ring-ring focus-visible:ring-offset-4
-  disabled:pointer-events-none disabled:opacity-70
+  disabled:pointer-events-none disabled:opacity-80
   transition-all duration-300 ring-offset-background
 `;
 const defaultClass = `

@@ -1,11 +1,10 @@
 import { DarkTouch } from "../_components/touch";
 import { FanIcon } from "lucide-react";
-import { removeLastEqualSign } from "@src/utils/helpers";
 
 export const Pricing = () => {
-  const handleTest = () => {
-    const s = "dfsdf=";
-    console.log(removeLastEqualSign(s));
+  const handleTest = async () => {
+    const id = "id";
+    console.log(id);
   };
   return (
     <div className="grid grid-cols-1 gap-x-[36px] md:grid-cols-3">

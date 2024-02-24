@@ -98,11 +98,16 @@ export const removeLastEqualSign = (str: string) => {
 export const hashString = async (...args: string[]): Promise<string> => {
   const encoder = new TextEncoder();
   const data = encoder.encode(args.join(""));
+
   return crypto.subtle.digest("SHA-256", data).then((hash) => {
     const encoded = btoa(
       String.fromCharCode.apply(null, Array.from(new Uint8Array(hash))),
     );
-    return removeLastEqualSign(encoded);
+    const sanitizedHash = encoded
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+    return removeLastEqualSign(sanitizedHash);
   });
 };
 

@@ -48,6 +48,7 @@
     "**/*.js",
     ".next/types/**/*.ts",
     "next.config.mjs",
+    "src/trpc/svix/svix.txt",
   ],
   "exclude": ["node_modules"],
 }

@@ -6,15 +6,17 @@ import { AuthContext } from "../context";
 export const WebhookCreate = () => {
   const creds = useContext(AuthContext);
   return (
-    <div className="flex  items-center justify-center">
-      <div className="flex flex-col items-center justify-center space-y-4 border-[0.33px] p-10">
-        <div className="flex flex-col space-y-2">
-          <h3 className="text-3xl font-semibold text-sky-50">Perfect!</h3>
+    <div className="flex h-[500px] items-start justify-center border-kindle/40 md:items-center md:border-l-[0.33px]">
+      <div className="flex flex-col items-center justify-center space-y-4 p-10">
+        <div className="flex flex-col space-y-3">
+          <h3 className="text-3xl font-semibold text-sky-50">
+            Let&apos;s get started!
+          </h3>
           <Title>First, let&apos;s give your webhook a name</Title>
           <Description>
-            Most people name their webhooks specific to what it the does. Some
-            name it after the project name or a company, but you can name it
-            whatever you want.
+            Some teams name their webhooks specific to what it does. Others name
+            it after the project or company, but you can name it to whatever you
+            want.
           </Description>
         </div>
         <WebhookForm uid={creds?.user?.uid} />
@@ -24,10 +26,9 @@ export const WebhookCreate = () => {
 };
 
 const Title = tw.p`
-  text-sm font-medium text-kindle
+  text-sm text-kindle font-medium 
 `;
 
 const Description = tw.p`
-  text-opus text-[11px] max-w-[40ch] font-light leading-snug
-
+  text-opus text-[12px] max-w-[35ch] font-light leading-snug
 `;

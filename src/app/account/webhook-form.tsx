@@ -59,6 +59,7 @@ export const WebhookForm = ({ uid }: WebhookFormProps) => {
         <Touch
           type="submit"
           size={"lg"}
+          disabled={!formState.isValid || loading}
           variant={formState.isValid ? "primary" : "default"}
           tail={loading ? Disc3Icon : ArrowRightIcon}
           className={"w-full"}

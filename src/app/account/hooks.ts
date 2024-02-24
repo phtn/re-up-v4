@@ -1,5 +1,5 @@
 import { type WebhookPayloadSchema } from "@src/server/resource/webhook";
-import { createAppPortalAccess } from "@src/server/svix/appPortal";
+import { createAppPortalAccess } from "@src/trpc/svix/appPortal";
 import { createWebhook } from "@src/trpc/svix/webhook";
 import { addWebhookDocToFirebase } from "@src/trpc/webhook/add";
 import { createWebhookUID } from "@src/utils/helpers";
@@ -48,7 +48,7 @@ export const useCreateWebhookApp = ({ uid }: CreateWebhookApp) => {
         uid,
         new Date().getTime().toString(36),
       );
-      const newAppProps = { uid: res };
+      const newAppProps = { uid: res, rateLimit: 64 };
 
       const input: ApplicationIn = mergeObjects(webhookName, newAppProps);
 
@@ -87,4 +87,4 @@ export const useCreateWebhookApp = ({ uid }: CreateWebhookApp) => {
 };
 
 const createAppPortal = async (app_id: string) =>
-  await createAppPortalAccess(app_id, { featureFlags: [] });
+  await createAppPortalAccess({ id: app_id, resource: { featureFlags: [] } });

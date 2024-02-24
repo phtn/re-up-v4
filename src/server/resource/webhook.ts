@@ -1,5 +1,3 @@
-"use server";
-
 import { z } from "zod";
 import { AppPortalResponse, CreateWebhookResponse } from "./svix";
 import { UserId } from "./account";

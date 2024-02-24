@@ -58,8 +58,8 @@ export const Content = () => {
 };
 
 const Primary = ({ children }: { children: ReactNode }) => (
-  <div className="flex items-center justify-center">
-    <div className="flex w-full flex-col space-y-10">
+  <div className="flex h-[500px] items-center justify-center">
+    <div className="flex w-full flex-col space-y-12">
       <IntroTitle />
       <IntroDetails />
       <div className="flex w-fit items-center space-x-4 portrait:w-full">
@@ -89,7 +89,7 @@ const IntroDetails = () => (
   <div className="flex h-full w-full flex-col justify-center space-y-6 text-sm text-neutral-400/80">
     <div className="space-y-2">
       <Title>definition</Title>
-      <p className="text-upos max-w-[52ch] text-[11px] font-light leading-snug">
+      <p className="text-upos max-w-[52ch] text-[12px] font-light leading-snug">
         A Webhook is a technology used in web applications that allows real-time
         communication between different applications or systems.
       </p>
@@ -120,7 +120,7 @@ const CreateButton = forwardRef<HTMLButtonElement, { onClick: () => void }>(
 CreateButton.displayName = "CreateButton";
 
 const Hero = tw.div`
-  grid h-[900px] md:h-[500px] w-full grid-cols-1 portrait:gap-y-8 gap-x-[36px] bg-void px-[16px] md:grid-cols-2 md:px-[72px]
+  grid h-[1000px] md:h-[500px] w-full grid-cols-1 bg-void px-[16px] md:grid-cols-2 md:px-[72px]
 `;
 
 const Title = tw.p`
@@ -128,5 +128,5 @@ const Title = tw.p`
 `;
 
 const Cover = tw.div`
- flex items-center justify-center bg-[url('/svg/chaos_v2.svg')] bg-cover
+  flex portrait:h-[400px] md:h-[500px] items-center justify-center bg-[url('/svg/chaos_v2.svg')] bg-cover
 `;
