@@ -1,9 +1,9 @@
-import { type ReactNode } from "react";
 import { Navbar } from "./navbar";
+import { type Children } from "../types";
 
-const AccountLayout = ({ children }: { children: ReactNode }) => {
+const AccountLayout = ({ children }: Children) => {
   return (
-    <div className="h-screen overflow-y-scroll bg-zap">
+    <div className="bg-zap h-full md:h-screen">
       <Navbar />
       {children}
     </div>

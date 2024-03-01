@@ -4,8 +4,8 @@ import { Content } from "./content";
 const Account = () => {
   return (
     <div className="h-full">
-      <CheckAuth />
       <Content />
+      <CheckAuth />
     </div>
   );
 };

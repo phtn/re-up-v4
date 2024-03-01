@@ -1,20 +1,22 @@
 "use client";
 
-import { opts } from "@src/utils/helpers";
 import { ArrowRightIcon, BookOpenTextIcon, WebhookIcon } from "lucide-react";
+import { DarkTouch, Touch } from "@@components/touch";
 import { forwardRef, useCallback, useContext, useState } from "react";
+import { opts } from "@src/utils/helpers";
+import { AuthContext } from "@src/app/context";
+import { SignInSheet } from "@src/app/_sign/sign";
+import { type Children } from "@src/app/types";
 import tw from "tailwind-styled-components";
-import { DarkTouch, Touch } from "../_components/touch";
-import { SignInSheet } from "../_sign/sign";
-import { AuthContext } from "../context";
-import { type Children } from "../types";
-import { WebhookDashboard } from "../webhooks/dashboard";
-import { View } from "./components";
 import { WebhookCreate } from "./webhook-create";
 
-export const Content = () => {
+/**
+ * @name WebhookContent
+ * @description Default content for the webhook page
+ */
+
+export const WebhookContent = () => {
   const user = useContext(AuthContext)?.user;
-  const profile = useContext(AuthContext)?.profile;
   const [userId] = useState<string | undefined>(user?.uid);
   const [createActive, setCreateActive] = useState(false);
   const [signinOpen, setSigninOpen] = useState(false);
@@ -38,28 +40,16 @@ export const Content = () => {
         <CreateButton onClick={handleCreate} />
       </SignInSheet>,
     );
-
     return <>{options.get(isAuthed)}</>;
   }, [userId, signinOpen]);
 
-  const WebhookViewOptions = useCallback(() => {
-    const withWebhook = profile?.webhookCount !== 0;
-    const options = opts(
-      <WebhookDashboard />,
-      <Hero>
-        <Primary>
-          <ActionOptions />
-        </Primary>
-        <Secondary />
-      </Hero>,
-    );
-    return <>{options.get(withWebhook)}</>;
-  }, [profile?.webhookCount, ActionOptions, Secondary]);
-
   return (
-    <View>
-      <WebhookViewOptions />
-    </View>
+    <Hero>
+      <Primary>
+        <ActionOptions />
+      </Primary>
+      <Secondary />
+    </Hero>
   );
 };
 

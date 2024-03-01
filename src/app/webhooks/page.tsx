@@ -1,9 +1,7 @@
-import { Content } from "../account/content";
-
 const Webhooks = async () => {
   return (
     <div className="h-full">
-      <Content />
+      <h1 className="text-3xl font-bold">Webhooks</h1>
     </div>
   );
 };

@@ -44,6 +44,7 @@ export default {
         ash: "#D7D7D7",
         opus: "#929292",
         mojo: "#F2F2F2",
+        darkmojo: "#E5E5E5",
         bojo: "#CFEFFF",
         fgbojo: "#5DCCCC",
         mod: "#D3D9FA",
@@ -60,6 +61,7 @@ export default {
         kindle: "#ffaa6f",
         cord: "#bae6fd",
         whb: "#51bfc9",
+        fwhb: "#EBF3F0",
         whr: "#e03838",
       },
       transitionDuration: {

@@ -14,13 +14,13 @@ const touchDefaultClass = `
   transition-all duration-300 ring-offset-background
 `;
 const defaultClass = `
-  bg-white text-coal border-ash/[30%]
+  bg-zap text-coal border-ash/[30%]
   hover:shadow-i-br-li-hv shadow-i-tl-li
   hover:text-sky-600 disabled:hover:text-clay/60
   tracking-tight
 `;
 const primaryClass = `
-  bg-white text-blue-500 border-ash/[30%]
+  bg-white text-cyan-600 border-ash/[30%]
   hover:shadow-i-br-li-hv shadow-i-tl-li
   hover:text-blue-600
 `;
@@ -36,7 +36,7 @@ const darkClass = `
   m-[1px] 
 `;
 const secondaryClass = `
-  bg-blue-600 text-blue-100 border border-blue-300/[80%]
+  bg-cyan-600 text-cyan-100 border border-cyan-400/[80%]
   shadow-i-br-dk-hv pointer-events-auto
   hover:text-white rounded-[6px]
   m-[1.5px]
@@ -47,8 +47,8 @@ const destroyClass = `
   hover:text-red-500
 `;
 const ghostClass = `
-  text-clay border-0 
-  hover:text-blue-500 bg-transparent
+  text-clay border-0 bg-transparent rounded-none 
+  hover:text-paper hover:shadow-inner
 `;
 
 const tv = cva(touchDefaultClass, {
@@ -99,11 +99,16 @@ export const Touch = forwardRef<
     return (
       <Case
         className={cn(
-          variant === "ghost" ? `shadow-0 border-0 bg-transparent` : null,
+          variant === "ghost"
+            ? `rounded-none border-0 bg-transparent shadow-none hover:bg-void`
+            : null,
         )}
       >
         <Comp
-          className={cn(tv({ variant, size, className }))}
+          className={cn(
+            tv({ variant, size, className }),
+            size === "sm" ? `h-[38px]` : ``,
+          )}
           ref={ref}
           {...props}
         >
@@ -124,7 +129,7 @@ export const Touch = forwardRef<
 Touch.displayName = "Touch";
 
 const Case = tw.div`
-  flex items-center justify-center bg-white p-[2px]
+  flex items-center justify-center bg-zap p-[2px]
   rounded-[7.67px] border-[0.33px] border-ash 
   transition-all duration-300 drop-shadow-sm 
   hover:shadow-i-tl-li-hv shadow-i-br-li
@@ -152,7 +157,7 @@ export const DarkTouch = forwardRef<
       <DarkCase
         className={cn(
           className,
-          variant === "secondary" ? `border-0 bg-blue-200 pt-0` : ``,
+          variant === "secondary" ? `border-0 bg-cyan-500 pt-0` : ``,
           size === "icon" ? `m-[0px] h-[56px] w-[56px] ` : ``,
         )}
       >

@@ -9,10 +9,21 @@ export const WebhookPayloadResource = z.object({
   updatedAt: z.number().optional(),
 });
 
+export type WebhookPayloadSchema = z.infer<typeof WebhookPayloadResource>;
+
+export const WebhookDataResource = z.object({
+  webhook: CreateWebhookResponse,
+  portal: AppPortalResponse,
+  endpoints: z.array(z.object({})).or(z.undefined()),
+  createdAt: z.number().optional(),
+  updatedAt: z.number().optional(),
+});
+
+export type WebhookDataSchema = z.infer<typeof WebhookDataResource>;
+
 export const AddWebhookResource = z.object({
   userId: UserId,
   payload: WebhookPayloadResource,
 });
 
-export type WebhookPayloadSchema = z.infer<typeof WebhookPayloadResource>;
 export type AddWebhookSchema = z.infer<typeof AddWebhookResource>;

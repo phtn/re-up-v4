@@ -2,12 +2,12 @@
 
 import { auth, db } from "@@lib/db";
 import { type User } from "firebase/auth";
-import { type DocumentData, doc } from "firebase/firestore";
-import { createContext, useState, type ReactNode, useEffect } from "react";
+import { doc, type DocumentData } from "firebase/firestore";
+import { createContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useDocument } from "react-firebase-hooks/firestore";
+import type { Children, UID } from "./types";
 
-export type UID = string | undefined;
 export type SN = string | null;
 type ProfileDocumentData = DocumentData | undefined;
 
@@ -20,24 +20,24 @@ export type AuthType = {
 
 export const AuthContext = createContext<AuthType | null>(null);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const AuthProvider = ({ children }: Children) => {
   const [user, loading] = useAuthState(auth);
-  const [userId, setUserId] = useState<UID>();
-  const [profile, setProfile] = useState<ProfileDocumentData>();
+  const [userId, setUserId] = useState<UID>(user?.uid);
 
-  const userRef = doc(db, `users`, `${userId}`);
-  const [snapshot] = useDocumentData(userRef, {
+  const docRef = doc(db, "users", `${userId}`);
+  const [snapshot] = useDocument(docRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+  const [profile, setProfile] = useState<ProfileDocumentData>(snapshot?.data());
 
   useEffect(() => {
-    if (user?.uid) {
+    if (user) {
       setUserId(user.uid);
       if (snapshot) {
-        setProfile(snapshot);
+        setProfile(snapshot.data());
       }
     }
-  }, [user?.uid, snapshot]);
+  }, [user, userId, snapshot]);
 
   return (
     <AuthContext.Provider value={{ user, profile, loading, configs: [] }}>

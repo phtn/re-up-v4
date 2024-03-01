@@ -1,12 +1,12 @@
 import tw from "tailwind-styled-components";
 import { WebhookForm } from "./webhook-form";
 import { useContext } from "react";
-import { AuthContext } from "../context";
+import { AuthContext } from "@src/app/context";
 
 export const WebhookCreate = () => {
   const creds = useContext(AuthContext);
   return (
-    <div className="flex h-[500px] items-start justify-center border-whb/20 md:items-center md:border-l-[0.33px]">
+    <div className="border-whb/20 flex h-[500px] items-start justify-center md:items-center md:border-l-[0.33px]">
       <div className="flex flex-col items-center justify-center space-y-4 p-10">
         <div className="flex flex-col space-y-3">
           <h3 className="text-3xl font-semibold text-sky-50">
@@ -26,7 +26,7 @@ export const WebhookCreate = () => {
 };
 
 const Title = tw.p`
-  text-sm text-kindle font-medium 
+  text-sm text-kindle font-medium
 `;
 
 const Description = tw.p`

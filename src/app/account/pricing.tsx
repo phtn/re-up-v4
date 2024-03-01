@@ -1,47 +1,35 @@
-import { DarkTouch } from "../_components/touch";
-import { FanIcon } from "lucide-react";
+import { UserCircle } from "lucide-react";
 
 export const Pricing = () => {
-  const handleTest = async () => {
-    const id = "id";
-    console.log(id);
-  };
   return (
-    <div className="grid grid-cols-1 gap-x-[36px] md:grid-cols-3">
-      <div className="h-[200px] space-y-4 bg-mojo px-[30px] py-[18px]">
-        <div className="flex flex-col space-y-4">
-          <div className="flex items-center space-x-1">
-            <p className="text-xl font-bold tracking-tight text-whb">
-              Developer
+    <div className="grid h-fit grid-cols-1 overflow-clip border-b md:h-[200px] md:grid-cols-3 ">
+      <div className="flex h-[200px] flex-col justify-center space-y-4 bg-mojo/50">
+        <div className="flex h-full flex-col space-y-4 border-whb bg-mojo p-[16px]">
+          <div className="flex items-center space-x-2 drop-shadow-sm">
+            <UserCircle className="h-5 w-5 text-sky-500" strokeWidth={1.5} />
+            <p className="text-lg font-bold tracking-tighter text-clay">
+              Individual
             </p>
-            <p className="text-xl font-medium tracking-tighter text-clay/60">
-              Account
-            </p>
+            <p></p>
           </div>
-          <div className="flex w-fit items-center justify-center bg-coal px-6 py-1">
-            <p className="text-sm font-medium tracking-wide text-cyan-50">
-              Free
-            </p>
-          </div>
-          <div className="w-fit">
-            <DarkTouch size={"md"} onClick={handleTest} tail={FanIcon}>
-              Access Portal
-            </DarkTouch>
-          </div>
+
+          <div className="w-fit"></div>
         </div>
       </div>
-      <div className="h-[200px] bg-mojo px-[36px] py-[18px]">
-        <div className="flex items-center space-x-2">
-          <p className="text-xl font-bold tracking-tight text-sky-500">Team</p>
-          <p className="text-lg font-light tracking-tight text-clay">Account</p>
+      <div className="h-[200px] bg-darkmojo p-[16px] drop-shadow">
+        <div className="flex items-center space-x-2 drop-shadow-sm">
+          <UserCircle className="h-5 w-5 text-sky-500" strokeWidth={1.5} />
+          <p className="text-lg font-bold tracking-tighter text-coal">Team</p>
+          <p></p>
         </div>
       </div>
-      <div className="h-[200px] bg-mojo px-[36px] py-[18px]">
-        <div className="flex items-center space-x-4">
-          <p className="text-xl font-bold tracking-tight text-fgmod">
+      <div className="h-[200px] bg-rome p-[16px]">
+        <div className="flex items-center space-x-2 drop-shadow-sm">
+          <UserCircle className="h-5 w-5 text-sky-500" strokeWidth={1.5} />
+          <p className="text-lg font-bold tracking-tighter text-void">
             Enterprise
           </p>
-          <p className="text-lg font-light tracking-tight text-clay">Account</p>
+          <p></p>
         </div>
       </div>
     </div>

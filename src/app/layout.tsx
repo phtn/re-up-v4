@@ -2,6 +2,7 @@ import "@@styles/globals.css";
 
 import { TRPCProvider } from "@@trpc/provider";
 import { Inter } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
 import { cookies } from "next/headers";
 import { Toaster } from "sonner";
 import { AuthProvider } from "./context";
@@ -24,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`font-sans ${inter.variable} ${GeistMono.variable}`}>
         <AuthProvider>
           <TRPCProvider cookies={cookies().toString()}>{children}</TRPCProvider>
           <Toaster />

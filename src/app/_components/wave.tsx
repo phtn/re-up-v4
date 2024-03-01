@@ -25,7 +25,7 @@ export const Strings = ({
   backgroundFill,
   blur = 2,
   speed = "slow",
-  waveOpacity = 0.8,
+  waveOpacity = 1,
   ...props
 }: {
   children?: ReactElement<KeyString, string>;
@@ -51,7 +51,7 @@ export const Strings = ({
   const getSpeed = () => {
     switch (speed) {
       case "slow":
-        return 0.0005;
+        return 0.0001;
       case "fast":
         return 0.002;
       default:

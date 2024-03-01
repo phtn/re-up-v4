@@ -120,3 +120,8 @@ export const createWebhookUID = async (
     return `uid_${await hashString(new Date().getTime().toString(36))}x`;
   }
 };
+
+export const minifyve = (str: string | undefined) => {
+  if (!str) return;
+  return str.slice(-5);
+};

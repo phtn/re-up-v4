@@ -25,6 +25,7 @@ export const createUserAccount = async (user: NewUserPayload) => {
       isVerified: false,
       isComplete: false,
       premium: false,
+      webhookCount: 0,
       address: {
         lineOne: null,
         lineTwo: null,

@@ -54,5 +54,5 @@ const Surface = tw(CardBody)`
 `;
 
 const HomeWrap = tw.div`
-  absolute left-[65vw] top-[2.25vh] h-[100px] w-[50px] items-center justify-center md:flex portrait:left-[80vw] portrait:top-[5vh]
+  absolute left-[80vw] top-[2.5vh] h-[100px] w-[50px] items-center justify-center md:flex portrait:left-[80vw] portrait:top-[5vh]
 `;

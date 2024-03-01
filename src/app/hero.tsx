@@ -46,7 +46,7 @@ const Inner = tw.div`
   flex flex-col items-center space-y-8 text-center overflow-hidden
 `;
 const Title = tw.h1`
-  h-fit bg-gradient-to-tr from-cyan-50 to-white bg-clip-text 
+  h-fit bg-gradient-to-tr from-zap to-white bg-clip-text 
   text-3xl font-bold tracking-tighter text-transparent sm:text-4xl 
   md:h-[56px] md:text-4xl lg:text-5xl portrait:max-w-[14ch]
 `;
