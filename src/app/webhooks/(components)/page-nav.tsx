@@ -6,40 +6,55 @@ import {
 } from "lucide-react";
 
 import { Block, Flex } from "@@components/flex";
-import { WebhookContext } from "../context";
 import { type WebhookDataSchema } from "@src/server/resource/webhook";
-import { minifyve } from "@src/utils/helpers";
+import { minifyve, opts } from "@src/utils/helpers";
 import { Touch } from "@@components/touch";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import tw from "tailwind-styled-components";
+import { Navbar } from "./navbar";
 
-export const WebhookPageNav = () => {
-  const data = useContext(WebhookContext)?.webhooks as WebhookDataSchema[];
+type PageNavbarProps = {
+  data: WebhookDataSchema[] | undefined | null;
+  actions: Record<string, () => void>;
+};
+
+export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
   const [webhook, setWebhook] = useState<WebhookDataSchema | undefined>();
+  const [webhookCount, setWebhookCount] = useState<number>(0);
+
   useEffect(() => {
     if (data) {
+      setWebhookCount(data.length);
       setWebhook(data[0]);
     }
   }, [data]);
 
+  const TitleOptions = useCallback(() => {
+    const overOne = !!webhookCount && webhookCount < 1;
+    const options = opts(
+      <PrimaryItem label="Webhooks" value={webhookCount} />,
+      <SecondaryItem
+        label={webhook?.webhook.name}
+        value={minifyve(webhook?.webhook.id)}
+      />,
+    );
+    return <>{options.get(overOne)}</>;
+  }, [webhook, webhookCount]);
+
+  const createEnpoint = () => () => actions.createEnpoint;
+
   if (!webhook) return;
 
   return (
-    <NavWrap>
-      <Flex>
-        <div className="flex w-[72px] items-center justify-center">
-          <WebhookIcon size={16} className="text-kindle" />
-        </div>
-        <Block className="items-start" spacing="space-y-[6px]">
-          <h2 className="text-zap text-sm font-medium">
-            {webhook.webhook.name}
-          </h2>
-          <p className="border-opus text-opus border-b-[0.33px] border-dashed font-mono text-[12px] tracking-wide">
-            {minifyve(webhook.webhook.id)}
-          </p>
-        </Block>
-      </Flex>
-      <Flex spacing={`md:space-x-[64px] space-x-[16px]`}>
+    <Navbar>
+      <Navbar.Header>
+        <Navbar.Icon>
+          <WebhookIcon size={24} className="text-kindle" />
+        </Navbar.Icon>
+        <TitleOptions />
+      </Navbar.Header>
+
+      <Navbar.Items>
         <Block className="items-start">
           <h2 className="text-zap text-[12px] font-medium">Activity</h2>
           <p className="border-opus text-opus border-b-[0.33px] border-dashed font-mono text-xl tracking-wide">
@@ -67,33 +82,57 @@ export const WebhookPageNav = () => {
             0
           </p>
         </Block>
-      </Flex>
+      </Navbar.Items>
 
       <Flex spacing={`space-x-[24px]`}>
         <p className="text-gray-700"> | </p>
       </Flex>
-      <Flex spacing={`space-x-[24px]`}>
+      <Navbar.Extras>
         <Touch
           size="sm"
           variant={"ghost"}
           iconClass={`h-[16px] w-[16px]`}
           icon={PlusIcon}
           className="text-cord bg-transparent text-[12px] font-medium"
+          onClick={createEnpoint}
         >
-          Add Endpoint
+          Endpoint
         </Touch>
         <Flex spacing={`space-x-[24px]`}>
           <p className="text-gray-700"> | </p>
           <HelpCircle size={16} className="text-cord" />
         </Flex>
-        <div className="flex w-[72px] items-center justify-center">
+        <Navbar.Icon>
           <MoreVerticalIcon size={16} className="text-kindle" />
-        </div>
-      </Flex>
-    </NavWrap>
+        </Navbar.Icon>
+      </Navbar.Extras>
+    </Navbar>
   );
 };
 
-const NavWrap = tw.div`
-  h-[72px] w-full bg-void flex items-center justify-between
+type ItemProps = {
+  label: string | undefined;
+  value: string | number | undefined;
+};
+const PrimaryItem = ({ label, value }: ItemProps) => (
+  <Navbar.Title>
+    <ItemTitle>{label ?? ""}</ItemTitle>
+    <ItemCount>{value ?? ""}</ItemCount>
+  </Navbar.Title>
+);
+const SecondaryItem = ({ label, value }: ItemProps) => (
+  <Navbar.Title>
+    <ItemTitle>{label ?? ""}</ItemTitle>
+    <ItemSubtext>{value ?? ""}</ItemSubtext>
+  </Navbar.Title>
+);
+
+const ItemTitle = tw.h2`
+ text-zap text-sm font-medium
+`;
+const ItemSubtext = tw.p`
+  border-opus text-opus border-b-[0.33px] border-dashed font-mono text-[12px] tracking-wide
+`;
+const ItemCount = tw.p`
+  border-opus text-opus border-b-[0.33px] border-dashed font-mono text-xl tracking-wide
 `;

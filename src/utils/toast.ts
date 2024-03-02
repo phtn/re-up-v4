@@ -24,3 +24,9 @@ export const onWarn = (...args: string[]) => {
   });
 };
 
+export const onValidationError = (message: string) => {
+  toast.error(`Invalid input on field: ${message}`, {
+    description:
+      "Endpoint name can only contain alphanumeric characters, hyphens, underscores, and periods.",
+  });
+};

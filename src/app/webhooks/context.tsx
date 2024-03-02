@@ -1,14 +1,20 @@
 "use client";
 
 import { auth, db } from "@src/lib/db";
-import { type DocumentData, collection, doc } from "firebase/firestore";
+import { type WebhookDataSchema } from "@src/server/resource/webhook";
+import {
+  type FirestoreDataConverter,
+  collection,
+  doc,
+  type DocumentData,
+} from "firebase/firestore";
 import { createContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import type { Children } from "../types";
 
 export interface WebhookContextValue {
-  webhooks: DocumentData[] | undefined;
+  webhooks: WebhookDataSchema[] | undefined;
 }
 
 export const WebhookContext = createContext<
@@ -18,7 +24,10 @@ export const WebhookContext = createContext<
 export const WebhookProvider = ({ children }: Children) => {
   const [user] = useAuthState(auth);
 
-  const webhooksRef = collection(doc(db, "users", `${user?.uid}`), "webhooks");
+  const webhooksRef = collection(
+    doc(db, "users", `${user?.uid}`),
+    "webhooks",
+  ).withConverter(dataConverter);
   const [webhooks] = useCollectionData(webhooksRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
@@ -30,19 +39,19 @@ export const WebhookProvider = ({ children }: Children) => {
   );
 };
 
-// const dataConverter: FirestoreDataConverter<WebhookDataSchema> = {
-//   toFirestore(webhooks): DocumentData {
-//     return {
-//       webhook: webhooks.webhook,
-//       portal: webhooks.portal,
-//       createdAt: webhooks.createdAt,
-//       updatedAt: webhooks.updatedAt, //     };
-//   },
-//   fromFirestore(snapshot, options): WebhookPayloadSchema {
-//     const data = snapshot.data(options) as DocumentData;
-//     return {
-//       webhook: data.webhook,
-//       portal: data.portal,
-//     };
-//   },
-// };
+const dataConverter: FirestoreDataConverter<WebhookDataSchema> = {
+  toFirestore(): DocumentData {
+    return {};
+  },
+  fromFirestore(snapshot, options): WebhookDataSchema {
+    const data = snapshot.data(options) as WebhookDataSchema;
+    return {
+      webhook: data.webhook,
+      portal: data.portal,
+      endpoints: data.endpoints,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+      id: snapshot.id,
+    };
+  },
+};

@@ -1,3 +1,6 @@
+import { DashboardContainer } from "../../(components)/views";
+import { DetailContent } from "./detail-content";
+
 type DetailsProps = {
   params: {
     webhookId: string;
@@ -7,9 +10,9 @@ type DetailsProps = {
 const WebhookDetails = ({ params }: DetailsProps) => {
   const { webhookId } = params;
   return (
-    <div>
-      <h1>Webhook {webhookId}</h1>
-    </div>
+    <DashboardContainer>
+      <DetailContent webhookId={webhookId} />
+    </DashboardContainer>
   );
 };
 

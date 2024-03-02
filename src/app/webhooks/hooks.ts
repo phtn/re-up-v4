@@ -1,10 +1,11 @@
+import { ValidInputFormat } from "@src/server/resource/svix";
 import { type WebhookPayloadSchema } from "@src/server/resource/webhook";
 import { createAppPortalAccess } from "@src/trpc/svix/appPortal";
 import { createWebhook } from "@src/trpc/svix/webhook";
 import { addWebhookDocToFirebase } from "@src/trpc/webhook/add";
 import { createWebhookUID } from "@src/utils/helpers";
 import { Err } from "@src/utils/results";
-import { onError, onSuccess } from "@src/utils/toast";
+import { onError, onSuccess, onValidationError } from "@src/utils/toast";
 import { mergeObjects } from "@src/utils/transformers";
 import { useEffect, useState } from "react";
 import { type ApplicationIn } from "svix";
@@ -43,6 +44,10 @@ export const useCreateWebhookApp = ({ uid }: CreateWebhookApp) => {
   useEffect(() => {
     const createWebhookInput = async () => {
       if (webhookName === null) return;
+      if (!ValidInputFormat.safeParse(webhookName)) {
+        onValidationError();
+        return;
+      }
 
       const res = await createWebhookUID(
         uid,

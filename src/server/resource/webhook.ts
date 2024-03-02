@@ -12,6 +12,7 @@ export const WebhookPayloadResource = z.object({
 export type WebhookPayloadSchema = z.infer<typeof WebhookPayloadResource>;
 
 export const WebhookDataResource = z.object({
+  id: z.string(),
   webhook: CreateWebhookResponse,
   portal: AppPortalResponse,
   endpoints: z.array(z.object({})).or(z.undefined()),

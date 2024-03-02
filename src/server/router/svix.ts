@@ -1,5 +1,6 @@
 import {
   createAppPortalProcedure,
+  createEndpointProcedure,
   createWebhookProcedure,
 } from "../procedure/svix";
 import { createAppPortalAccess } from "../svix/appPortal";
@@ -13,4 +14,5 @@ export const svixRouter = router({
   createWebhook: createWebhookProcedure.query(
     async ({ input }) => await createWebhook(input),
   ),
+  createEndpoint: createEndpointProcedure.query(async ({ input }) => input),
 });
