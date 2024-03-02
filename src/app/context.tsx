@@ -8,9 +8,28 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocument } from "react-firebase-hooks/firestore";
 import type { Children, UID } from "./types";
 
+// jsdoc
+/**
+ * @typedef {string | null} SN
+ */
 export type SN = string | null;
+
+/**
+ * @typedef {DocumentData | undefined} ProfileDocumentData
+ */
 type ProfileDocumentData = DocumentData | undefined;
 
+/**
+ * @typedef {Object} AuthType
+ * @property {User | null | undefined} user
+ * @property {ProfileDocumentData} profile
+ * @property {boolean} loading
+ * @property {Record<string, string | number | boolean>[]} configs
+ */
+
+/**
+ * @type {React.Context<AuthType | null>}
+ */
 export type AuthType = {
   user: User | null | undefined;
   profile: ProfileDocumentData;
@@ -18,8 +37,21 @@ export type AuthType = {
   configs: Record<string, string | number | boolean>[];
 };
 
+/**
+ * @name AuthContext
+ * @type {React.Context<AuthType | null>}
+ * @description Main context for the user authentication
+ * @location app/context
+ */
 export const AuthContext = createContext<AuthType | null>(null);
 
+/**
+ * @name AuthProvider
+ * @type {React.FC<Children>}
+ * @param {Children} children
+ * @description Main provider for the user authentication
+ * @location app/context
+ */
 export const AuthProvider = ({ children }: Children) => {
   const [user, loading] = useAuthState(auth);
   const [userId, setUserId] = useState<UID>(user?.uid);

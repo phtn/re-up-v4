@@ -36,8 +36,8 @@
       "@@lib/*": ["./src/lib/*"],
       "@@trpc/*": ["./src/trpc/*"],
       "@@utils/*": ["./src/utils/*"],
-      "@@styles/*": ["./src/styles/*"],
-    },
+      "@@styles/*": ["./src/styles/*"]
+    }
   },
   "include": [
     ".eslintrc.cjs",
@@ -48,7 +48,7 @@
     "**/*.js",
     ".next/types/**/*.ts",
     "next.config.mjs",
-    "src/trpc/svix/svix.txt",
+    "src/trpc/svix/svix.txt"
   ],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

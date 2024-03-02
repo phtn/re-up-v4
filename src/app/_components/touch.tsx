@@ -7,8 +7,8 @@ import tw from "tailwind-styled-components";
 
 const touchDefaultClass = `
   text-xs font-medium border-[0.33px] cursor-pointer space-x-3
-  inline-flex items-center justify-center whitespace-nowrap rounded-[6px] 
-  focus-visible:outline-none focus-visible:ring-1  
+  inline-flex items-center justify-center whitespace-nowrap rounded-[6px]
+  focus-visible:outline-none focus-visible:ring-1
   focus-visible:ring-ring focus-visible:ring-offset-4
   disabled:pointer-events-none disabled:opacity-80
   transition-all duration-300 ring-offset-background
@@ -33,7 +33,7 @@ const darkClass = `
   bg-void text-sky-200/70 border border-clay/[50%]
   shadow-i-br-dk-hv pointer-events-auto
   hover:text-sky-200/90 rounded-[6px]
-  m-[1px] 
+  m-[1px]
 `;
 const secondaryClass = `
   bg-cyan-600 text-cyan-100 border border-cyan-400/[80%]
@@ -47,7 +47,7 @@ const destroyClass = `
   hover:text-red-500
 `;
 const ghostClass = `
-  text-clay border-0 bg-transparent rounded-none 
+  text-clay border-0 bg-transparent rounded-none
   hover:text-paper hover:shadow-inner
 `;
 
@@ -87,6 +87,26 @@ interface TouchProps
     VariantProps<typeof tv> {
   asChild?: boolean;
 }
+
+/**
+ * @typedef {object} TouchProps
+ * @property {boolean} [asChild] - If true, the button will be rendered as a child of another component
+ * @property {string} [className] - The class name of the button
+ * @property {string} [size] - The size of the button
+ * @property {string} [variant] - The variant of the button
+ * @property {React.ReactNode} [children] - The children of the button
+ * @property {LucideIcon} [icon] - The icon of the button
+ * @property {LucideIcon} [tail] - The tail of the button
+ * @property {string} [iconClass] - The class name of the icon
+ */
+
+/**
+ * @component
+ * @name Touch
+ * @description A custom button component
+ * @param TouchProps
+ * @author phtn
+ */
 export const Touch = forwardRef<
   HTMLButtonElement,
   TouchProps & ReUpButtonProps
@@ -100,7 +120,7 @@ export const Touch = forwardRef<
       <Case
         className={cn(
           variant === "ghost"
-            ? `rounded-none border-0 bg-transparent shadow-none hover:bg-void`
+            ? `hover:bg-void rounded-none border-0 bg-transparent shadow-none`
             : null,
         )}
       >
@@ -130,12 +150,29 @@ Touch.displayName = "Touch";
 
 const Case = tw.div`
   flex items-center justify-center bg-zap p-[2px]
-  rounded-[7.67px] border-[0.33px] border-ash 
-  transition-all duration-300 drop-shadow-sm 
+  rounded-[7.67px] border-[0.33px] border-ash
+  transition-all duration-300 drop-shadow-sm
   hover:shadow-i-tl-li-hv shadow-i-br-li
   active:scale-[95%] active:border-ash
 `;
 
+//jsdoc
+/**
+ * @typedef {object} DarkTouchProps
+ * @property {boolean} [asChild] - If true, the button will be rendered as a child of another component
+ * @property {string} [className] - The class name of the button
+ * @property {string} [size] - The size of the button
+ * @property {string} [variant] - The variant of the button
+ * @property {React.ReactNode} [children] - The children of the button
+ * @property {LucideIcon} [icon] - The icon of the button
+ * @property {LucideIcon} [tail] - The tail of the button
+ * @property {string} [iconClass] - The class name of the icon
+ */
+
+/**
+ * @name DarkTouch
+ * @param DarkTouchProps
+ */
 export const DarkTouch = forwardRef<
   HTMLButtonElement,
   TouchProps & ReUpButtonProps
@@ -191,7 +228,7 @@ const DarkCase = tw.div`
   flex items-center justify-center bg-void pt-[.75px]
   rounded-[7.5px] border-[0.75px] border-orange-100/[30%]
   shadow-i-tl-dk-hv
-  transition-all duration-300 
+  transition-all duration-300
   drop-shadow-sm
   active:scale-[95%] active:border-ash
 `;

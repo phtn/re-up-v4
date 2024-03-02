@@ -1,25 +1,25 @@
 "use client";
 
-import { AuthContext } from "@src/app/context";
 import { opts } from "@src/utils/helpers";
-import { useCallback, useContext } from "react";
-import { WebhookContent } from "../(components)/content";
-import { WebhookDashboard } from "../dashboard";
+import { useCallback } from "react";
+import { WebhookLanding } from "../(components)/landing-page";
+import { WebhookDashboard } from "./dashboard";
+import { useAccountInfo } from "@src/app/account/hooks";
 
 /**
  * @name PremiumContent
  * @description This component is used to display authenticated content
  * @component With webhook account ? WebhookDashboard : WebhookContent
  */
-
 export const PremiumContent = () => {
-  const profile = useContext(AuthContext)?.profile;
+  const { profile } = useAccountInfo();
 
   const WebhookViewOptions = useCallback(() => {
-    const withWebhook = profile?.webhookCount !== 0;
-    const options = opts(<WebhookDashboard />, <WebhookContent />);
+    if (!profile) return <WebhookLanding />;
+    const withWebhook = !!profile.webhookCount;
+    const options = opts(<WebhookDashboard />, <WebhookLanding />);
     return <>{options.get(withWebhook)}</>;
-  }, [profile?.webhookCount]);
+  }, [profile]);
 
   return <WebhookViewOptions />;
 };

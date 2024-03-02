@@ -1,12 +1,11 @@
-import { CheckAuth } from "./check-auth";
-import { Content } from "./content";
+import { ViewContainer } from "./components";
+import { AccountDashboard } from "./dashboard";
 
 const Account = () => {
   return (
-    <div className="h-full">
-      <Content />
-      <CheckAuth />
-    </div>
+    <ViewContainer>
+      <AccountDashboard />
+    </ViewContainer>
   );
 };
 export default Account;

@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Types for the application
+ */
+
 export interface Children {
   children: React.ReactNode;
 }

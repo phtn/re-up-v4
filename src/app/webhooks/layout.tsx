@@ -1,8 +1,8 @@
 import { type ReactNode } from "react";
 import { Navbar } from "../account/navbar";
-import { ProductLayoutView, ViewContainer } from "./components";
 import { WebhookProvider } from "./context";
 import { checkAuth } from "@src/lib/checkAuth";
+import { ProductLayoutView, ViewContainer } from "./(components)/views";
 
 type WebhooksLayoutProps = {
   basic: ReactNode;
@@ -10,7 +10,7 @@ type WebhooksLayoutProps = {
 };
 
 const WebhooksLayout = async ({ basic, premium }: WebhooksLayoutProps) => {
-  const isAuthed = await checkAuth();
+  const isAuthed = checkAuth();
   return (
     <ProductLayoutView>
       <Navbar />

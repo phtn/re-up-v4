@@ -1,18 +1,14 @@
-import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./db";
 
-export const checkAuth = async () => {
-  onAuthStateChanged(auth, (observer) => {
-    if (observer) {
-      return true;
-    }
-    return false;
-  });
+/**
+ * @name checkAuth
+ * @description A hook that returns auth state
+ * @location lib/checkAuth.ts
+ */
+export const checkAuth = () => {
+  const currentUser = () => auth.currentUser;
+  if (!!currentUser) {
+    return true;
+  }
   return false;
 };
-
-/**
- * Path: lib/checkAuth.ts
- *
- *
- */

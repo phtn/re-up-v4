@@ -15,7 +15,7 @@ import { WebhookCreate } from "./webhook-create";
  * @description Default content for the webhook page
  */
 
-export const WebhookContent = () => {
+export const WebhookLanding = () => {
   const user = useContext(AuthContext)?.user;
   const [userId] = useState<string | undefined>(user?.uid);
   const [createActive, setCreateActive] = useState(false);

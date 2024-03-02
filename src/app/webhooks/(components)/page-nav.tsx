@@ -1,21 +1,19 @@
-"use client";
-
 import {
   HelpCircle,
   MoreVerticalIcon,
   PlusIcon,
   WebhookIcon,
 } from "lucide-react";
-import tw from "tailwind-styled-components";
-import { Block, Flex } from "../_components/flex";
-import { type ReactNode, useContext, useEffect, useState } from "react";
-import { WebhookContext } from "./context";
+
+import { Block, Flex } from "@@components/flex";
+import { WebhookContext } from "../context";
 import { type WebhookDataSchema } from "@src/server/resource/webhook";
 import { minifyve } from "@src/utils/helpers";
-import { Touch } from "../_components/touch";
-import { cn } from "@src/utils/cn";
+import { Touch } from "@@components/touch";
+import { useContext, useEffect, useState } from "react";
+import tw from "tailwind-styled-components";
 
-export const WebhookNav = () => {
+export const WebhookPageNav = () => {
   const data = useContext(WebhookContext)?.webhooks as WebhookDataSchema[];
   const [webhook, setWebhook] = useState<WebhookDataSchema | undefined>();
   useEffect(() => {
@@ -98,21 +96,4 @@ export const WebhookNav = () => {
 
 const NavWrap = tw.div`
   h-[72px] w-full bg-void flex items-center justify-between
-`;
-
-type ViewProps = {
-  children: ReactNode;
-  outer?: string;
-  inner?: string;
-};
-
-export const ViewContainer = ({ children, outer, inner }: ViewProps) => {
-  return (
-    <div className={cn(outer, "flex h-fit pt-[72px]")}>
-      <div className={cn(inner, "w-full md:px-[108px]")}>{children}</div>
-    </div>
-  );
-};
-export const ProductLayoutView = tw.div`
-  h-full bg-zap md:h-screen
 `;

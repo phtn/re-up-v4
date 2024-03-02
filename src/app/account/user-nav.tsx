@@ -1,17 +1,17 @@
-import { Popover } from "@radix-ui/react-popover";
-import { PopoverContent, PopoverTrigger } from "../_components/popover";
-import { DarkTouch, Touch } from "../_components/touch";
-import { Disc3Icon, FanIcon, LogOutIcon, UserIcon } from "lucide-react";
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "../_components/command";
-import tw from "tailwind-styled-components";
+} from "@@components/command";
+import { PopoverContent, PopoverTrigger } from "@@components/popover";
+import { DarkTouch, Touch } from "@@components/touch";
+import { auth } from "@@lib/db";
+import { onSuccess } from "@@utils/toast";
+import { Popover } from "@radix-ui/react-popover";
+import { Disc3Icon, FanIcon, LogOutIcon, UserIcon } from "lucide-react";
 import { useSignOut } from "react-firebase-hooks/auth";
-import { auth } from "@src/lib/db";
-import { onSuccess } from "@src/utils/toast";
+import tw from "tailwind-styled-components";
 
 type UserNavProps = {
   user: string | null | undefined;

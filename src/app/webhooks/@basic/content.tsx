@@ -1,10 +1,9 @@
-import { WebhookContent } from "../(components)/content";
+import { WebhookLanding } from "../(components)/landing-page";
 
 /**
  * @name BasicContent
- * @component WebhookContent
+ * @returns WebhookLanding
  */
-
 export const BasicContent = () => {
-  return <WebhookContent />;
+  return <WebhookLanding />;
 };
