@@ -117,7 +117,27 @@ export const createWebhookUID = async (
   if (args.every((arg) => arg !== undefined)) {
     return `uid_${await hashString(...(args as string[]))}_x`;
   } else {
-    return `uid_${await hashString(new Date().getTime().toString(36))}x`;
+    return `uid_${await hashString(new Date().getTime().toString(36))}_x`;
+  }
+};
+
+export const createEndpointUID = async (
+  ...args: Array<string | undefined>
+): Promise<string> => {
+  if (args.every((arg) => arg !== undefined)) {
+    return `${await hashString(...(args as string[]))}_ep`;
+  } else {
+    return `${await hashString(new Date().getTime().toString(36))}_ep`;
+  }
+};
+
+export const createEventTypeUID = async (
+  ...args: Array<string | undefined>
+): Promise<string> => {
+  if (args.every((arg) => arg !== undefined)) {
+    return `uid_${await hashString(...(args as string[]))}_et`;
+  } else {
+    return `uid_${await hashString(new Date().getTime().toString(36))}_et`;
   }
 };
 

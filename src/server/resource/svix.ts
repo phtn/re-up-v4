@@ -1,11 +1,25 @@
 import { z } from "zod";
 
+/**
+ * @name ValidInputFormat
+ * @description /^[a-zA-Z0-9-_. ]+$/
+ * @nonEmpty
+ * @maxLength 255
+ * @location @server/svix
+ */
 export const ValidInputFormat = z
   .string()
   .regex(/^[a-zA-Z0-9-_. ]+$/)
+  .min(1)
   .max(255);
 export type ValidInputFormatSchema = z.infer<typeof ValidInputFormat>;
 
+/**
+ * @name UniqueElements Array
+ * @description Max 10 elements
+ * @optional
+ * @location @server/svix
+ */
 export const UniqueElements = z
   .array(ValidInputFormat)
   .max(10)
@@ -14,6 +28,12 @@ export const UniqueElements = z
     message: "List must contain unique items.",
   });
 
+/**
+ * @name AppPortalResource
+ * @description Create Portal
+ * @requires webhook app_id
+ * @location @server/svix
+ */
 export const AppPortalResource = z.object({
   id: z.string(),
   resource: z.object({
@@ -24,6 +44,10 @@ export const AppPortalResource = z.object({
 
 export type AppPortalSchema = z.infer<typeof AppPortalResource>;
 
+/**
+ * @name AppPortalResponse
+ * @location @server/svix
+ */
 export const AppPortalResponse = z.object({
   token: z.string(),
   url: z.string(),
@@ -31,6 +55,10 @@ export const AppPortalResponse = z.object({
 
 export type AppPortalResponseSchema = z.infer<typeof AppPortalResponse>;
 
+/**
+ * @name CreateWebhookResource
+ * @location @server/resource/svix
+ */
 export const CreateWebhookResource = z.object({
   name: ValidInputFormat,
   rateLimit: z.number().optional(),
@@ -38,8 +66,16 @@ export const CreateWebhookResource = z.object({
   metadata: z.record(z.string()).optional(),
 });
 
+/**
+ * @name CreateWebhookSchema
+ * @location @server/resource/svix
+ */
 export type CreateWebhookSchema = z.infer<typeof CreateWebhookResource>;
 
+/**
+ * @name CreateWebhookResponse
+ * @location @server/resource/svix
+ */
 export const CreateWebhookResponse = z.object({
   uid: z.string(),
   name: z.string(),
@@ -50,17 +86,8 @@ export const CreateWebhookResponse = z.object({
   metadata: z.record(z.string()),
 });
 
+/**
+ * @name CreateWebhookResponseSchema
+ * @location @server/resource/svix
+ */
 export type CreateWebhookResponseSchema = z.infer<typeof CreateWebhookResponse>;
-
-export const CreateEndpointResource = z.object({
-  description: ValidInputFormat.max(255).optional().default(""),
-  rateLimit: z.number().optional().default(64),
-  uid: z.string().min(1),
-  url: z.string().min(1),
-  disabled: z.boolean().default(false),
-  filterTypes: z.array(ValidInputFormat).optional(),
-  channels: UniqueElements,
-  metadata: z.record(z.string()).optional(),
-});
-
-export type CreateEndpointSchema = z.infer<typeof CreateEndpointResource>;

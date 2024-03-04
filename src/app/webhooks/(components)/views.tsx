@@ -15,7 +15,7 @@ export const DashboardContainer = ({ children }: Children) => {
   return <Container>{children}</Container>;
 };
 const Container = tw.div`
-  h-[500px] bg-mojo border
+  h-[500px] bg-mojo w-full
 `;
 
 /**

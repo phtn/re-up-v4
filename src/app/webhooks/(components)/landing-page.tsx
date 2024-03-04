@@ -11,10 +11,10 @@ import tw from "tailwind-styled-components";
 import { WebhookCreate } from "./webhook-create";
 
 /**
- * @name WebhookContent
+ * @name WebhookLanding
  * @description Default content for the webhook page
+ * @location /webhooks/(components)/landing-page.tsx
  */
-
 export const WebhookLanding = () => {
   const user = useContext(AuthContext)?.user;
   const [userId] = useState<string | undefined>(user?.uid);
@@ -22,9 +22,9 @@ export const WebhookLanding = () => {
   const [signinOpen, setSigninOpen] = useState(false);
 
   const Secondary = useCallback(() => {
-    const options = opts(<WebhookCreate />, <Cover />);
+    const options = opts(<WebhookCreate userId={userId} />, <Cover />);
     return <>{options.get(createActive)}</>;
-  }, [createActive]);
+  }, [createActive, userId]);
 
   const ActionOptions = useCallback(() => {
     const isAuthed = userId !== undefined;

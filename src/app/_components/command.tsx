@@ -8,6 +8,10 @@ import { Search } from "lucide-react";
 import { cn } from "@@utils/cn";
 import { Dialog, DialogContent } from "@@components/dialog";
 
+/**
+ * @name Command
+ * @location \@src/app/_components
+ */
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive>
@@ -25,6 +29,10 @@ Command.displayName = CommandPrimitive.displayName;
 
 interface CommandDialogProps extends DialogProps {}
 
+/**
+ * @name CommandDialog
+ * @location \@src/app/_components
+ */
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
     <Dialog {...props}>
@@ -37,6 +45,10 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   );
 };
 
+/**
+ * @name CommandInput
+ * @location \@src/app/_components
+ */
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
@@ -56,6 +68,10 @@ const CommandInput = React.forwardRef<
 
 CommandInput.displayName = CommandPrimitive.Input.displayName;
 
+/**
+ * @name CommandList
+ * @location \@src/app/_components
+ */
 const CommandList = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
@@ -69,6 +85,10 @@ const CommandList = React.forwardRef<
 
 CommandList.displayName = CommandPrimitive.List.displayName;
 
+/**
+ * @name CommandEmpty
+ * @location \@src/app/_components
+ */
 const CommandEmpty = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Empty>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
@@ -82,6 +102,10 @@ const CommandEmpty = React.forwardRef<
 
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
+/**
+ * @name CommandGroup
+ * @location \@src/app/_components
+ */
 const CommandGroup = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Group>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
@@ -98,6 +122,10 @@ const CommandGroup = React.forwardRef<
 
 CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
+/**
+ * @name CommandSeparator
+ * @location \@src/app/_components
+ */
 const CommandSeparator = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
@@ -110,6 +138,10 @@ const CommandSeparator = React.forwardRef<
 ));
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
+/**
+ * @name CommandItem
+ * @location \@src/app/_components
+ */
 const CommandItem = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
@@ -126,6 +158,10 @@ const CommandItem = React.forwardRef<
 
 CommandItem.displayName = CommandPrimitive.Item.displayName;
 
+/**
+ * @name CommandShortcut
+ * @location \@src/app/_components
+ */
 const CommandShortcut = ({
   className,
   ...props

@@ -1,9 +1,6 @@
 import { svix } from "@src/lib/svix";
 import { type ApplicationOut } from "svix";
-import type {
-  CreateEndpointSchema,
-  CreateWebhookSchema,
-} from "../resource/svix";
+import type { CreateWebhookSchema } from "../resource/svix";
 
 const returnAppResponse = (res: ApplicationOut) => ({
   id: res.id,
@@ -22,11 +19,3 @@ const returnAppResponse = (res: ApplicationOut) => ({
  */
 export const createWebhook = async (input: CreateWebhookSchema) =>
   await svix.application.create(input).then(returnAppResponse);
-
-/**
- * @name createEndpoint
- * @param input - CreateEndpointSchema
- * @location server/svix/webhook.ts
- */
-export const createEndpoint = async (input: CreateEndpointSchema) =>
-  await svix.endpoint.create(input.uid, input).then((res) => res);

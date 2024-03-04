@@ -4,6 +4,7 @@ import { DashboardContainer } from "../(components)/views";
 import { WebhookContext } from "../context";
 import { type WebhookDataSchema } from "@src/server/resource/webhook";
 import { useRouter } from "next/navigation";
+import { Disc3Icon } from "lucide-react";
 
 export const WebhookDashboard = () => {
   const data = useContext(WebhookContext)?.webhooks as
@@ -23,10 +24,19 @@ export const WebhookDashboard = () => {
     }
   }, [data, router]);
 
+  const actions = {
+    delete: () => console.log("delete"),
+  };
+
   return (
     <DashboardContainer>
-      <PageNavbar data={webhooks} />
-      <p>Webhook Dashboard</p>
+      <div className="h-[72px] w-full">
+        <PageNavbar actions={actions} data={webhooks} />
+      </div>
+      <div className=" flex h-[428px] w-full items-center justify-center space-x-4">
+        <p className="text-opus text-xs">Loading...</p>
+        <Disc3Icon size={16} className="text-opus animate-spin" />
+      </div>
     </DashboardContainer>
   );
 };

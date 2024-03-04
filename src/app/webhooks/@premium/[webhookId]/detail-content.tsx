@@ -5,11 +5,12 @@ import { WebhookContext } from "../../context";
 import { type WebhookDataSchema } from "@src/server/resource/webhook";
 import { PageNavbar } from "../../(components)/page-nav";
 import { useWebhookInterface } from "./hooks";
-import { Block } from "@src/app/_components/flex";
+import { EndpointCreate } from "./endpoint-create";
 
 type DetailContentProps = {
   webhookId: string;
 };
+
 export const DetailContent = ({ webhookId }: DetailContentProps) => {
   const data = useContext(WebhookContext)?.webhooks as
     | WebhookDataSchema[]
@@ -27,21 +28,35 @@ export const DetailContent = ({ webhookId }: DetailContentProps) => {
     }
   }, [data, webhookId]);
 
-  const { handleCreateEndpoint } = useWebhookInterface();
+  const { getEndpointInfo } = useWebhookInterface();
+  const handleCreateEndpoint = () => {
+    getEndpointInfo({
+      name: "endpoint-one",
+      description: "endpoint-desc",
+      webhookId,
+    });
+  };
+
   const actions = {
     createEndpoint: handleCreateEndpoint,
   };
 
   return (
     <div>
-      <PageNavbar actions={actions} data={webhookInArray} />
+      <div className="h-[72px] w-full">
+        <PageNavbar actions={actions} data={webhookInArray} />
+      </div>
 
-      <Block>
-        <h1>{webhook?.id}</h1>
-        <p onClick={() => handleCreateEndpoint()} className="text-void">
-          {webhook?.webhook.name}
-        </p>
-      </Block>
+      <div className="h-[428px] w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3">
+          <div className="col-span-2">stats {webhook?.id}</div>
+          <div className="bg-void h-[428px]">
+            <div>
+              <EndpointCreate webhookId={webhookId} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

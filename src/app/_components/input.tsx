@@ -18,6 +18,10 @@ import {
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
+/**
+ * @name Input
+ * @location \@src/app/_components
+ */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     return (
@@ -47,6 +51,7 @@ export type IconName =
   | "money"
   | "tokens"
   | "upload"
+  | "description"
   | "password";
 
 interface IconPrefix {
@@ -67,6 +72,10 @@ export const IconPrefixes: IconPrefix[] = [
   { name: "password", icon: LockKeyholeIcon },
 ];
 
+/**
+ * @name InputField
+ * @location \@src/app/_components
+ */
 export const InputField = React.forwardRef<
   HTMLInputElement,
   InputProps & IconPrefix
@@ -74,23 +83,27 @@ export const InputField = React.forwardRef<
   return (
     <div
       className={cn(
-        "focus-within:ring-ring flex h-14 items-center rounded-xl bg-gradient-to-r from-orange-100/80 via-rose-50/60 via-[30%] to-sky-200/60 to-[90%] px-3 ring-offset-sky-600 focus-within:ring-2 focus-within:ring-offset-1",
+        "focus-within:ring-ring focus-within:ring-cord/80 ring-offset-void group flex h-14 items-center rounded-lg bg-gradient-to-r from-orange-100/80 via-rose-50/60 via-[30%] to-sky-200/60 to-[90%] px-3 focus-within:ring-2 focus-within:ring-offset-2",
         className,
       )}
     >
-      <props.icon className="mr-[10px] h-[16px] w-[20px] text-coal" />
+      <props.icon className="text-coal group-focus-within:text-zap mr-[10px] h-[16px] w-[20px]" />
 
       <input
         {...props}
         type={type}
         ref={ref}
-        className="w-full rounded bg-transparent p-1 text-[15px] placeholder:text-void autofill:bg-blue-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="placeholder:text-coal w-full rounded bg-transparent p-1 text-[14px] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       />
     </div>
   );
 });
 InputField.displayName = "InputField";
 
+/**
+ * @name InputFieldName
+ * @location \@src/app/_components
+ */
 export const InputFieldName = React.forwardRef<
   HTMLInputElement,
   InputProps & Omit<IconPrefix, "name"> & { label: string | undefined }
@@ -98,16 +111,16 @@ export const InputFieldName = React.forwardRef<
   return (
     <div
       className={cn(
-        "focus-within:ring-ring flex h-16 items-center rounded-xl border-[0.0px] border-ash bg-white pr-[3px] ring-offset-blue-400 focus-within:ring-1 focus-within:ring-offset-1 dark:bg-indigo-200/20",
+        "focus-within:ring-ring border-ash flex h-16 items-center rounded-xl border-[0.0px] bg-white pr-[3px] ring-offset-blue-400 focus-within:ring-1 focus-within:ring-offset-1 dark:bg-indigo-200/20",
         className,
       )}
     >
       <props.icon
-        className="mx-[16px] h-8 w-8 text-clay"
+        className="text-clay mx-[16px] h-8 w-8"
         strokeWidth={1}
         fill="rgba(238, 238, 238, 0.60)"
       />
-      <span className="w-64 text-xs font-medium uppercase leading-none text-clay">
+      <span className="text-clay w-64 text-xs font-medium uppercase leading-none">
         {label}
       </span>
 
@@ -115,13 +128,17 @@ export const InputFieldName = React.forwardRef<
         {...props}
         type={type}
         ref={ref}
-        className="shadow-i-br-lg/80 m-1 w-full rounded-lg border-0 border-ash bg-paper p-3 font-mono text-[15px] uppercase tracking-widest text-zinc-600 placeholder:text-slate-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="shadow-i-br-lg/80 border-ash bg-paper m-1 w-full rounded-lg border-0 p-3 font-mono text-[15px] uppercase tracking-widest text-zinc-600 placeholder:text-slate-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       />
     </div>
   );
 });
 InputFieldName.displayName = "InputFieldName";
 
+/**
+ * @name InputFieldFile
+ * @location \@src/app/_components
+ */
 export const InputFile = React.forwardRef<
   HTMLInputElement,
   InputProps & IconPrefix
@@ -129,31 +146,31 @@ export const InputFile = React.forwardRef<
   return (
     <div
       className={cn(
-        "focus-within:ring-ring flex h-[300px] flex-col items-center justify-end rounded-lg border border-dashed border-ash bg-white shadow-inner ring-offset-blue-400 focus-within:ring-1 focus-within:ring-offset-1",
+        "focus-within:ring-ring border-ash flex h-[300px] flex-col items-center justify-end rounded-lg border border-dashed bg-white shadow-inner ring-offset-blue-400 focus-within:ring-1 focus-within:ring-offset-1",
         className,
       )}
     >
       <div className="absolute flex flex-col items-center justify-center">
         <div className="flex items-center justify-center">
           <props.icon
-            className="mr-[16px] h-[48px] w-[48px] text-clay"
+            className="text-clay mr-[16px] h-[48px] w-[48px]"
             strokeWidth={1}
           />
           <div className="text-md">
-            <p className="max-w-[20ch] text-coal">
-              <span className="font-semibold text-coal">Click</span> here to
+            <p className="text-coal max-w-[20ch]">
+              <span className="text-coal font-semibold">Click</span> here to
               select a file or{" "}
-              <span className="font-semibold text-coal">drag and drop</span> it
+              <span className="text-coal font-semibold">drag and drop</span> it
               here.
             </p>
           </div>
         </div>
         <div className="flex items-center justify-center space-x-4 pb-2 pt-24">
-          <span className="text-xs italic text-clay/80">
+          <span className="text-clay/80 text-xs italic">
             Supported formats:
           </span>
 
-          <span className="py-1 text-[12px] text-clay">JPG, PNG or PDF</span>
+          <span className="text-clay py-1 text-[12px]">JPG, PNG or PDF</span>
         </div>
       </div>
 

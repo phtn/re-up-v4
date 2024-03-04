@@ -24,6 +24,11 @@ const createContext = cache(() => {
   });
 });
 
+/**
+ * @name tRPC
+ * @description - tRPC Client
+ * @location trpc/rsc
+ */
 export const tRPC = createTRPCProxyClient<AppRouter>({
   transformer,
   links: [

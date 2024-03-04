@@ -1,9 +1,4 @@
-import {
-  HelpCircle,
-  MoreVerticalIcon,
-  PlusIcon,
-  WebhookIcon,
-} from "lucide-react";
+import { HelpCircle, PlusIcon, WebhookIcon } from "lucide-react";
 
 import { Block, Flex } from "@@components/flex";
 import { type WebhookDataSchema } from "@src/server/resource/webhook";
@@ -12,6 +7,7 @@ import { Touch } from "@@components/touch";
 import { useEffect, useState, useCallback } from "react";
 import tw from "tailwind-styled-components";
 import { Navbar } from "./navbar";
+import { MoreOptions } from "./more-options";
 
 type PageNavbarProps = {
   data: WebhookDataSchema[] | undefined | null;
@@ -41,7 +37,12 @@ export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
     return <>{options.get(overOne)}</>;
   }, [webhook, webhookCount]);
 
-  const createEnpoint = () => () => actions.createEnpoint;
+  const { createEnpoint } = actions;
+  const handleCreateEndpoint = () => {
+    if (createEnpoint) {
+      createEnpoint();
+    }
+  };
 
   if (!webhook) return;
 
@@ -62,9 +63,9 @@ export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
           </p>
         </Block>
 
-        <Block className="items-start">
-          <h2 className="text-zap text-xs font-medium">Endpoints</h2>
-          <p className="border-opus text-opus border-b-[0.33px] border-dashed font-mono text-xl tracking-wide">
+        <Block className="items-start" spacing="space-y-[2px]">
+          <h2 className="text-opus text-xs font-medium">Endpoints</h2>
+          <p className="border-opus text-zap border-b-[0.33px] border-dashed font-mono text-xl font-thin tracking-wide">
             {webhook.endpoints?.length ?? 0}
           </p>
         </Block>
@@ -84,9 +85,6 @@ export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
         </Block>
       </Navbar.Items>
 
-      <Flex spacing={`space-x-[24px]`}>
-        <p className="text-gray-700"> | </p>
-      </Flex>
       <Navbar.Extras>
         <Touch
           size="sm"
@@ -94,7 +92,7 @@ export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
           iconClass={`h-[16px] w-[16px]`}
           icon={PlusIcon}
           className="text-cord bg-transparent text-[12px] font-medium"
-          onClick={createEnpoint}
+          onClick={handleCreateEndpoint}
         >
           Endpoint
         </Touch>
@@ -103,7 +101,7 @@ export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
           <HelpCircle size={16} className="text-cord" />
         </Flex>
         <Navbar.Icon>
-          <MoreVerticalIcon size={16} className="text-kindle" />
+          <MoreOptions />
         </Navbar.Icon>
       </Navbar.Extras>
     </Navbar>
@@ -128,10 +126,10 @@ const SecondaryItem = ({ label, value }: ItemProps) => (
 );
 
 const ItemTitle = tw.h2`
- text-zap text-sm font-medium
+ text-zap font-medium
 `;
 const ItemSubtext = tw.p`
-  border-opus text-opus border-b-[0.33px] border-dashed font-mono text-[12px] tracking-wide
+  border-opus text-opus border-b-[0.33px] border-dashed font-mono font-light text-[12px] tracking-wide
 `;
 const ItemCount = tw.p`
   border-opus text-opus border-b-[0.33px] border-dashed font-mono text-xl tracking-wide

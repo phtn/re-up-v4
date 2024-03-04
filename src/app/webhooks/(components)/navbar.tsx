@@ -15,7 +15,7 @@ const NavComponent: FC<NavProps> = ({ children }) => (
 const HeaderComponent: FC<NavProps> = ({ children }) => <Flex>{children}</Flex>;
 
 const TitleComponent: FC<NavProps> = ({ children }) => (
-  <Block className="items-start" spacing="space-y-[6px]">
+  <Block className="items-start" spacing="space-y-[4px]">
     {children}
   </Block>
 );

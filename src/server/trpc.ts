@@ -22,6 +22,17 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
   },
 });
 
+/**
+ * @name router @trpc
+ */
 export const router = t.router;
+
+/**
+ * @name procedure @trpc
+ */
 export const procedure = t.procedure;
+
+/**
+ * @name mergeRouters @trpc
+ */
 export const mergeRouters = t.mergeRouters;

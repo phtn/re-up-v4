@@ -24,6 +24,11 @@ type FormValues = {
   name: string;
 };
 
+/**
+ * @name useCreateWebhookApp
+ * @description Main hook that handles webhook creation
+ * @location webhooks/hooks
+ */
 export const useCreateWebhookApp = ({ uid }: CreateWebhookApp) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<SubmitStatus>("Submit");
@@ -45,7 +50,7 @@ export const useCreateWebhookApp = ({ uid }: CreateWebhookApp) => {
     const createWebhookInput = async () => {
       if (webhookName === null) return;
       if (!ValidInputFormat.safeParse(webhookName)) {
-        onValidationError();
+        onValidationError("*webhookName*");
         return;
       }
 

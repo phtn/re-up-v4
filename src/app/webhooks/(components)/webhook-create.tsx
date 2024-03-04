@@ -1,10 +1,12 @@
 import tw from "tailwind-styled-components";
 import { WebhookForm } from "./webhook-form";
-import { useContext } from "react";
-import { AuthContext } from "@src/app/context";
+import { type UserIdSchema } from "@src/server/resource/account";
 
-export const WebhookCreate = () => {
-  const creds = useContext(AuthContext);
+type WebhookCreateProps = {
+  userId: UserIdSchema;
+};
+
+export const WebhookCreate = ({ userId }: WebhookCreateProps) => {
   return (
     <div className="border-whb/20 flex h-[500px] items-start justify-center md:items-center md:border-l-[0.33px]">
       <div className="flex flex-col items-center justify-center space-y-4 p-10">
@@ -19,7 +21,7 @@ export const WebhookCreate = () => {
             want.
           </Description>
         </div>
-        <WebhookForm uid={creds?.user?.uid} />
+        <WebhookForm uid={userId} />
       </div>
     </div>
   );
