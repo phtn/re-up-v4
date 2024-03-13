@@ -1,4 +1,8 @@
+import { Form, FormControl, FormField, FormItem } from "@@components/form";
+import { InputField } from "@@components/input";
+import { Touch } from "@@components/touch";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ValidInputFormat } from "@@server/resource/svix";
 import {
   ArrowDownToDotIcon,
   ArrowRightIcon,
@@ -8,12 +12,8 @@ import {
 } from "lucide-react";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem } from "@@components/form";
-import { InputField } from "@@components/input";
-import { Touch } from "@@components/touch";
 import { useWebhookInterface } from "./hooks";
-import { type EndpointField, type EndpointCreateProps } from "./types";
-import { ValidInputFormat } from "@src/server/resource/svix";
+import { type EndpointCreateProps, type EndpointField } from "./types";
 
 export const endpointSchema = z.object({
   name: ValidInputFormat,
@@ -57,7 +57,6 @@ export const EndpointForm = ({ webhookId }: EndpointCreateProps) => {
 
   const onSubmit = (data: EndpointSchema) => {
     getEndpointInfo({ webhookId, ...data });
-    console.log("sumbit called", data);
   };
 
   return (

@@ -1,11 +1,15 @@
+import { type WebhookDataSchema } from "@@server/resource/webhook";
+import { Disc3Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { PageNavbar } from "../(components)/page-nav";
 import { DashboardContainer } from "../(components)/views";
 import { WebhookContext } from "../context";
-import { type WebhookDataSchema } from "@src/server/resource/webhook";
-import { useRouter } from "next/navigation";
-import { Disc3Icon } from "lucide-react";
 
+/**
+ * @name WebhookDashboard 
+ * @location webhooks/\@premium/dashboard.tsx
+ */
 export const WebhookDashboard = () => {
   const data = useContext(WebhookContext)?.webhooks as
     | WebhookDataSchema[]
@@ -33,7 +37,7 @@ export const WebhookDashboard = () => {
       <div className="h-[72px] w-full">
         <PageNavbar actions={actions} data={webhooks} />
       </div>
-      <div className=" flex h-[428px] w-full items-center justify-center space-x-4">
+      <div className="flex h-[428px] w-full items-center justify-center space-x-4">
         <p className="text-opus text-xs">Loading...</p>
         <Disc3Icon size={16} className="text-opus animate-spin" />
       </div>

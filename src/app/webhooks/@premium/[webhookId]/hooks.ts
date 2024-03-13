@@ -24,8 +24,7 @@ export type GetEndpointInfo = {
 
 /**
  * @name useWebhookInterface
- * @param appId - Webhook app id
- * @param uid - userId
+ * @location webhooks/\@premium/hooks.ts
  */
 export const useWebhookInterface = () => {
   const [loading, setLoading] = useState(false);
@@ -46,120 +45,100 @@ export const useWebhookInterface = () => {
   }, []);
 
   useEffect(() => {
-    const createEndpointPayload = async () => {
-      const uid = await createEndpointUID(
-        userId,
-        new Date().getTime().toString(36),
-      );
-      const defaults = {
-        rateLimit: 64,
-        disabled: false,
-        filterTypes: undefined,
-        channels: undefined,
-        metadata: {},
-      };
-
-      const description = endpointFormValues?.description;
-      const { rateLimit, disabled, filterTypes, channels, metadata } = defaults;
-      const url = `https://re-up.ph/${pathName}/${uid}`;
-      const payload: CreateEndpointSchema = mergeObjects({
-        description,
-        url,
-        uid,
-        rateLimit,
-        disabled,
-        filterTypes,
-        channels,
-        metadata,
-      });
-
-      setEndpointPayload(payload);
-
-      setCreateState({ state: "Creating ...", active: false });
-    };
-
     if (endpointFormValues) {
-      createEndpointPayload()
-        .then(() => {
-          setLoading(false);
+      setLoading(true);
+      createEndpointUID(userId, new Date().getTime().toString(36))
+        .then((uid) => {
+          const defaults = {
+            rateLimit: 64,
+            disabled: false,
+            filterTypes: undefined,
+            channels: undefined,
+            metadata: {},
+          };
+          const url = `https://re-up.ph/${pathName}/${uid}`;
+          const payload: CreateEndpointSchema = mergeObjects({
+            description: endpointFormValues?.description,
+            url,
+            uid,
+            ...defaults,
+          });
+
+          setEndpointPayload(payload);
+          setCreateState({ state: "Creating ...", active: false });
         })
         .catch((err: Error) => {
           onError("Error creating endpoint", err.message);
+        })
+        .finally(() => {
           setLoading(false);
         });
     }
   }, [userId, pathName, endpointFormValues]);
 
-  const app_id = endpointFormValues?.webhookId;
-  const name = endpointFormValues?.name;
-
-  /**
-   * @name handleCreateEndpoint
-   * @description main entry point for createEndpoint function
-   * @async
-   */
   const handleCreateEndpoint = useCallback(
     async (params: CreateEndpointParamsSchema) => {
-      const payload = await createEndpoint(params);
-      if (
-        name &&
-        userId &&
-        app_id &&
-        payload &&
-        (payload satisfies EndpointOut)
-      ) {
-        const postParams = { name, app_id, userId, payload };
-        const [message, statusCode] = await addEndpoint(postParams);
-        if (statusCode === 1) {
-          setCreateState({ state: "Endpoint Created!", active: false });
-          setLoading(false);
-          onSuccess(
-            "New Endpoint created!",
-            `The server says: ${String(message)}`,
-          );
+      try {
+        const payload = await createEndpoint(params);
+        if (
+          endpointFormValues?.name &&
+          userId &&
+          endpointFormValues?.webhookId &&
+          payload &&
+          (payload satisfies EndpointOut)
+        ) {
+          const postParams = {
+            name: endpointFormValues?.name,
+            app_id: endpointFormValues?.webhookId,
+            userId,
+            payload,
+          };
+          const [message, statusCode] = await addEndpoint(postParams);
+          if (statusCode === 1) {
+            setCreateState({ state: "Endpoint Created!", active: false });
+            onSuccess(
+              "New Endpoint created!",
+              `The server says: ${String(message)}`,
+            );
+          }
         }
+      } catch (_err) {
+        onError(
+          "An error occurred while creating endpoint",
+          "Please try again later.",
+        );
       }
     },
-    [app_id, name, userId],
+    [endpointFormValues, userId],
   );
 
   useEffect(() => {
-    if (endpointPayload && (endpointPayload satisfies EndpointIn)) {
-      console.log("payload ready");
-      const validInput = ValidInputFormat.safeParse(
-        endpointPayload.description,
-      );
-      if (!validInput.success) {
-        onValidationError("**description**");
+    const createAndHandleEndpoint = async () => {
+      if (endpointPayload && (endpointPayload satisfies EndpointIn)) {
+        setLoading(true);
+        const validInput = ValidInputFormat.safeParse(
+          endpointPayload.description,
+        );
+        if (!validInput.success) {
+          onValidationError("*description*");
+          setCreateState({ state: "Create Endpoint", active: true });
+        } else if (endpointPayload satisfies CreateEndpointSchema) {
+          if (endpointFormValues?.webhookId) {
+            await handleCreateEndpoint({
+              app_id: endpointFormValues.webhookId,
+              resource: endpointPayload,
+            });
+          } else {
+            // Handle the case where webhookId is undefined
+            // This could be showing an error message, or setting a default value
+          }
+        }
         setLoading(false);
-        setCreateState({ state: "Create Endpoint", active: true });
       }
+    };
 
-      if (endpointPayload satisfies CreateEndpointSchema) {
-        // TODO: handle error
-        // use await instead of then
+    createAndHandleEndpoint().then().catch(onError);
+  }, [endpointPayload, endpointFormValues, handleCreateEndpoint]);
 
-        handleCreateEndpoint({ app_id: app_id!, resource: endpointPayload })
-          .then((response) => {
-            onSuccess("Endpoint Created!");
-            setLoading(false);
-            setCreateState({ state: "Endpoint Created!", active: false });
-            console.log(response);
-
-            setLoading(false);
-            setCreateState({ state: "Endpoint Created!", active: false });
-          })
-          .catch((err: Error) => {
-            onError(err.name, err.message);
-          });
-      }
-    }
-  }, [endpointPayload, endpointFormValues, app_id, handleCreateEndpoint]);
-
-  useEffect(() => {
-    console.log("loading:", loading);
-    console.log("create:", createState);
-    console.log("valid:", typeof endpointPayload);
-  }, [loading, createState, endpointPayload, userId, pathName]);
   return { getEndpointInfo, loading, createState };
 };

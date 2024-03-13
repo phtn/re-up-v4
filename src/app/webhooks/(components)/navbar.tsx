@@ -15,9 +15,7 @@ const NavComponent: FC<NavProps> = ({ children }) => (
 const HeaderComponent: FC<NavProps> = ({ children }) => <Flex>{children}</Flex>;
 
 const TitleComponent: FC<NavProps> = ({ children }) => (
-  <Block className="items-start" spacing="space-y-[4px]">
-    {children}
-  </Block>
+  <Block className="items-start justify-between pb-2.5">{children}</Block>
 );
 
 const IconComponent: FC<NavProps> = ({ children }) => (
@@ -29,7 +27,7 @@ const SettingsComponent: FC<NavProps> = ({ children }) => (
 );
 
 const ItemListComponent: FC<NavProps> = ({ children }) => (
-  <Flex spacing={`space-x-[16px]`}>{children}</Flex>
+  <Flex spacing={`space-x-[32px]`}>{children}</Flex>
 );
 
 const ItemComponent: FC<NavProps> = ({ children }) => (
@@ -94,26 +92,3 @@ export const Navbar: NavbarType = Object.assign(NavComponent, {
 const NavContainer = tw.div`
   h-[72px] w-full bg-void flex items-center justify-between
 `;
-
-// const ItemTitle = tw.h2`
-//  text-zap text-sm font-medium
-// `;
-// const ItemSubtext = tw.p`
-//   border-opus text-opus border-b-[0.33px] border-dashed font-mono text-[12px] tracking-wide
-// `;
-
-// const NavHeader = ({ children }: Children) => {
-//   return (
-//     <Flex>
-//       <div className="flex w-[72px] items-center justify-center">
-//         <WebhookIcon size={16} className="text-kindle" />
-//       </div>
-//       <Block className="items-start" spacing="space-y-[6px]">
-//         <h2 className="text-zap text-sm font-medium">{webhook.webhook.name}</h2>
-//         <p className="border-opus text-opus border-b-[0.33px] border-dashed font-mono text-[12px] tracking-wide">
-//           {minifyve(webhook.webhook.id)}
-//         </p>
-//       </Block>
-//     </Flex>
-//   );
-// };

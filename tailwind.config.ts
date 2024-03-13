@@ -1,16 +1,67 @@
-import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
-import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import svgToDataUri from "mini-svg-data-uri";
 import tailwindcssAnimate from "tailwindcss-animate";
+import plugin from "tailwindcss/plugin";
+import { type Config } from "tailwindcss/types/config";
+
+export type ColorValue = string | Record<string, string> | undefined;
+
+/**
+ * @name flattenColorPalette
+ * @description Flattens a color palette (custom)
+ */
+export function flattenColorPalette(
+  colors: Record<string, ColorValue>,
+): Record<string, string> {
+  const flattenColors: Record<string, string> = {};
+
+  function flatten(colorName: string, colorValue: ColorValue) {
+    if (typeof colorValue === "string") {
+      flattenColors[colorName] = colorValue;
+    } else {
+      for (const key in colorValue) {
+        flatten(`${colorName}-${key}`, colorValue[key]);
+      }
+    }
+  }
+
+  for (const colorName in colors) {
+    flatten(colorName, colors[colorName]);
+  }
+
+  return flattenColors;
+}
+
+interface AddVars {
+  addBase: (styles: Record<string, Record<string, string>>) => void;
+  theme: (path: ColorValue) => Record<string, ColorValue>;
+}
+
+function addVariablesForColors({ addBase, theme }: AddVars) {
+  const allColors = flattenColorPalette(theme("colors"));
+  const newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+}
 
 export default {
-  content: ["./src/**/*.tsx"],
+  content: [
+    "./src/**/*.tsx",
+    "./src/**/*.ts",
+    "./src/**/*.js",
+    "./src/**/*.css",
+  ],
   theme: {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         mono: ["var(--font-geist-mono)"],
+        k2d: ["var(--font-k2d)", "sans-serif"],
+        jet: ["var(--font-jet)", "monospace"],
       },
       boxShadow: {
         "i-tl-lg": "inset 15px 30px 60px -25px rgba(125, 125, 125, 0.15)",
@@ -106,31 +157,31 @@ export default {
   },
   plugins: [
     tailwindcssAnimate,
-    addVariablesForColors,
-    function ({ matchUtilities, theme }: any) {
+    plugin(() => addVariablesForColors),
+    plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
         {
-          "bg-grid": (value: any) => ({
+          "bg-grid": (value: string) => ({
             backgroundImage: `url("${svgToDataUri(
               `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
             )}")`,
           }),
-          "bg-grid-small": (value: any) => ({
+          "bg-grid-small": (value: string) => ({
             backgroundImage: `url("${svgToDataUri(
               `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
             )}")`,
           }),
-          "bg-dot": (value: any) => ({
+          "bg-dot": (value: string) => ({
             backgroundImage: `url("${svgToDataUri(
               `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
             )}")`,
           }),
-          "bg-dot-sm": (value: any) => ({
+          "bg-dot-sm": (value: string) => ({
             backgroundImage: `url("${svgToDataUri(
               `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="48" height="48" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
             )}")`,
           }),
-          "bg-dot-big": (value: any) => ({
+          "bg-dot-big": (value: string) => ({
             backgroundImage: `url("${svgToDataUri(
               `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="32" height="32" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
             )}")`,
@@ -141,17 +192,6 @@ export default {
           type: "color",
         },
       );
-    },
+    }),
   ],
 } satisfies Config;
-
-function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
-  );
-
-  addBase({
-    ":root": newVars,
-  });
-}

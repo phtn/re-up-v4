@@ -1,6 +1,6 @@
 "use client";
 
-import { opts } from "@src/utils/helpers";
+import { opts } from "@@utils/helpers";
 import { useCallback } from "react";
 import { WebhookLanding } from "../(components)/landing-page";
 import { WebhookDashboard } from "./dashboard";

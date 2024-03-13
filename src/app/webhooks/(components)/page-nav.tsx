@@ -1,10 +1,20 @@
-import { HelpCircle, PlusIcon, WebhookIcon } from "lucide-react";
-
+import {
+  CheckCircle2Icon,
+  DotIcon,
+  HelpCircle,
+  WebhookIcon,
+} from "lucide-react";
 import { Block, Flex } from "@@components/flex";
 import { type WebhookDataSchema } from "@src/server/resource/webhook";
-import { minifyve, opts } from "@src/utils/helpers";
-import { Touch } from "@@components/touch";
-import { useEffect, useState, useCallback } from "react";
+import { minified, opts } from "@src/utils/helpers";
+import {
+  useEffect,
+  useState,
+  useCallback,
+  type ReactNode,
+  type ReactElement,
+  forwardRef,
+} from "react";
 import tw from "tailwind-styled-components";
 import { Navbar } from "./navbar";
 import { MoreOptions } from "./more-options";
@@ -14,7 +24,7 @@ type PageNavbarProps = {
   actions: Record<string, () => void>;
 };
 
-export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
+export const PageNavbar = ({ data }: PageNavbarProps) => {
   const [webhook, setWebhook] = useState<WebhookDataSchema | undefined>();
   const [webhookCount, setWebhookCount] = useState<number>(0);
 
@@ -31,18 +41,18 @@ export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
       <PrimaryItem label="Webhooks" value={webhookCount} />,
       <SecondaryItem
         label={webhook?.webhook.name}
-        value={minifyve(webhook?.webhook.id)}
+        value={minified(webhook?.webhook.id)}
       />,
     );
     return <>{options.get(overOne)}</>;
   }, [webhook, webhookCount]);
 
-  const { createEnpoint } = actions;
-  const handleCreateEndpoint = () => {
-    if (createEnpoint) {
-      createEnpoint();
-    }
-  };
+  // const { createEnpoint } = actions;
+  // const handleCreateEndpoint = () => {
+  //   if (createEnpoint) {
+  //     createEnpoint();
+  //   }
+  // };
 
   if (!webhook) return;
 
@@ -52,54 +62,41 @@ export const PageNavbar = ({ data, actions }: PageNavbarProps) => {
         <Navbar.Icon>
           <WebhookIcon size={24} className="text-kindle" />
         </Navbar.Icon>
-        <TitleOptions />
+
+        <Flex spacing={`space-x-[36px] justify-center`}>
+          <TitleOptions />
+          <VSeparator />
+          <MenuItem label="Activity">13</MenuItem>
+        </Flex>
       </Navbar.Header>
 
       <Navbar.Items>
-        <Block className="items-start">
-          <h2 className="text-zap text-[12px] font-medium">Activity</h2>
-          <p className="border-opus text-opus border-b-[0.33px] border-dashed font-mono text-xl tracking-wide">
-            0
-          </p>
-        </Block>
-
-        <Block className="items-start" spacing="space-y-[2px]">
-          <h2 className="text-opus text-xs font-medium">Endpoints</h2>
-          <p className="border-opus text-zap border-b-[0.33px] border-dashed font-mono text-xl font-thin tracking-wide">
-            {webhook.endpoints?.length ?? 0}
-          </p>
-        </Block>
-
-        <Block className="items-start">
-          <h2 className="text-zap text-xs font-medium">Events</h2>
-          <p className="border-opus text-opus border-b-[0.33px] border-dashed font-mono text-xl tracking-wide">
-            0
-          </p>
-        </Block>
-
-        <Block className="items-start">
-          <h2 className="text-zap text-[12px] font-medium">Logs</h2>
-          <p className="border-opus text-opus border-b-[0.33px] border-dashed font-mono text-xl tracking-wide">
-            0
-          </p>
-        </Block>
+        <MenuItem label="Endpoints">{webhook.endpoints?.length ?? 8}</MenuItem>
+        <VSeparator />
+        <MenuItem label="Events">0</MenuItem>
       </Navbar.Items>
 
       <Navbar.Extras>
-        <Touch
+        <MenuItem label="Environment">
+          <span className="font-k2d mb-[32px] text-xs font-bold uppercase">
+            Prod
+          </span>
+        </MenuItem>
+        <VSeparator />
+        <MenuItem label="----">
+          <HelpCircle size={16} className="text-cord" />
+        </MenuItem>
+        {/* <Touch
           size="sm"
           variant={"ghost"}
-          iconClass={`h-[16px] w-[16px]`}
-          icon={PlusIcon}
           className="text-cord bg-transparent text-[12px] font-medium"
           onClick={handleCreateEndpoint}
         >
-          Endpoint
+          Testing
         </Touch>
         <Flex spacing={`space-x-[24px]`}>
           <p className="text-gray-700"> | </p>
-          <HelpCircle size={16} className="text-cord" />
-        </Flex>
+        </Flex> */}
         <Navbar.Icon>
           <MoreOptions />
         </Navbar.Icon>
@@ -114,23 +111,73 @@ type ItemProps = {
 };
 const PrimaryItem = ({ label, value }: ItemProps) => (
   <Navbar.Title>
-    <ItemTitle>{label ?? ""}</ItemTitle>
+    <Flex className="h-[36px]">
+      <PrimaryTitle>{label ?? ""}</PrimaryTitle>
+      <DotIcon className="text-[#83D2CE]" size={16} />
+    </Flex>
     <ItemCount>{value ?? ""}</ItemCount>
   </Navbar.Title>
 );
 const SecondaryItem = ({ label, value }: ItemProps) => (
   <Navbar.Title>
-    <ItemTitle>{label ?? ""}</ItemTitle>
+    <Flex className="h-full items-center space-x-1">
+      <WebhookLabel>{label ?? ""}</WebhookLabel>
+      <CheckCircle2Icon fill="#34d399" size={10} className="mt-1" />
+    </Flex>
     <ItemSubtext>{value ?? ""}</ItemSubtext>
   </Navbar.Title>
 );
 
+type SubItem = string | number | ReactElement | ReactNode;
+interface MenuItemProps {
+  label: string;
+  children: SubItem;
+}
+
+const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(
+  ({ children, label }: MenuItemProps, ref) => {
+    return (
+      <Block ref={ref} className="items-center" spacing=" space-y-1">
+        <ItemTitle>{label}</ItemTitle>
+        <ItemCount>{children}</ItemCount>
+      </Block>
+    );
+  },
+);
+
+MenuItem.displayName = "MenuItem";
+
+// const classifier = (subItem: SubItem) => {
+//   switch (subItem) {
+//     case "string":
+//       return <ItemSubtext>{subItem}</ItemSubtext>;
+//     case "number":
+//       return <ItemCount>{subItem}</ItemCount>;
+//     default:
+//       return subItem;
+//   }
+// };
+
+const PrimaryTitle = tw.h2`
+ text-cord font-medium
+`;
+
+const WebhookLabel = tw.h2`
+ text-cord font-k2d font-bold tracking-wide
+`;
 const ItemTitle = tw.h2`
- text-zap font-medium
+  text-cyan-200/70 text-[12px] font-extrabold tracking-wide font-jet
 `;
-const ItemSubtext = tw.p`
-  border-opus text-opus border-b-[0.33px] border-dashed font-mono font-light text-[12px] tracking-wide
+
+const ItemSubtext = tw.span`
+  text-opus font-jet font-thin text-[12px] tracking-widest
 `;
-const ItemCount = tw.p`
-  border-opus text-opus border-b-[0.33px] border-dashed font-mono text-xl tracking-wide
+const ItemCount = tw.span`
+  text-cord font-jet text-lg font-thin
 `;
+
+const VSeparator = () => (
+  <div className="flex h-[72px] items-center justify-center">
+    <div className="border-opus/50 h-[24px] border-r-[0.33px] border-dashed"></div>
+  </div>
+);

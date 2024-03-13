@@ -1,11 +1,11 @@
 "use client";
 
+import { type WebhookDataSchema } from "@@server/resource/webhook";
 import { useContext, useEffect, useState } from "react";
-import { WebhookContext } from "../../context";
-import { type WebhookDataSchema } from "@src/server/resource/webhook";
 import { PageNavbar } from "../../(components)/page-nav";
-import { useWebhookInterface } from "./hooks";
+import { WebhookContext } from "../../context";
 import { EndpointCreate } from "./endpoint-create";
+import ActivityCurve from "./curve";
 
 type DetailContentProps = {
   webhookId: string;
@@ -28,28 +28,22 @@ export const DetailContent = ({ webhookId }: DetailContentProps) => {
     }
   }, [data, webhookId]);
 
-  const { getEndpointInfo } = useWebhookInterface();
-  const handleCreateEndpoint = () => {
-    getEndpointInfo({
-      name: "endpoint-one",
-      description: "endpoint-desc",
-      webhookId,
-    });
-  };
-
   const actions = {
-    createEndpoint: handleCreateEndpoint,
+    actionZero: () => 0,
   };
 
   return (
     <div>
-      <div className="h-[72px] w-full">
+      <div className="bg-void h-[72px] w-full">
         <PageNavbar actions={actions} data={webhookInArray} />
       </div>
 
-      <div className="h-[428px] w-full">
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          <div className="col-span-2">stats {webhook?.id}</div>
+      <div className="h-full w-full">
+        <div className="grid grid-cols-1 gap-[4px] md:grid-cols-3">
+          <div className="col-span-2">
+            <Activity id={webhook?.id ?? ""} />
+          </div>
+
           <div className="bg-void h-[428px]">
             <div>
               <EndpointCreate webhookId={webhookId} />
@@ -60,3 +54,14 @@ export const DetailContent = ({ webhookId }: DetailContentProps) => {
     </div>
   );
 };
+
+type ActivityProps = {
+  id: string;
+};
+const Activity = ({ id }: ActivityProps) => (
+  <div className={id}>
+    <div className="bg-darkmojo flex h-[428px] w-full flex-grow">
+      <ActivityCurve width={880} height={440} />
+    </div>
+  </div>
+);

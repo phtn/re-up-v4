@@ -141,7 +141,7 @@ export const createEventTypeUID = async (
   }
 };
 
-export const minifyve = (str: string | undefined) => {
+export const minified = (str: string | undefined) => {
   if (!str) return;
-  return str.slice(-5);
+  return str.slice(-6);
 };
