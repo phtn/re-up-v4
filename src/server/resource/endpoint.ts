@@ -13,8 +13,8 @@ export const CreateEndpointResource = z.object({
   uid: z.string().min(1),
   url: z.string().min(1),
   disabled: z.boolean().default(false),
-  filterTypes: z.array(ValidInputFormat).or(z.undefined()).optional(),
-  channels: UniqueElements.or(z.undefined()).optional(),
+  filterTypes: UniqueElements,
+  channels: UniqueElements,
   metadata: z.record(z.string()).optional(),
 });
 
@@ -97,8 +97,8 @@ export const responseHandler = (res: EndpointOut) => ({
   url: res.url,
   version: res.version,
   disabled: res.disabled,
-  filterTypes: res.filterTypes,
-  channels: res.channels,
+  filterTypes: res.filterTypes ?? undefined,
+  channels: res.channels ?? undefined,
   createdAt: res.createdAt,
   updatedAt: res.updatedAt,
 });

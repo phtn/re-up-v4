@@ -20,13 +20,29 @@ export type ValidInputFormatSchema = z.infer<typeof ValidInputFormat>;
  * @optional
  * @location @server/svix
  */
+
 export const UniqueElements = z
-  .array(ValidInputFormat)
+  .array(z.string())
+  .nonempty()
   .max(10)
-  .optional()
-  .refine((arr) => new Set(arr).size === arr?.length, {
-    message: "List must contain unique items.",
-  });
+  .refine(
+    (data) => {
+      const set = new Set(data);
+      return set.size === data.length;
+    },
+    {
+      message: "Items must be unique",
+    },
+  )
+  .or(z.undefined());
+
+// export const UniqueElements = z
+//   .array(ValidInputFormat)
+//   .max(10)
+//   .optional()
+//   .refine((arr) => new Set(arr).size === arr?.length, {
+//     message: "List must contain unique items.",
+//   });
 
 /**
  * @name AppPortalResource

@@ -52,11 +52,11 @@ export const useWebhookInterface = () => {
           const defaults = {
             rateLimit: 64,
             disabled: false,
-            filterTypes: undefined,
-            channels: undefined,
+            // filterTypes: undefined,
+            // channels: undefined,
             metadata: {},
           };
-          const url = `https://re-up.ph/${pathName}/${uid}`;
+          const url = `https://re-up.ph${pathName}/${uid}`;
           const payload: CreateEndpointSchema = mergeObjects({
             description: endpointFormValues?.description,
             url,
@@ -93,16 +93,27 @@ export const useWebhookInterface = () => {
             userId,
             payload,
           };
-          const [message, statusCode] = await addEndpoint(postParams);
-          if (statusCode === 1) {
-            setCreateState({ state: "Endpoint Created!", active: false });
-            onSuccess(
-              "New Endpoint created!",
-              `The server says: ${String(message)}`,
-            );
-          }
+
+          /**
+           * @name addEndpoint
+           * @description Add a new endpoint to the database
+           */
+          console.log("postParams", postParams);
+          return await addEndpoint(postParams).then((response) => {
+            const [message, statusCode] = response;
+            if (response && statusCode === 1) {
+              setCreateState({ state: "Endpoint Created!", active: false });
+              setLoading(false);
+              onSuccess("New Endpoint created!", `server : ${String(message)}`);
+            } else {
+              setCreateState({ state: "Create Endpoint", active: true });
+              setLoading(false);
+              onError("Unable to create endpoint", "Please try again later.");
+            }
+          });
         }
       } catch (_err) {
+        setLoading(false);
         onError(
           "An error occurred while creating endpoint",
           "Please try again later.",
@@ -120,7 +131,7 @@ export const useWebhookInterface = () => {
           endpointPayload.description,
         );
         if (!validInput.success) {
-          onValidationError("*description*");
+          onValidationError("*name or description*");
           setCreateState({ state: "Create Endpoint", active: true });
         } else if (endpointPayload satisfies CreateEndpointSchema) {
           if (endpointFormValues?.webhookId) {

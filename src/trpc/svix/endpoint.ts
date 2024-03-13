@@ -17,6 +17,7 @@ export const createEndpoint = async (input: CreateEndpointParamsSchema) =>
  * @name addEndpoint
  * @param input - AddEndpointSchema
  * @location trpc/svix/endpoint.ts
+ * @todo Move to trpc/endpoint/
  */
 export const addEndpoint = async (input: AddEndpointParamsSchema) =>
   await tRPC.addEndpoint.query(input).then((res) => res);

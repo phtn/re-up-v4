@@ -89,14 +89,18 @@ export const EndpointForm = ({ webhookId }: EndpointCreateProps) => {
           disabled={!formState.isValid || loading}
           variant={formState.isValid ? "primary" : "default"}
           tail={
-            loading
+            loading || createState.state === "Creating ..."
               ? Disc3Icon
               : createState.state === "Endpoint Created!"
                 ? CheckCircle2Icon
                 : ArrowRightIcon
           }
           className={"w-full"}
-          iconClass={loading ? `animate-spin duration-1000` : ``}
+          iconClass={
+            loading || createState.state === "Creating ..."
+              ? `animate-spin duration-1000`
+              : ``
+          }
         >
           {createState.state}
         </Touch>

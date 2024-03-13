@@ -33,5 +33,6 @@ export const svixRouter = router({
    */
   createEndpoint: createEndpointProcedure.query(
     async ({ input }) => await createEndpoint(input),
+    // async ({ input }) => input,
   ),
 });

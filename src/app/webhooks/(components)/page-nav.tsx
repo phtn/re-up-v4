@@ -1,9 +1,4 @@
-import {
-  CheckCircle2Icon,
-  DotIcon,
-  HelpCircle,
-  WebhookIcon,
-} from "lucide-react";
+import { CheckCircle2Icon, DotIcon, WebhookIcon } from "lucide-react";
 import { Block, Flex } from "@@components/flex";
 import { type WebhookDataSchema } from "@src/server/resource/webhook";
 import { minified, opts } from "@src/utils/helpers";
@@ -63,7 +58,7 @@ export const PageNavbar = ({ data }: PageNavbarProps) => {
           <WebhookIcon size={24} className="text-kindle" />
         </Navbar.Icon>
 
-        <Flex spacing={`space-x-[36px] justify-center`}>
+        <Flex spacing={`space-x-[30px] justify-center`}>
           <TitleOptions />
           <VSeparator />
           <MenuItem label="Activity">13</MenuItem>
@@ -71,21 +66,20 @@ export const PageNavbar = ({ data }: PageNavbarProps) => {
       </Navbar.Header>
 
       <Navbar.Items>
-        <MenuItem label="Endpoints">{webhook.endpoints?.length ?? 8}</MenuItem>
+        <MenuItem label="Endpoints">{webhook.endpoints?.length ?? 0}</MenuItem>
         <VSeparator />
         <MenuItem label="Events">0</MenuItem>
       </Navbar.Items>
 
       <Navbar.Extras>
-        <MenuItem label="Environment">
-          <span className="font-k2d mb-[32px] text-xs font-bold uppercase">
+        <MenuItem label="Logs">0</MenuItem>
+        <VSeparator />
+        <MenuItem label="Mode">
+          <span className="mb-[32px] font-k2d text-xs font-bold uppercase">
             Prod
           </span>
         </MenuItem>
-        <VSeparator />
-        <MenuItem label="----">
-          <HelpCircle size={16} className="text-cord" />
-        </MenuItem>
+
         {/* <Touch
           size="sm"
           variant={"ghost"}
@@ -178,6 +172,6 @@ const ItemCount = tw.span`
 
 const VSeparator = () => (
   <div className="flex h-[72px] items-center justify-center">
-    <div className="border-opus/50 h-[24px] border-r-[0.33px] border-dashed"></div>
+    <div className="h-[24px] border-r-[0.33px] border-dashed border-opus/50"></div>
   </div>
 );
