@@ -8,7 +8,7 @@
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
-    "types": ["@duncan2912/next-pwa/workbox"],
+    // "types": ["@duncan2912/next-pwa/workbox"],
 
     /* Strictness */
     "strict": true,
