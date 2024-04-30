@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { UniqueElements, ValidInputFormat } from "./svix";
-import { type EndpointOut } from "svix";
-// import { type EndpointOut } from "svix";
+import type { EndpointOut } from "svix"; // import { type EndpointOut } from "svix";
 
 /**
  * @name CreateEndpointResource
@@ -119,3 +118,70 @@ export const responseHandler = (res: EndpointOut) => ({
 //   createdAt: "2019-08-24T14:15:22Z",
 //   updatedAt: "2019-08-24T14:15:22Z",
 // } satisfies EndpointOut;
+
+export const EndpointInfo = z.object({
+  createdAt: z.number(),
+  name: z.string(),
+  uid: z.string(),
+  url: z.string(),
+});
+
+export type EndpointInfoSchema = z.infer<typeof EndpointInfo>;
+
+export const endpointResponse = {
+  id: "ep_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+  metadata: {
+    property1: "string",
+    property2: "string",
+  },
+  description: "string",
+  rateLimit: 0,
+  uid: "unique-ep-identifier",
+  url: "https://example.com/webhook/",
+  version: 1,
+  disabled: false,
+  filterTypes: ["user.signup", "user.deleted"],
+  channels: ["project_123", "group_2"],
+  createdAt: new Date("2019-08-24T14:15:22Z"),
+  updatedAt: new Date("2019-08-24T14:15:22Z"),
+} satisfies EndpointOut;
+
+export const GetEndpointResponse = z.object({
+  id: z.string().min(1),
+  metadata: z.record(z.string()),
+  description: z.string(),
+  rateLimit: z.number().or(z.undefined()),
+  uid: z.string().or(z.undefined()),
+  url: z.string(),
+  version: z.number(),
+  disabled: z.boolean().or(z.undefined()),
+  filterTypes: z.array(z.string()).or(z.undefined()),
+  channels: z.array(z.string()).or(z.undefined()),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export type GetEndpointResponseSchema = z.infer<typeof GetEndpointResponse>;
+
+export const endpointResponseHandler = (response: EndpointOut) =>
+  ({
+    id: response.id,
+    metadata: response.metadata,
+    description: response.description,
+    rateLimit: response.rateLimit,
+    uid: response.uid,
+    url: response.url,
+    version: response.version,
+    disabled: response.disabled,
+    filterTypes: response.filterTypes ?? undefined,
+    channels: response.channels ?? undefined,
+    createdAt: response.createdAt,
+    updatedAt: response.updatedAt,
+  }) satisfies GetEndpointResponseSchema;
+
+export const GetEndpointResource = z.object({
+  app_id: z.string().min(1),
+  endpoint_id: z.string().min(1),
+});
+
+export type GetEndpointSchema = z.infer<typeof GetEndpointResource>;

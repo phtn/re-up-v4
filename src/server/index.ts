@@ -1,5 +1,7 @@
 import { accountRouter } from "./router/account";
 import { endpointRouter } from "./router/endpoint";
+import { eventTypeRouter } from "./router/event-type";
+import { messageRouter } from "./router/message";
 import { netRouter } from "./router/net";
 import { svixRouter } from "./router/svix";
 import { webhookRouter } from "./router/webhook";
@@ -15,6 +17,8 @@ export const appRouter = mergeRouters(
   svixRouter,
   webhookRouter,
   endpointRouter,
+  eventTypeRouter,
+  messageRouter,
 );
 
 export type AppRouter = typeof appRouter;

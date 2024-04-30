@@ -1,10 +1,13 @@
-import { PremiumContent } from "./content";
+import { ServicesNavbar } from "./(premium)/navbar";
+import { PremiumContent } from "./(premium)/content";
+import { LaunchPad } from "@src/app/(components)/launchpad";
 
 const Premium = async () => {
   return (
-    <div className="h-full">
+    <LaunchPad>
+      <ServicesNavbar />
       <PremiumContent />
-    </div>
+    </LaunchPad>
   );
 };
 export default Premium;

@@ -1,5 +1,5 @@
 import { DashboardContainer } from "../../../(components)/views";
-import { DetailContent } from "./endpoint";
+import { DetailContent } from "./(endpoint)/endpoint";
 
 type DetailsProps = {
   params: {

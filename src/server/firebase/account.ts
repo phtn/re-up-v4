@@ -27,11 +27,11 @@ export const createUserAccount = async (user: NewUserPayload) => {
       premium: false,
       webhookCount: 0,
       address: {
-        lineOne: null,
-        lineTwo: null,
+        street: null,
         city: null,
         state: null,
         country: null,
+        zip: null,
       },
       createdAt: new Date().getTime(),
       updatedAt: new Date().getTime(),

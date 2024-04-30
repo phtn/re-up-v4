@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities";
 
 body {
-  background-color: #191818;
+  background-color: #000000;
 }
 
 ::-webkit-scrollbar {

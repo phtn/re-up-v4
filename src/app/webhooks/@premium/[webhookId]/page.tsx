@@ -1,19 +1,22 @@
-import { DashboardContainer } from "../../(components)/views";
-import { DetailContent } from "./detail-content";
+import { PageContent } from "./(components)/content";
+import { WebhookNav } from "./(components)/navbar";
 
-type DetailsProps = {
+export type DefaultContentProps = {
   params: {
     webhookId: string;
   };
 };
-
-const WebhookDetails = ({ params }: DetailsProps) => {
-  const { webhookId } = params;
+const WebhookDefault = ({ params }: DefaultContentProps) => {
   return (
-    <DashboardContainer>
-      <DetailContent webhookId={webhookId} />
-    </DashboardContainer>
+    <div>
+      <div className="h-[72px] w-full bg-void">
+        <WebhookNav webhookId={params.webhookId} />
+      </div>
+      <div className="h-[628px] w-full">
+        <PageContent />
+      </div>
+    </div>
   );
 };
 
-export default WebhookDetails;
+export default WebhookDefault;

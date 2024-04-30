@@ -25,23 +25,23 @@ export const limitText = (text: string | number) => {
 };
 
 type CopyFnParams = {
-  name: string;
-  text: string;
+  specie: string | undefined;
+  text: string | undefined;
 };
 type CopyFn = (params: CopyFnParams) => Promise<boolean>; // Return success
 
-export const copyFn: CopyFn = async ({ name, text }) => {
+export const copyFn: CopyFn = async ({ specie = "failed", text = "" }) => {
   if (!navigator?.clipboard) {
-    onWarn("Clipboard not supported");
+    onWarn("Clipboard not supported.", "Seriously?", "failed");
     return false;
   }
 
   try {
     await navigator.clipboard.writeText(text);
-    onSuccess(`${name ? "Copied: " + name : "Copied."}`, limitText(text));
+    onSuccess(`Copied!`, limitText(text), specie);
     return true;
   } catch (error) {
-    onError("Copy failed.");
+    onError("Copy failed.", "Please try again.", "failed");
     return false;
   }
 };
@@ -144,4 +144,19 @@ export const createEventTypeUID = async (
 export const minified = (str: string | undefined) => {
   if (!str) return;
   return str.slice(-6);
+};
+
+export const prettyDate = (dateString: string | undefined): string => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    timeZone: "UTC",
+  };
+  return date.toLocaleString("en-US", options);
 };

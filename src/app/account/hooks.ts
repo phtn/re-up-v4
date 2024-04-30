@@ -1,29 +1,25 @@
-import { useContext } from "react";
-import { AuthContext } from "../context";
-
-/**
- * @name useCredentials
- * @description A hook that returns isAuthed
- * @returns {Object} { isAuthed: boolean }
- * @location account/hooks.ts
- */
-export const useCredentials = () => {
-  const creds = useContext(AuthContext);
-  const isAuthed = creds?.user ? true : false;
-
-  return isAuthed;
-};
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../(main)/context";
+import { type ProfileSchema } from "@src/server/resource/account";
 
 /**
  * @name useAccountInfo
  * @description A hook that returns the user and profile
- * @returns {Object} { user, profile }
  * @location account/hooks.ts
  */
 export const useAccountInfo = () => {
+  const [loading, setLoading] = useState(false);
   const creds = useContext(AuthContext);
   const user = creds?.user;
-  const profile = creds?.profile;
+  const profile = creds?.profile as ProfileSchema;
 
-  return { user, profile };
+  useEffect(() => {
+    if (!user || !profile) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [user, profile]);
+
+  return { user, profile, loading };
 };

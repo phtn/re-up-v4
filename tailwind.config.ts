@@ -62,7 +62,7 @@ export default {
         mono: ["var(--font-geist-mono)"],
         k2d: ["var(--font-k2d)", "sans-serif"],
         jet: ["var(--font-jet)", "monospace"],
-      },
+      }, //i-br-li-hv
       boxShadow: {
         "i-tl-lg": "inset 15px 30px 60px -25px rgba(125, 125, 125, 0.15)",
         "i-br-lg": "inset -10px -30px 60px -10px rgba(125, 125, 125, 0.15)",
@@ -70,13 +70,13 @@ export default {
         "i-br-li": "inset -15px -30px 40px -20px rgba(125, 125, 125, 0.65)",
         "i-tl-li-hv": "inset 20px 20px 60px -30px rgba(125, 125, 125, 0.75)",
         // Case dark
-        "i-br-dk": "inset -15px -30px 40px -30px rgba(255, 255, 255, 0.50)",
-        "i-tl-dk-hv": "inset 25px 15px 60px -30px rgba(225, 225, 225, 0.8)",
+        "i-br-dk": "inset -15px -30px 40px -30px rgba(255, 255, 255, 0.60)",
+        "i-tl-dk-hv": "inset 20px 15px 60px -20px rgba(180, 180, 180, 0.7)",
         // Light
-        "i-tl-li": "inset 20px 20px 20px -15px rgba(125, 125, 125, 0.55)",
-        "i-br-li-hv": "inset -20px -20px 40px -30px rgba(125, 125, 125, 0.7)",
+        "i-tl-li": "inset 15px 20px 20px -15px rgba(150, 150, 150, 0.55)",
+        "i-br-li-hv": "inset -15px -20px 40px -30px rgba(150, 150, 150, 0.65)",
         // Dark
-        "i-tl-dk": "inset 15px 15px 40px -30px rgba(255, 255, 255, 0.25)",
+        "i-tl-dk": "inset 15px 15px 40px -25px rgba(255, 255, 255, 0.35)",
         "i-br-dk-hv": "inset -20px -20px 40px -30px rgba(255, 255, 255, 0.45)",
         // Meter
         "i-br-md-m": "inset -15px -30px 40px -20px rgba(175, 175, 175, 0.8)",
@@ -96,6 +96,7 @@ export default {
         opus: "#929292",
         mojo: "#F2F2F2",
         darkmojo: "#E5E5E5",
+        dyan: "#083344",
         bojo: "#CFEFFF",
         fgbojo: "#5DCCCC",
         mod: "#D3D9FA",
@@ -151,6 +152,11 @@ export default {
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
+        },
+        rotate: {
+          "0%": { transform: "rotateY(0deg) rotatex(0deg)" },
+          "50%": { transform: "rotateY(180deg) rotatex(180deg)" },
+          "100%": { transform: "rotateY(360deg) rotatex(360deg)" },
         },
       },
     },

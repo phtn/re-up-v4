@@ -1,9 +1,9 @@
 "use client";
 
-import tw from "tailwind-styled-components";
-import { type Children } from "@src/app/types";
-import { type ReactNode } from "react";
+import { type Children } from "@src/app/(main)/types";
 import { cn } from "@src/utils/cn";
+import { type ReactNode } from "react";
+import tw from "tailwind-styled-components";
 
 /**
  * @name DashboardContainer
@@ -15,7 +15,8 @@ export const DashboardContainer = ({ children }: Children) => {
   return <Container>{children}</Container>;
 };
 const Container = tw.div`
-  h-[500px] bg-mojo w-full
+  md:h-[714px] h-fit w-full overflow-scroll
+  bg-void rounded-[3px]
 `;
 
 /**
@@ -35,11 +36,13 @@ type ViewProps = {
 export const ViewContainer = ({ children, outer, inner }: ViewProps) => {
   return (
     <div className={cn(outer, "flex h-fit pt-[72px]")}>
-      <div className={cn(inner, "w-full md:px-[108px]")}>{children}</div>
+      <div className={cn(inner, "w-full md:px-[72px]")}>{children}</div>
     </div>
   );
 };
 
 export const ProductLayoutView = tw.div`
-  h-full bg-zap md:h-screen
+  h-full md:h-screen
+  bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
+  from-cyan-100 via-orange-100
 `;

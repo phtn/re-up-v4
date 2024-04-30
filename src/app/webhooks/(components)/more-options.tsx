@@ -3,27 +3,24 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@src/app/_components/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@src/app/_components/popover";
-import { DarkTouch, Touch } from "@src/app/_components/touch";
+  CommandSeparator,
+} from "@@ui/command";
+import { Popover, PopoverTrigger } from "@@ui/popover";
+import { DarkTouch, Touch } from "@@ui/touch";
 import { cn } from "@src/utils/cn";
-import {
-  ArrowDownToDotIcon,
-  MoreVerticalIcon,
-  PlusIcon,
-  XIcon,
-} from "lucide-react";
+import { MoreVerticalIcon, PlusIcon, XIcon } from "lucide-react";
 import { useState } from "react";
+import { Beach } from "../@premium/[webhookId]/[endpointId]/(endpoint)/styles";
+
+type MoreOptionsProps = {
+  webhookId: string | undefined;
+};
 
 /**
  * MoreOptions
  * @location /webhooks/(components)
  */
-export const MoreOptions = () => {
+export const MoreOptions = ({ webhookId }: MoreOptionsProps) => {
   const [open, setOpen] = useState(false);
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -37,41 +34,30 @@ export const MoreOptions = () => {
         />
       </PopoverTrigger>
 
-      <PopoverContent className="border-clay bg-zap mr-1 mt-[13px] w-[200px] border-[0.33px] p-0 md:mr-[32px]">
-        <Command className="pointer-events-none">
-          <CommandList className="pointer-events-none">
-            <CommandGroup className="pointer-events-none">
-              <CommandItem className="space-x-4">
-                <PlusIcon size={16} className="text-opus" />
-                <div className="border-mojo flex h-[50px] flex-col justify-center border-b ">
-                  <p className="text-void text-sm font-bold tracking-tight">
-                    Create Endpoint
+      <Beach align="end">
+        <Command>
+          <CommandList>
+            <CommandGroup
+              heading="Webhook Menu"
+              className="font-jet text-cyan-950"
+            >
+              <CommandItem className="space-x-4 rounded-none px-4 hover:bg-cyan-700/10">
+                <PlusIcon className="size-4 text-opus" />
+                <div className="flex h-[50px] flex-col justify-center">
+                  <p className="text-sm font-bold tracking-tight text-cyan-950">
+                    Create a new endpoint
                   </p>
-                  <p className="text-coal text-[11px] font-normal leading-[11px]">
-                    webhookid
-                  </p>
-                </div>
-
-                <ArrowDownToDotIcon size={20} className="text-opus" />
-              </CommandItem>
-
-              <CommandItem>
-                <p className="text-rome mx-1 mr-3 h-[36px] w-[36px] p-[6px]">
-                  ⇲
-                </p>
-                <div className="flex flex-col justify-center">
-                  <p className="text-void text-sm font-bold tracking-tight">
-                    Create Endpoint
-                  </p>
-                  <p className="text-coal text-[11px] font-normal leading-[11px]">
-                    webhookid
+                  <p className="font-jet text-[11px] leading-[11px] text-coal">
+                    {webhookId?.slice(-6)}
                   </p>
                 </div>
               </CommandItem>
+
+              <CommandSeparator />
 
               <CommandItem>
                 <DarkTouch
-                  className="text-kindle w-full"
+                  className="w-full text-kindle"
                   tail={XIcon}
                   onClick={() => console.log("deleted.")}
                 >
@@ -81,7 +67,7 @@ export const MoreOptions = () => {
             </CommandGroup>
           </CommandList>
         </Command>
-      </PopoverContent>
+      </Beach>
     </Popover>
   );
 };

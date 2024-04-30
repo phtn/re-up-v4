@@ -1,5 +1,4 @@
 "use client";
-
 import { auth, db } from "@src/lib/db";
 import { type WebhookDataSchema } from "@src/server/resource/webhook";
 import {
@@ -11,7 +10,7 @@ import {
 import { createContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import type { Children } from "../types";
+import { type Children } from "../(main)/types";
 
 export interface WebhookContextValue {
   webhooks: WebhookDataSchema[] | undefined;

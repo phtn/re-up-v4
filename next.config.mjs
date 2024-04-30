@@ -1,6 +1,24 @@
+import withPWAInit from "@ducanh2912/next-pwa";
 await import("./src/env.js");
 
-/** @type {import("next").NextConfig} */
-const config = {};
+const withPWA = withPWAInit({
+  dest: "public",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  disable: false,
+  workboxOptions: {
+    disableDevLogs: true,
+  },
+  register: true,
+});
 
-export default config;
+/** @type {import("next").NextConfig} */
+const config = {
+  reactStrictMode: true,
+};
+export default withPWA(config);
+
+// const config = {};
+
+// export default config;

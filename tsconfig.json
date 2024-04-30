@@ -8,6 +8,7 @@
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
+    "types": ["@duncan2912/next-pwa/workbox"],
 
     /* Strictness */
     "strict": true,
@@ -27,7 +28,7 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"],
-      "@@components/*": ["./src/app/_components/*"],
+      "@@ui/*": ["./src/app/(ui)/*"],
       "@@firebase/*": ["./src/server/firebase/*"],
       "@@procedure/*": ["./src/server/procedure/*"],
       "@@resource/*": ["./src/server/resource/*"],

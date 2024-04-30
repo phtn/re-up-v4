@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { AppPortalResponse, CreateWebhookResponse } from "./svix";
 import { UserId } from "./account";
+import { EndpointInfo } from "./endpoint";
 
 export const WebhookPayloadResource = z.object({
   webhook: CreateWebhookResponse,
@@ -15,7 +16,7 @@ export const WebhookDataResource = z.object({
   id: z.string(),
   webhook: CreateWebhookResponse,
   portal: AppPortalResponse,
-  endpoints: z.array(z.object({})).or(z.undefined()),
+  endpoints: z.array(EndpointInfo).or(z.undefined()),
   createdAt: z.number().optional(),
   updatedAt: z.number().optional(),
 });
