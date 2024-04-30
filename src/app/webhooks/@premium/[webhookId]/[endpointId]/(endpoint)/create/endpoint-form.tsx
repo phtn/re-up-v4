@@ -12,8 +12,11 @@ import {
 } from "lucide-react";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { useWebhookInterface } from "../hooks";
-import type { EndpointCreateProps, EndpointField } from "../types";
+import type {
+  EndpointCreateProps,
+  EndpointField,
+} from "../../../(types)/types";
+import { useWebhookInterface } from "../../../hooks";
 
 export const endpointSchema = z.object({
   name: ValidInputFormat,

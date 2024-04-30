@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import { EndpointForm } from "./endpoint-form";
-import { type EndpointCreateProps } from "../types";
+import { type EndpointCreateProps } from "../../../(types)/types";
 
 export const EndpointCreate = ({ webhookId }: EndpointCreateProps) => {
   return (

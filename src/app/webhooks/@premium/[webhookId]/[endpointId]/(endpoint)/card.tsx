@@ -1,5 +1,4 @@
 import { TheTip } from "@src/app/webhooks/(components)/the-tip";
-import ActivityArea from "./graph/areas";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import { type GetEndpointResponseSchema } from "@src/server/resource/endpoint";
 import { cn } from "@src/utils/cn";

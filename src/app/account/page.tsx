@@ -1,5 +1,4 @@
 import { DashboardContainer } from "../webhooks/(components)/views";
-import { AccountDashboard } from "./dashboard";
 
 const Account = () => {
   return (

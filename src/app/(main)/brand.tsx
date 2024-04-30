@@ -1,6 +1,6 @@
 "use client";
 
-import { CardBody, CardContainer } from "@@ui/3d";
+import { CardBody } from "@@ui/3d";
 import { SatelliteIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";

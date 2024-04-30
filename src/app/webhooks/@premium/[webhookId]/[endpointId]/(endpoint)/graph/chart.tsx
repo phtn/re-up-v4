@@ -1,12 +1,4 @@
-import {
-  LineChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Line,
-} from "recharts";
+import { LineChart, CartesianGrid, XAxis, Tooltip, Line } from "recharts";
 
 type ActivityChartProps = {
   width: number;
