@@ -31,9 +31,9 @@ const tertiaryClass = `
   hover:text-cyan-700
 `;
 const darkClass = `
-  bg-void text-mojo border border-coal/[50%]
+  bg-void text-mojo/80 font-semibold border border-coal/[50%]
   hover:shadow-i-br-dk-hv shadow-i-tl-dk pointer-events-auto
-  hover:text-teal-300 rounded-[3.66px]
+  hover:text-teal-100 rounded-[3.66px]
 `;
 
 const secondaryClass = `

@@ -48,15 +48,6 @@ export const HeaderTwo = () => (
   </div>
 );
 
-// const Container = tw.section`
-//   w-screen pt-28 pb-14 md:py-24 lg:py-24 xl:py-48 overflow-hidden
-// `;
-// const Outer = tw.div`
-//   px-4 md:px-6
-// `;
-// const Inner = tw.div`
-//   flex flex-col items-center space-y-8 text-center overflow-hidden
-// `;
 const Title = tw.h1`
   h-fit bg-gradient-to-tr from-void/60 to-cyan-700/60 bg-clip-text
   text-3xl font-medium tracking-tighter text-transparent sm:text-4xl

@@ -167,9 +167,9 @@ const iconStyles = {
  *
  */
 export const toaster = (...args: string[]) => {
-  const [title, description, specie, type] = args;
-  const icon = icons[type as RuphToastType];
-  const iconStyle = iconStyles[type as RuphToastType];
+  const [title, description, specie] = args;
+  const icon = icons[specie as RuphToastType];
+  const iconStyle = iconStyles[specie as RuphToastType];
 
   const ruphprops = { title, description, icon, iconStyle, specie };
   return toast(<RuphToast {...ruphprops} />);

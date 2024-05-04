@@ -1,17 +1,13 @@
 "use client";
 
 import { TooltipProvider } from "../(ui)/tooltip";
-import {
-  ProductLayoutView,
-  ViewContainer,
-} from "../webhooks/(components)/views";
+import { RootView, ProductContainer } from "../(ui)/view";
 import { TopNav } from "@src/app/(components)/topnav";
 import { type ReactNode } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@src/lib/db";
 import { onError } from "@src/utils/toast";
-import { Loader } from "../webhooks/(components)/loader";
-import { Bottom } from "../(main)/bottom";
+import { Loader } from "../services/(components)/loader";
 
 type AccountLayoutProps = {
   guest: ReactNode;
@@ -26,11 +22,12 @@ const AccountLayout = ({ guest, user }: AccountLayoutProps) => {
   }
   return (
     <TooltipProvider delayDuration={200}>
-      <ProductLayoutView>
+      <RootView>
         <TopNav />
-        <ViewContainer>{authed ? <div>{user}</div> : guest}</ViewContainer>
-        <Bottom />
-      </ProductLayoutView>
+        <ProductContainer>
+          {authed ? <div>{user}</div> : guest}
+        </ProductContainer>
+      </RootView>
     </TooltipProvider>
   );
 };

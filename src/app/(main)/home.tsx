@@ -24,7 +24,9 @@ export const Home = () => (
       </ClearBase>
       <ClearBase className="col-span-3 p-4">
         <div className="mx-8 flex h-[500px] items-end">
-          <Carousel plugins={[Autoplay({ delay: 6000 })]}>
+          <Carousel
+            plugins={[Autoplay({ delay: 6000, stopOnInteraction: true })]}
+          >
             <CarouselContent>
               <CarouselItem>
                 <WebhooksCover />

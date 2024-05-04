@@ -1,14 +1,20 @@
-export const Footer = () => {
-  return (
-    <div className="absolute top-[75vh] flex h-20 w-screen items-center justify-center bg-black px-2 text-[12px] font-light text-neutral-500 md:top-[90vh] md:px-32">
-      <div className="flex items-center justify-center space-x-4 font-jet">
-        <div className="h-[12px] w-[12px] bg-[url('/svg/logo_light_v2.svg')] bg-cover"></div>
-        <p className="text-[10px] font-medium">re-up.ph</p>
-        <p className="text-[10px] text-cord">꒛</p>
-        <p className="text-[10px]">
-          all rights reserved. {new Date().getFullYear()}
-        </p>
-      </div>
-    </div>
-  );
-};
+import { MinusIcon } from "lucide-react";
+
+export const Footer = () => (
+  <div className="flex h-[70px] w-full items-center justify-center space-x-1 md:space-x-4">
+    <p className="font-sans text-[12px] font-semibold tracking-tight text-dyan">
+      re-up.ph &copy;
+      <span className=" mx-2 font-light">
+        {new Date().getFullYear().toString()}
+      </span>
+    </p>
+    <MinusIcon className="rotate-90 stroke-[0.5px] text-opus" />
+    <p className="font-sans text-[12px] font-light tracking-tight text-dyan">
+      Privacy
+    </p>
+    <MinusIcon className="rotate-90 stroke-[0.5px] text-opus" />
+    <p className="font-sans text-[12px] font-light tracking-tight text-dyan">
+      Terms
+    </p>
+  </div>
+);

@@ -1,4 +1,4 @@
-import { Loader } from "../webhooks/(components)/loader";
+import { Loader } from "../(ui)/loader";
 
 const DefaultAccountPage = () => {
   return (

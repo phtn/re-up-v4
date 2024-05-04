@@ -1,10 +1,10 @@
 "use client";
 
-import { buttonVariants } from "@@components/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@@components/tooltip";
 import { cn } from "@@utils/cn";
 import Link from "next/link";
 import { type NavProps } from "./types";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@src/app/(ui)/tooltip";
+import { buttonVariants } from "@src/app/(ui)/button";
 
 export function Navbar({ links, isCollapsed }: NavProps) {
   return (

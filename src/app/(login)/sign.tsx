@@ -10,17 +10,21 @@ import {
 } from "react";
 import tw from "tailwind-styled-components";
 import { Login } from "./sign-in";
+import Link from "next/link";
+import { auth } from "@src/lib/db";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const Sign = () => {
   const [signupOpen, setSignupOpen] = useState(false);
+  const [user] = useAuthState(auth);
   return (
     <Container>
-      <div className="flex w-full flex-1">
-        <DarkButton />
-      </div>
-      <SignUpSheet open={signupOpen} setOpen={setSignupOpen}>
-        <LightButton />
-      </SignUpSheet>
+      <ViewAllServices />
+      {!user ? (
+        <SignUpSheet open={signupOpen} setOpen={setSignupOpen}>
+          <LightButton />
+        </SignUpSheet>
+      ) : null}
     </Container>
   );
 };
@@ -65,19 +69,21 @@ export const SignUpSheet = ({ open, setOpen, children }: SignSheetProps) => {
   );
 };
 
-const DarkButton = forwardRef<HTMLButtonElement>((props, ref) => (
-  <DarkTouch
-    ref={ref}
-    size="md"
-    tail={ArrowRightIcon}
-    className="w-full text-sm portrait:w-[150px]"
-    {...props}
-  >
-    View All Services
-  </DarkTouch>
+const ViewAllServices = forwardRef<HTMLButtonElement>((props, ref) => (
+  <Link href={`/services`}>
+    <DarkTouch
+      ref={ref}
+      size="md"
+      tail={ArrowRightIcon}
+      className="w-full text-sm portrait:w-[150px]"
+      {...props}
+    >
+      View All Services
+    </DarkTouch>
+  </Link>
 ));
 
-DarkButton.displayName = "DarkButton";
+ViewAllServices.displayName = "ViewAllServices";
 
 const LightButton = forwardRef<HTMLButtonElement>((props, ref) => (
   <Touch

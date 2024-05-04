@@ -1,6 +1,5 @@
 "use client";
-
-import { DashboardContainer } from "../webhooks/(components)/views";
+import { DashboardContainer } from "../(ui)/view";
 
 /**
  * @component

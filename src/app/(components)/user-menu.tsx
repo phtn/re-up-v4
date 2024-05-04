@@ -13,9 +13,9 @@ import {
   UserIcon,
 } from "lucide-react";
 import { useSignOut } from "react-firebase-hooks/auth";
-import { BeachItem } from "../webhooks/@premium/[webhookId]/[endpointId]/(endpoint)/styles";
 import tw from "tailwind-styled-components";
 import Link from "next/link";
+import { BeachItem } from "../services/@user/webhooks/[webhookId]/[endpointId]/(endpoint)/styles";
 
 type UserMenuProps = {
   user: string | null | undefined;
@@ -35,7 +35,7 @@ export const UserMenu = ({ user }: UserMenuProps) => {
         <Touch
           size="sm"
           variant={"ghost"}
-          className="font-jet tracking-wide"
+          className="font-medium tracking-tight text-copper/80"
           iconClass={
             !user || loading ? `animate-spin` : `stroke-[1.5px] hidden md:flex`
           }
@@ -51,7 +51,7 @@ export const UserMenu = ({ user }: UserMenuProps) => {
             <Command>
               <CommandList>
                 <CommandGroup heading={""}>
-                  <Link href={"/webhooks"}>
+                  <Link href={"/services"}>
                     <BeachItem selected={false} className="h-fit">
                       <ItemBlock>
                         <LayoutGridIcon className="h-4 w-4 text-void/60" />
@@ -113,10 +113,3 @@ const ItemBlock = tw.div`
   flex h-[36px] w-full items-center space-x-2 px-2
   font-sans font-semibold text-sm text-void/80 tracking-tight
   `;
-
-// const CmdItem = tw(CommandItem)`
-//   rounded-none py-3 pointer-events-auto
-//   bg-gradient-to-br from-zap/20 via-sky-200/20 to-whb/10 bg-size-200 bg-pos-0
-//   bg-[linear-gradient(120deg,#ffaa6f,45%,#000000,55%,#000103)] bg-[length:200%_100%]
-//   hover:animate-shimmer-once
-// `;

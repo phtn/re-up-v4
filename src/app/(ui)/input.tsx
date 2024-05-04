@@ -13,6 +13,9 @@ import {
   SquareUserIcon,
   UploadCloudIcon,
   UserCircle2Icon,
+  BuildingIcon,
+  MapPinnedIcon,
+  FlagIcon,
 } from "lucide-react";
 
 export interface InputProps
@@ -28,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          "focus-visible:ring-ring flex h-10 w-full rounded-md border border-gray-500 px-3 py-2 text-sm text-xs ring-cord/80 ring-offset-void transition-all duration-300 ease-in-out file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:focus-visible:ring-2 md:focus-visible:ring-offset-2",
+          "focus-visible:ring-ring flex h-10 w-full rounded-md border border-gray-500 px-3 py-2 text-xs ring-cord/80 ring-offset-void transition-all duration-300 ease-in-out file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:focus-visible:ring-2 md:focus-visible:ring-offset-2",
           className,
         )}
         ref={ref}
@@ -48,11 +51,20 @@ export type IconName =
   | "reader"
   | "email"
   | "mobile"
+  | "phone"
   | "money"
   | "tokens"
   | "upload"
   | "description"
-  | "password";
+  | "password"
+  | "company"
+  | "organization"
+  | "line1"
+  | "line2"
+  | "city"
+  | "state"
+  | "postalCode"
+  | "country";
 
 interface IconPrefix {
   name: IconName;
@@ -63,14 +75,43 @@ export const IconPrefixes: IconPrefix[] = [
   { name: "user", icon: UserCircle2Icon },
   { name: "name", icon: SquareUserIcon },
   { name: "file", icon: FileTextIcon },
+  { name: "description", icon: FileTextIcon },
   { name: "reader", icon: FileSpreadsheetIcon },
   { name: "email", icon: AtSignIcon },
   { name: "mobile", icon: SmartphoneIcon },
+  { name: "phone", icon: SmartphoneIcon },
   { name: "money", icon: BanknoteIcon },
   { name: "tokens", icon: CoinsIcon },
   { name: "upload", icon: UploadCloudIcon },
   { name: "password", icon: LockKeyholeIcon },
+  { name: "company", icon: BuildingIcon },
+  { name: "organization", icon: BuildingIcon },
+  { name: "line1", icon: MapPinnedIcon },
+  { name: "line2", icon: MapPinnedIcon },
+  { name: "city", icon: MapPinnedIcon },
+  { name: "state", icon: MapPinnedIcon },
+  { name: "postalCode", icon: MapPinnedIcon },
+  { name: "country", icon: FlagIcon },
 ];
+
+export type Field = {
+  name:
+    | "name"
+    | "email"
+    | "phone"
+    | "organization"
+    | "line1"
+    | "line2"
+    | "city"
+    | "state"
+    | "postalCode"
+    | "country";
+  alt: IconName;
+  icon: LucideIcon;
+  label: string;
+  placeholder: string;
+  type: React.HTMLInputTypeAttribute;
+};
 
 /**
  * @name InputField
@@ -184,5 +225,35 @@ export const InputFile = React.forwardRef<
   );
 });
 InputFile.displayName = "InputFile";
+
+export const InputFieldPayments = React.forwardRef<
+  HTMLInputElement,
+  InputProps & IconPrefix & { label: string | undefined }
+>(({ className, type, ...props }, ref) => {
+  return (
+    <div
+      className={cn(
+        "focus-within:ring-ring flex h-[42px] items-center overflow-clip rounded-[5px] border-[0.33px] border-dyan/15 bg-dyan/5 ring-offset-blue-400 focus-within:ring-1 focus-within:ring-offset-1",
+        className,
+      )}
+    >
+      <props.icon
+        className="mx-[16px] size-5 text-dyan"
+        strokeWidth={1.5}
+        fill="rgba(238, 238, 238, 0.50)"
+      />
+      {/* <span className="w-fit whitespace-nowrap text-xs font-medium leading-none text-clay">
+        {label} </span> */}
+
+      <input
+        {...props}
+        type={type}
+        ref={ref}
+        className="shadow-i-br-lg/80 ml-1 w-full border-l-[0.33px] border-ash/50 bg-white p-3 text-[14px] text-copper placeholder:text-slate-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+      />
+    </div>
+  );
+});
+InputFieldPayments.displayName = "InputFieldPayments";
 
 export { Input };

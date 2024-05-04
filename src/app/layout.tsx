@@ -88,7 +88,7 @@ export default function RootLayout({
         <TooltipProvider delayDuration={200}>
           <AuthProvider>
             <TRPCProvider cookies={cookies().toString()}>
-              <TopNav stack={[`Let's`, `Build`]} />
+              <TopNav />
               {children}
             </TRPCProvider>
           </AuthProvider>

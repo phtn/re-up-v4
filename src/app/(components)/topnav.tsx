@@ -13,18 +13,18 @@ import { UserMenu } from "./user-menu";
 type TopNavProps = {
   stack?: string[];
 };
-export const TopNav = ({ stack }: TopNavProps) => {
+export const TopNav = () => {
   const creds = useContext(AuthContext);
   const [open, setOpen] = useState(false);
 
-  const TitleOptions = useCallback(() => {
-    const withStackProps = stack !== undefined;
-    const options = opts(
-      <Stack stack={stack} />,
-      <Stack stack={["Web", "Technologies"]} />,
-    );
-    return <>{options.get(withStackProps)}</>;
-  }, [stack]);
+  // const TitleOptions = useCallback(() => {
+  //   const withStackProps = stack !== undefined;
+  //   const options = opts(
+  //     <Stack stack={stack} />,
+  //     <Stack stack={["Web", "Technologies"]} />,
+  //   );
+  //   return <>{options.get(withStackProps)}</>;
+  // }, [stack]);
 
   const AuthOptions = useCallback(() => {
     const isAuthed = creds?.user !== null;
@@ -43,7 +43,7 @@ export const TopNav = ({ stack }: TopNavProps) => {
         <Link href="/" role="button" aria-label="home">
           <div className="flex w-full items-center space-x-3">
             <Logo />
-            <TitleOptions />
+            <Stack stack={["Business", "Technologies"]} />
           </div>
         </Link>
         <AuthOptions />
@@ -69,7 +69,7 @@ const SignIn = forwardRef<HTMLButtonElement, { onClick: () => void }>(
 SignIn.displayName = "SignIn";
 
 export const Stack = ({ stack }: TopNavProps) => (
-  <div className="space-y-[2px]">
+  <div className="space-y-[2px] text-copper">
     {stack?.map((s, i) => <Title key={i}>{s}</Title>)}
   </div>
 );

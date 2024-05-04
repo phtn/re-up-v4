@@ -115,6 +115,7 @@ export default {
         whb: "#51bfc9",
         fwhb: "#EBF3F0",
         whr: "#e03838",
+        copper: "#13171F",
       },
       transitionDuration: {
         "2000": "2000ms",
