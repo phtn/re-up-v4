@@ -1,12 +1,20 @@
-import { Header } from "../(components)/header";
+"use client";
+
+import { DataTable } from "./(products)/data-table";
+import { columns } from "./(products)/column";
+import { useContext } from "react";
+import { PaymentsContext } from "../(context)/context";
 
 export const ProductsContent = () => {
+  const products = useContext(PaymentsContext)?.products;
+
   return (
-    <>
-      <div className="flex items-center space-x-6">
-        <Header title="Products" />
-      </div>
-      <div className="grid h-[180px] grid-cols-1 bg-white md:grid-cols-3 md:gap-8"></div>
-    </>
+    <div className="mr-4">
+      <DataTable
+        data={products?.productList ?? []}
+        loading={products?.fetchingProducts ?? false}
+        columns={columns}
+      />
+    </div>
   );
 };

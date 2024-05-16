@@ -23,7 +23,7 @@ export const XCard = (props: CardProps) => {
             {loading ? (
               <Disc3Icon
                 strokeWidth={1.5}
-                className="animate-spin text-sky-700"
+                className="stoke-1 animate-spin text-dyan"
               />
             ) : (
               <props.icon
@@ -33,10 +33,10 @@ export const XCard = (props: CardProps) => {
               />
             )}
           </div>
-          <div className="mt-8 font-sans text-lg font-semibold tracking-tighter text-sky-600">
+          <div className="mt-8 font-sans text-lg font-semibold tracking-tight text-sky-950">
             {title}
           </div>
-          <div className="mb-4 text-[14px] text-sm font-light text-copper">
+          <div className="mb-4 text-[14px] text-sm font-normal text-copper/60">
             {description}
           </div>
           <div className="flex h-[20px] w-full items-end justify-end"></div>
@@ -48,13 +48,13 @@ export const XCard = (props: CardProps) => {
 
 const Cape = tw.div`
     bg-void/80 overflow-scroll
-    border-[0.33px] border-ash/60
     shadow-md shadow-stone-400
-    rounded-lg cursor-pointer
-    hover:border-cyan-600 hover:shadow-sm
+    rounded-[8px] cursor-pointer
+    hover:shadow-sm
     transition-all duration-300
     `;
 const CardContainer = tw.div`
+  border-[0.33px] border-ash
   overflow-clip xl:pr-[2px]
   bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
   from-sky-100/80 via-sky-50 to-sky-50 h-full w-full

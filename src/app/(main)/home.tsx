@@ -3,7 +3,12 @@
 import { HeaderTwo } from "./hero";
 import { GridCol } from "../(components)/grid";
 import { ClearBase, Pad } from "../(components)/launchpad";
-import { WebhookIcon } from "lucide-react";
+import {
+  DatabaseIcon,
+  ListTreeIcon,
+  ScanTextIcon,
+  WebhookIcon,
+} from "lucide-react";
 import tw from "tailwind-styled-components";
 import {
   Carousel,
@@ -23,7 +28,7 @@ export const Home = () => (
         </div>
       </ClearBase>
       <ClearBase className="col-span-3 p-4">
-        <div className="mx-8 flex h-[500px] items-end">
+        <div className="mx-10 flex h-[500px] items-end">
           <Carousel
             plugins={[Autoplay({ delay: 6000, stopOnInteraction: true })]}
           >
@@ -54,8 +59,11 @@ const WebhooksCover = () => (
   <Pad>
     <SlideCover>
       <div className="col-span-1 p-6">
-        <div className="flex items-center space-x-2">
-          <WebhookIcon className="size-6 text-cyan-800" />
+        <div className="flex items-start space-x-2">
+          <div className="flex items-center py-1">
+            <WebhookIcon className="size-6 text-cyan-800" />
+          </div>
+
           <h2 className="text-2xl font-bold tracking-tight text-cyan-950">
             Webhooks
           </h2>
@@ -72,10 +80,12 @@ const InvoicingCover = () => (
   <Pad>
     <AntiSlideCover>
       <div className="col-span-1 p-6">
-        <div className="flex items-center space-x-2">
-          <WebhookIcon className="size-6 text-cyan-500" />
+        <div className="flex items-start space-x-2">
+          <div className="flex items-center py-1">
+            <ListTreeIcon className="size-6 text-sky-100" />
+          </div>
           <h2 className="text-2xl font-bold tracking-tight text-cyan-100">
-            Invoicing
+            Payments & Invoicing
           </h2>
         </div>
       </div>
@@ -90,8 +100,10 @@ const OCRCover = () => (
   <Pad>
     <SlideCoverV3>
       <div className="col-span-1 p-6">
-        <div className="flex items-center space-x-2">
-          <WebhookIcon className="size-6 text-cyan-800" />
+        <div className="flex items-start space-x-2">
+          <div className="flex items-center py-1">
+            <ScanTextIcon className="size-6 text-cyan-800" />
+          </div>
           <h2 className="text-2xl font-bold tracking-tight text-void/70">
             OCR Document Reader
           </h2>
@@ -108,8 +120,10 @@ const DatabaseCover = () => (
   <Pad>
     <SlideCoverV4>
       <div className="col-span-1 p-6">
-        <div className="flex items-center space-x-2">
-          <WebhookIcon className="size-6 text-cyan-500" />
+        <div className="flex items-start space-x-2">
+          <div className="flex items-center py-1">
+            <DatabaseIcon className="size-6 text-cyan-500" />
+          </div>
           <h2 className="text-2xl font-bold tracking-tight text-cyan-100">
             Database
           </h2>

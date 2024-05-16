@@ -45,7 +45,7 @@ export const ServicesDashboard = ({
 
 const WebhookService = ({ profile, webhookId }: WebhookServiceProps) => (
   <div className="w-full p-6 md:p-4">
-    <div className="h-[250px] min-w-[300px] overflow-clip rounded-[4px] border-[0.33px] border-opus bg-void">
+    <div className="h-[250px] overflow-clip rounded-[4px] border-[0.33px] border-opus bg-void">
       <div className="flex h-full flex-col justify-between bg-[url('/svg/pers_v5.svg')] bg-right-bottom bg-no-repeat">
         <Header title="Webhooks" icon={WebhookIcon} style={"text-cyan-100"} />
         <ActionBar link={`/services/webhooks/${webhookId}`}>
@@ -152,13 +152,13 @@ const ActionBar = (props: ActionBarProps) => {
     setLoading(true);
   };
   return (
-    <div className="flex h-[64px] items-center justify-evenly bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-cyan-200/10 via-orange-50/10 font-jet text-xs text-cord backdrop-blur-md">
+    <div className="full flex h-[64px] items-center justify-evenly bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-cyan-200/10 via-orange-50/10 font-jet text-xs text-cord backdrop-blur-md">
       {props.children}
       <p className="font-thin text-cord/50">|</p>
 
       <Link href={props.link}>
         <div
-          className="group flex w-full items-center justify-center space-x-3 transition-all duration-200"
+          className="group flex items-center justify-center space-x-3 transition-all duration-200"
           onClick={handleNavigate}
         >
           <div className="font-sans text-sm font-semibold tracking-tight text-cyan-100 transition-all duration-200 ease-out group-hover:translate-x-0 group-hover:text-zap">
@@ -166,7 +166,7 @@ const ActionBar = (props: ActionBarProps) => {
           </div>
           <BitFlip
             state={loading}
-            one={<LoaderIcon className="size-4 animate-spin text-ash" />}
+            one={<LoaderIcon className="size-4 animate-spin text-cyan-100" />}
             zero={
               <ArrowUpRightIcon className="size-4 -translate-x-3 translate-y-1 rotate-45 scale-50 text-zap opacity-0 transition-all duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0 group-hover:rotate-0 group-hover:scale-100 group-hover:text-cyan-50 group-hover:opacity-100" />
             }
@@ -191,10 +191,10 @@ const Extra = (props: ExtraProps) => (
 );
 
 const Container = tw.div`
-  flex items-center h-[calc(100vh-218px)] md:h-[640px] w-full
-  md:px-10
+  flex h-[calc(100vh-218px)] md:h-[640px] w-full
+  md:px-6
 `;
 
 const Grid = tw.div`
-  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8
+  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
 `;

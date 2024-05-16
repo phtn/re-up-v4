@@ -1,141 +1,197 @@
-// import type { InvoiceControllerGetResponse200 } from ".api/apis/copperx";
-import type { InvoiceControllerGetAllResponse200 } from ".api/apis/copperx";
+import type {
+  InvoiceControllerCreateResponse200,
+  InvoiceControllerGetAllResponse200,
+} from ".api/apis/copperx";
 import type {
   FindAllInvoiceSchema,
+  CopperxInvoiceDataSchema,
+  LineItemSchema,
   CreateInvoiceSchema,
 } from "@src/server/resource/copperx/invoice";
 import { createInvoice, findAllInvoices } from "@src/trpc/copperx/invoice";
 import { onError, onSuccess } from "@src/utils/toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-// import { v4 as uuid } from "uuid";
+import type { CreateInvoiceHookParams } from "./types";
+import type {
+  PaymentTypeSchema,
+  CurrencySchema,
+} from "@src/server/resource/copperx/common";
+import { type CopperxProductDataSchema } from "@src/server/resource/copperx/product";
+// import { getCryptoPrices } from "@src/trpc/crypto/prices";
+import {
+  icashAuth,
+  icashCreateVA,
+  icashGenQRCode,
+  icashGetVA,
+} from "@src/trpc/icash/merchant";
+import type {
+  IcashCreateVASchema,
+  IcashGenQRSchema,
+  IcashGenQRResponseSchema,
+  IcashAuthSchema,
+} from "@src/server/resource/icash";
+import { v4 as uuid } from "uuid";
+
+type CreateLineItemProps = {
+  allProducts: CopperxProductDataSchema[] | undefined;
+  productIds: string[];
+};
 
 const invoicesRoute = `/services/payments/invoices`;
 
-export const useCreateInvoice = () => {
+export const useInvoiceController = () => {
   const [invoiceLoading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleCreateInvoiceRoute = () => {
     setLoading(true);
-    router.push(`${invoicesRoute}/create-invoice`);
+    router.push(`${invoicesRoute}/create/0/0`);
   };
 
-  const handleCreateInvoice = async () => {
+  const [selectedCustomer, setSelectedCustomer] = useState<string>("");
+
+  const [allProducts, setAllProducts] = useState<
+    CopperxProductDataSchema[] | undefined
+  >();
+  const [productIds, setProductIds] = useState<string[]>([]);
+
+  const [selectedPayment, setSelectedPayment] =
+    useState<PaymentTypeSchema>("one_time");
+
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<CurrencySchema>("usdt");
+
+  const [lineItems, setLineItems] = useState<LineItemSchema[] | undefined>();
+
+  useEffect(() => {
+    // const p = allProducts?.filter((item) => productIds?.includes(item.id));
+
+    // const data = p?.map((item) => ({
+    //   priceId: item.defaultPriceId,
+    //   priceData: {
+    //     currency: selectedCurrency,
+    //     interval: undefined,
+    //     intervalCount: undefined,
+    //     unitAmount: +item.defaultPrice.unitAmount,
+    //     productId: item.defaultPrice.productId,
+    //     productData: {
+    //       name: item.name,
+    //       description: item.description,
+    //       images: [],
+    //     },
+    //     type: item.defaultPrice.type,
+    //   },
+    //   quantity: 1,
+    //   periodStart: undefined,
+    //   periodEnd: undefined,
+    // }));
+
+    const items = createLineItems({ productIds, allProducts });
+    setLineItems(items);
+  }, [productIds, allProducts]);
+
+  const handleCreateInvoice = async (params: CreateInvoiceHookParams) => {
     setLoading(true);
+    const { data, userId } = params;
+
+    const invoiceResource: CreateInvoiceSchema = {
+      clientReferenceId: userId,
+      customerId: `${selectedCustomer}`,
+      description: data.description,
+      dueDate: data.dueDate,
+      lineItems: {
+        data: lineItems!,
+      },
+      paymentSetting: {
+        allowedChains: [{ chainId: 56 }],
+        preferredChainId: 56,
+        preferredCurrency: "usdt",
+        allowSwap: false,
+      },
+      footer: "",
+      allowPromotionCodes: true,
+      fromInvoiceId: undefined,
+      visibility: undefined,
+      customFields: {
+        fields: [{ name: "refId", value: userId }],
+      },
+    };
+
+    console.log(invoiceResource);
+    // setLoading(false);
+    // onSuccess("Invoice Valid", "Not saved.");
     await createInvoice(invoiceResource)
       .then((res) => {
-        // const response: Record<string, unknown> = JSON.parse(
-        //   res,
-        // ) as InvoiceControllerCreateResponse200;
+        const response: Record<string, unknown> = JSON.parse(
+          res,
+        ) as InvoiceControllerCreateResponse200;
 
-        // const data: InvoiceControllerCreateResponse200 =
-        //   response.data as InvoiceControllerCreateResponse200;
-        console.log(res);
+        const data: InvoiceControllerCreateResponse200 =
+          response.data as InvoiceControllerCreateResponse200;
+        // console.log(res);
         setLoading(false);
-        onSuccess("Invoice created", `Customer ID: ${0}`);
+        onSuccess("Invoice created", `Customer ID: ${data.id}`);
       })
       .catch((e: Error) => {
+        setLoading(false);
         onError(e.name, e.message);
-        console.log(e);
+        console.log(e.message);
       });
   };
 
-  return { handleCreateInvoiceRoute, handleCreateInvoice, invoiceLoading };
+  return {
+    handleCreateInvoiceRoute,
+    handleCreateInvoice,
+    invoiceLoading,
+    selectedCustomer,
+    setSelectedCustomer,
+    setAllProducts,
+    setProductIds,
+    setSelectedCurrency,
+    selectedCurrency,
+    setSelectedPayment,
+    selectedPayment,
+    lineItems,
+  };
 };
 
-export const invoiceResource: CreateInvoiceSchema = {
-  description: "Test Invoice",
-  customFields: {
-    fields: [{ name: "Custom Field Name", value: "Custom Field Value" }],
-  },
-  dueDate: "2024-05-08T15:59:59.999Z",
-  footer: "",
-  fromInvoiceId: undefined,
-  clientReferenceId: "1AE5REWUKK",
-  visibility: undefined,
-  allowPromotionCodes: true,
-  customerId: "4ad8dc39-1649-4560-8eac-159375a0249c",
-  lineItems: {
-    data: [
-      {
-        priceId: "2ef87743-4e85-4e24-8198-7b9e259698a7",
-        priceData: {
-          currency: "usdc",
-          interval: undefined,
-          intervalCount: undefined,
-          unitAmount: 50000000000, // "50_000_000_000"
-          productId: "e7d0c717-e9d8-45b2-a123-2326d018b369",
-          productData: {
-            name: "Test Product Name",
-            description: "Test Product Description",
-            images: [
-              "66d25f22-62c2-4fea-8c9f-5dab2ac08cfd/c96e15ab-330f-4415-98ac-c175e024fe3b.png",
-            ],
-            unitLabel: undefined,
-            url: undefined,
-            visibility: undefined,
+const createLineItems = ({ productIds, allProducts }: CreateLineItemProps) => {
+  const lineItemMap: Record<string, LineItemSchema> = {};
+
+  productIds.forEach((id) => {
+    const product = allProducts?.find((p) => p.id === id);
+    if (product) {
+      if (lineItemMap[product.id]) {
+        lineItemMap[product.id]!.quantity += 1;
+      } else {
+        lineItemMap[product.id] = {
+          priceId: product.defaultPriceId,
+          priceData: {
+            currency: product.defaultPrice.currency,
+            interval: undefined,
+            intervalCount: undefined,
+            unitAmount: +product.defaultPrice.unitAmount,
+            productId: product.defaultPrice.productId,
+            productData: {
+              name: product.name,
+              description: product.description,
+              images: [],
+            },
+            type: product.defaultPrice.type,
           },
-          type: "one_time",
-        },
-        quantity: 1,
-        periodStart: undefined,
-        periodEnd: undefined,
-      },
-    ],
-  },
-  paymentSetting: {
-    allowedChains: [{ chainId: 1 }],
-    preferredChainId: 1,
-    preferredCurrency: "usdc",
-    allowSwap: false,
-  },
+          quantity: 1,
+          periodStart: undefined,
+          periodEnd: undefined,
+        };
+      }
+    }
+  });
+  return Object.values(lineItemMap);
 };
-
-// const newInvoiceResource = {
-//   customFields: { fields: [{ name: "string", value: "string" }] },
-//   lineItems: {
-//     data: [
-//       {
-//         priceData: {
-//           currency: "usdc",
-//           productData: {
-//             name: "string",
-//             description: "string",
-//             images: [
-//               "66d25f22-62c2-4fea-8c9f-5dab2ac08cfd/c96e15ab-330f-4415-98ac-c175e024fe3b.png",
-//             ],
-//             unitLabel: "per",
-//             url: "string",
-//             visibility: 10,
-//           },
-//           unitAmount: 50000000000,
-//           productId: "e7d0c717-e9d8-45b2-a123-2326d018b369",
-//           type: "one_time",
-//         },
-//         quantity: 1,
-//         priceId: "2ef87743-4e85-4e24-8198-7b9e259698a7",
-//         periodStart: "2024-05-01T08:35:05.803Z",
-//         periodEnd: "2024-05-01T08:35:05.803Z",
-//       },
-//     ],
-//   },
-//   paymentSetting: {
-//     allowSwap: false,
-//     allowedChains: [{ chainId: 1 }],
-//     preferredChainId: 1,
-//     preferredCurrency: "usdc",
-//   },
-//   description: "anything",
-//   dueDate: "2024-05-08T15:59:59.999Z",
-//   clientReferenceId: "1AE5REWUKK",
-//   visibility: 10,
-//   allowPromotionCodes: true,
-//   customerId: "4ad8dc39-1649-4560-8eac-159375a0249c",
-// };
 
 export const useFetchInvoices = () => {
-  const [invFetchLoading, setLoading] = useState(false);
+  const [fetchingInvoices, setLoading] = useState(false);
   const [invoiceList, setInvoiceList] = useState<FindAllInvoiceSchema>();
 
   const handleFindAllInvoices = () => {
@@ -146,10 +202,11 @@ export const useFetchInvoices = () => {
           res,
         ) as InvoiceControllerGetAllResponse200;
         setInvoiceList(response.data as FindAllInvoiceSchema);
-        console.log(response.data);
+        const data = response.data as CopperxInvoiceDataSchema;
+        console.log(data);
       })
       .catch((e: Error) => {
-        console.log(e.message);
+        onError("Error", e.message);
       });
   };
 
@@ -157,5 +214,78 @@ export const useFetchInvoices = () => {
     handleFindAllInvoices();
   }, []);
 
-  return { handleFindAllInvoices, invFetchLoading, invoiceList };
+  return { handleFindAllInvoices, fetchingInvoices, invoiceList };
+};
+
+export const useIcash = () => {
+  const [qr, setQr] = useState<IcashGenQRResponseSchema | undefined>();
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  const icash_auth = {
+    merchantCode: "FASTINSURE",
+    merchantUsername: "fastinsure",
+    merchantPassword: `XodZy9D5KTcYsQL@\$aRInahMd\$ufR39DsY`,
+  };
+  const auth_resource: IcashAuthSchema = {
+    merchantCode: "FASTINSURE",
+    merchantUsername: "fastinsure",
+    merchantPassword: `XodZy9D5KTcYsQL@\$aRInahMd\$ufR39DsY`,
+  };
+  const va_resource: IcashCreateVASchema = {
+    merchantCode: "FASTINSURE",
+    merchantUsername: "fastinsure",
+    merchantPassword: `XodZy9D5KTcYsQL@\$aRInahMd\$ufR39DsY`,
+    merchantCustomerId: "370b9afc-43f2-40f5-ae5f-907a1dfbe397", // 370b9afc-43f2-40f5-ae5f-907a1dfbe397
+    firstName: "re-up.ph", // van: 77022052965
+    lastName: "Wed Services",
+  };
+  const qr_resource: IcashGenQRSchema = {
+    ...icash_auth,
+    // merchantCustomerId: "0123456789KILO",
+    merchantCustomerId: "370b9afc-43f2-40f5-ae5f-907a1dfbe397",
+    merchantTransactionId: uuid(),
+    firstName: "elon",
+    lastName: "UUID",
+    amount: parseFloat((420.69).toFixed(2)),
+  };
+
+  const handleGetVA = async () => {
+    const response = await icashGetVA("370b9afc-43f2-40f5-ae5f-907a1dfbe397");
+    console.log(response);
+  };
+  const handleCreateVA = async () => {
+    const response = await icashCreateVA(va_resource);
+    console.log(response);
+  };
+  const handleAuth = async () => {
+    const response = await icashAuth(auth_resource);
+    console.log(response);
+  };
+  const handleGenQR = async () => {
+    const response = await icashGenQRCode(qr_resource);
+    setQr(response);
+    console.log(response.merchantTransactionId);
+
+    const imageData = response.base64Image as string;
+    setImageUrl(getImageUrl(imageData));
+
+    onSuccess("QR Generated!", `TxnID: ${response.merchantTransactionId}`);
+  };
+
+  return { handleAuth, handleGetVA, handleCreateVA, handleGenQR, qr, imageUrl };
+};
+
+const getImageUrl = (imageData: string) => {
+  const byteChars = atob(imageData.split(",")[1] ?? "");
+  const byteNums = new Array(byteChars.length);
+
+  for (let i = 0; i < byteChars.length; i++) {
+    byteNums[i] = byteChars.charCodeAt(i);
+  }
+
+  const byteArray = new Uint8Array(byteNums);
+  const blob = new Blob([byteArray], { type: "image/png" });
+
+  const imageUrl: string = URL.createObjectURL(blob);
+  return imageUrl;
 };

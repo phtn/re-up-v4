@@ -1,50 +1,37 @@
 "use client";
 
-import { DarkTouch } from "@src/app/(ui)/touch";
+import { Button } from "@src/app/(ui)/button";
 import { Header } from "../(components)/header";
-import { Sorter } from "../(components)/sorter";
-import { Disc3Icon, PlusIcon } from "lucide-react";
-import { useCreateInvoice, useFetchInvoices } from "../(hooks)/invoice";
+import { useFetchInvoices, useInvoiceController } from "../(hooks)/invoice";
 import { cn } from "@src/utils/cn";
+import { Disc3Icon, PlusIcon } from "lucide-react";
+import { DataTable } from "./(invoices)/data-table";
+import { columns } from "./(invoices)/column";
 
 export const InvoicesContent = () => {
-  const { handleCreateInvoiceRoute, invoiceLoading } = useCreateInvoice();
-  const {} = useFetchInvoices();
+  const { handleCreateInvoiceRoute, invoiceLoading } = useInvoiceController();
+  const { fetchingInvoices, invoiceList } = useFetchInvoices();
   return (
     <div className="pr-4">
-      <div className="flex items-center justify-between space-x-6">
+      <div className="flex items-center space-x-4">
         <Header title="Invoices" />
-        <div className="flex space-x-4">
-          <DarkTouch
-            size={"sm"}
-            onClick={handleCreateInvoiceRoute}
-            icon={invoiceLoading ? Disc3Icon : PlusIcon}
-            iconClass={cn(
-              ``,
-              invoiceLoading ? `animate-spin size-4` : `size-6 stroke-[4px]`,
-            )}
-          >
-            Create Invoice
-          </DarkTouch>
-          <DarkTouch
-            size={"sm"}
-            onClick={handleCreateInvoiceRoute}
-            icon={invoiceLoading ? Disc3Icon : PlusIcon}
-            iconClass={cn(
-              ``,
-              invoiceLoading ? `animate-spin size-4` : `size-6 stroke-[4px]`,
-            )}
-          >
-            Create Invoice
-          </DarkTouch>
-        </div>
+        <Button
+          size={"icon"}
+          onClick={handleCreateInvoiceRoute}
+          className={cn(
+            `size-5 rounded-full bg-sky-500 p-0.5 text-white`,
+            invoiceLoading ? `animate-spin` : ``,
+          )}
+        >
+          {invoiceLoading ? <Disc3Icon /> : <PlusIcon />}
+        </Button>
       </div>
-      <div className="grid h-[180px] grid-cols-1 bg-white md:grid-cols-5 md:gap-2">
-        <Sorter title="Active" />
-        <Sorter title="Draft" />
-        <Sorter title="Overdue" />
-        <Sorter title="Outstanding" />
-        <Sorter title="Paid" />
+      <div className="">
+        <DataTable
+          data={invoiceList?.data ?? []}
+          loading={fetchingInvoices}
+          columns={columns}
+        />
       </div>
     </div>
   );

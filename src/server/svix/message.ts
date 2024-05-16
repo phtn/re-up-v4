@@ -22,5 +22,5 @@ export const listMessageAttemptsByEndpoint = async ({
   endpoint_id,
 }: ListMessagesByEndpointSchema) =>
   await svix.messageAttempt
-    .listByEndpoint(app_id, endpoint_id, { limit: 50, with_msg: true })
+    .listByEndpoint(app_id, endpoint_id, { limit: 50 })
     .then((res) => res);

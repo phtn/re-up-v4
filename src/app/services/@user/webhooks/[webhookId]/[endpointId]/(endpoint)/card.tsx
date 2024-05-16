@@ -137,7 +137,7 @@ export const Card = (props: CardProps) => {
                     `m-0 flex h-[72px] w-[300px] flex-1 items-center justify-center font-jet font-bold text-dyan`,
                   )}
                 >
-                  fuck yeah!
+                  test complete!
                 </div>,
               );
             }}

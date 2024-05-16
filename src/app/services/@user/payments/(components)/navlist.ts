@@ -1,7 +1,7 @@
 import { type Group } from "@src/app/(ui)/sidenav";
 import {
   CogIcon,
-  ListTreeIcon,
+  FileSymlinkIcon,
   ShoppingBagIcon,
   Users2Icon,
 } from "lucide-react";
@@ -14,7 +14,7 @@ export const navlist: Group[] = [
         label: "Invoices",
         desc: "View all invoices",
         value: "0",
-        icon: ListTreeIcon,
+        icon: FileSymlinkIcon,
         href: "/services/payments/invoices",
       },
       {

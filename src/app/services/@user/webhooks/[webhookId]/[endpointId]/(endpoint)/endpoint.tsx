@@ -69,7 +69,7 @@ export const DetailContent = memo(({ endpointId }: DetailContentProps) => {
               icon={Link2Icon}
               iconStyle="-rotate-45"
               actionIcon={Link2Icon}
-              onClick={copy("endpoint id", endpoint?.id)}
+              onClick={copy("endpoint id", endpoint?.id, "success")}
             />
           </div>
 

@@ -32,10 +32,10 @@ export const Header = () => (
 export const HeaderTwo = () => (
   <div className="flex h-[400px] flex-col items-start justify-center">
     <div className="">
-      <Title>
+      <Title className="border">
         <span className="text-[50px] font-semibold text-dyan">Business</span>
       </Title>
-      <Title>
+      <Title className="border">
         <span className="text-[36px]">Technologies.</span>
       </Title>
     </div>

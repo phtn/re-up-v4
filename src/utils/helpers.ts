@@ -13,6 +13,25 @@ export const opts = (...args: ReactElement[]) => {
   ]);
 };
 
+export type InputType = "text" | "select" | "checkbox";
+type ConditionValue<T> = T extends "text"
+  ? "string"
+  : T extends "select"
+    ? string[]
+    : T extends "checkbox"
+      ? boolean
+      : never;
+
+type ConditionMap = {
+  [K in InputType]: ConditionValue<K>;
+};
+export const inputMap = <T extends InputType>(
+  condition: T,
+  ...args: ReactElement<ConditionMap>[]
+) => {
+  return new Map([[condition, args]]);
+};
+
 export const limitText = (text: string | number) => {
   if (typeof text === "number") {
     const str = text.toString();
@@ -27,10 +46,15 @@ export const limitText = (text: string | number) => {
 type CopyFnParams = {
   specie: string | undefined;
   text: string | undefined;
+  label?: string;
 };
 type CopyFn = (params: CopyFnParams) => Promise<boolean>; // Return success
 
-export const copyFn: CopyFn = async ({ specie = "failed", text = "" }) => {
+export const copyFn: CopyFn = async ({
+  specie = "failed",
+  text = "",
+  label,
+}) => {
   if (!navigator?.clipboard) {
     onWarn("Clipboard not supported.", "Seriously?", "failed");
     return false;
@@ -38,7 +62,7 @@ export const copyFn: CopyFn = async ({ specie = "failed", text = "" }) => {
 
   try {
     await navigator.clipboard.writeText(text);
-    onSuccess(`Copied!`, limitText(text), specie);
+    onSuccess(`Copied ${label}`, limitText(text), specie);
     return true;
   } catch (error) {
     onError("Copy failed.", "Please try again.", "failed");
@@ -160,3 +184,41 @@ export const prettyDate = (dateString: string | undefined): string => {
   };
   return date.toLocaleString("en-US", options);
 };
+
+export const extractAndCheck = (
+  url: string,
+  slashPosition: number,
+  keyword: string,
+): [string, boolean] => {
+  const targetSlashIndex = url
+    .split("")
+    .reverse()
+    .reduce(
+      (acc, char, idx) => {
+        if (char === "/") {
+          acc.count++;
+          if (acc.count === slashPosition) {
+            acc.index = idx;
+            return acc;
+          }
+        }
+        return acc;
+      },
+      { count: 0, index: -1 },
+    ).index;
+
+  if (targetSlashIndex === -1) {
+    return ["", false];
+  }
+
+  const startIdx = url.length - targetSlashIndex - 1;
+  const extracted = url.slice(0, startIdx);
+
+  const isKeyword = extracted.split("/").pop() === keyword;
+
+  return [extracted, isKeyword];
+};
+
+// const url = 'https://example.com/path/to/create/another/segment';
+// const result = extractAndCheck(url, 2, 'create');
+// console.log(result); // { extracted: 'https://example.com/path/to/create', isKeyword: true }

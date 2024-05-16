@@ -9,6 +9,7 @@ import {
 } from "@radix-ui/react-icons";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { cn } from "@src/utils/cn";
+import { Disc3Icon } from "lucide-react";
 
 const Select = SelectPrimitive.Root;
 
@@ -16,21 +17,28 @@ const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
+export type CaretStyleProps = { caretLoading?: boolean; caretStyle?: string };
+
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> &
+    CaretStyleProps
+>(({ className, children, caretStyle, caretLoading, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "ring-offset-background placeholder:text-muted-foreground focus:ring-ring flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-gray-500 bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      "background focus:ring-ring flex w-full items-center justify-between whitespace-nowrap text-sm shadow-sm focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
       className,
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <CaretSortIcon className="h-4 w-4 opacity-50" />
+      {caretLoading ? (
+        <Disc3Icon className={cn("size-4 animate-spin stroke-1", caretStyle)} />
+      ) : (
+        <CaretSortIcon className={cn("size-4 opacity-50", caretStyle)} />
+      )}
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));

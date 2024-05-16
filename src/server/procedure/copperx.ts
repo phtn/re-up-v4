@@ -6,8 +6,12 @@ import { procedure } from "../trpc";
 
 export const CreateCustomerProcedure = procedure.input(CreateCustomerResource);
 export const FindAllCustomer = procedure;
+
 export const AddProductProcedure = procedure.input(AddProductResource);
+export const FindAllProductsProcedure = procedure;
 
 export const CreateInvoiceProcedure = procedure.input(CreateInvoiceResource);
+export const FindAllInvoices = procedure;
+
 export const FindAll = procedure;
 export const GetOne = procedure.input(GetOneResource);

@@ -1,49 +1,151 @@
-import { type AddProductSchema } from "@src/server/resource/copperx/product";
-import { addProduct } from "@src/trpc/copperx/product";
-import { onSuccess } from "@src/utils/toast";
+import type {
+  ProductControllerCreateResponse200,
+  ProductControllerFindAllResponse200,
+} from ".api/apis/copperx";
+import type {
+  CurrencySchema,
+  PaymentTypeSchema,
+} from "@src/server/resource/copperx/common";
+import type {
+  AddProductSchema,
+  CopperxProductDataSchema,
+  FindAllProductResponseSchema,
+} from "@src/server/resource/copperx/product";
+import { addProduct, findAllProducts } from "@src/trpc/copperx/product";
+import { addProductInternal } from "@src/trpc/internal/payments/product";
+import { toggleState } from "@src/utils/helpers";
+import { onError, onSuccess } from "@src/utils/toast";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUnitAmount } from "./helpers";
+import { type AddProductHookParams } from "./types";
 
 const productRoute = `/services/payments/products`;
 
-export const useAddProduct = () => {
+export const useProductController = () => {
   const [productLoading, setLoading] = useState(false);
-  const router = useRouter();
+  const [isActive, setIsActive] = useState(true);
+  const [type, setPaymentType] = useState<string>("");
+  const [currency, setCurrency] = useState<string>("");
 
+  const testAddProduct = (params: AddProductHookParams) => {
+    const { data } = params;
+    const product: AddProductSchema = {
+      name: data.name,
+      description: data.description,
+      isActive: data.isActive,
+      unitLabel: data.unitLabel,
+      url: data.url,
+      defaultPriceData: {
+        currency: data.currency as CurrencySchema,
+        type: data.type as PaymentTypeSchema,
+        unitAmount: getUnitAmount(Number(data.unitAmount)), // "50_000_000_000"
+        // unitAmount:,
+      },
+    };
+    console.log(product);
+  };
+
+  const router = useRouter();
   const handleAddProductRoute = () => {
     setLoading(true);
     router.push(`${productRoute}/add-product`);
   };
 
-  const handleAddProduct = async () => {
+  const handleProductStatus = () => toggleState(setIsActive);
+
+  const handleAddProduct = async (params: AddProductHookParams) => {
+    const { data, userId } = params;
+
+    const productResource: AddProductSchema = {
+      name: data.name,
+      description: data.description,
+      isActive: data.isActive,
+      unitLabel: data.unitLabel,
+      url: data.url,
+      defaultPriceData: {
+        currency: data.currency as CurrencySchema,
+        type: data.type as PaymentTypeSchema,
+        unitAmount: getUnitAmount(Number(data.unitAmount)), // "50_000_000_000"
+        // unitAmount: '9_223_372_036_854_775_807',
+      },
+    };
+
     setLoading(true);
-    await addProduct(productResource).then((res) => {
-      // const response: Record<string, unknown> = JSON.parse(
-      //   res,
-      // ) as ProductControllerCreateResponse200;
-      // const data: ProductControllerCreateResponse200 =
-      //   response.data as ProductControllerCreateResponse200;
-      // console.log(data.name);
-      console.log(res);
-      setLoading(false);
-      onSuccess("Product added successfully!", `Customer ID: ${0}`);
-    });
+    addProduct(productResource)
+      .then((res) => {
+        const response: Record<string, unknown> = JSON.parse(
+          res,
+        ) as ProductControllerCreateResponse200;
+
+        const result: CopperxProductDataSchema =
+          response.data as CopperxProductDataSchema;
+        console.log(result);
+
+        addProductInternal({
+          userId,
+          id: result.id,
+          responseData: result,
+        })
+          .then(() => {
+            setLoading(false);
+            onSuccess("Product added!", `Name: ${result.name}`);
+          })
+          .catch((_) => {
+            setLoading(false);
+            onError("Error", "Unabled to save product data.");
+          });
+      })
+      .catch((e: Error) => {
+        setLoading(false);
+        onError("Error", e.message);
+      });
   };
 
-  return { handleAddProduct, handleAddProductRoute, productLoading };
+  return {
+    handleAddProductRoute,
+    handleProductStatus,
+    handleAddProduct,
+    productLoading,
+    setPaymentType,
+    testAddProduct,
+    setCurrency,
+    isActive,
+    currency,
+    type,
+  };
 };
 
-export const productResource: AddProductSchema = {
-  defaultPriceData: {
-    currency: "usdc",
-    type: "one_time",
-    unitAmount: Number(parseInt("9223372036854775807")),
-    interval: "day",
-    intervalCount: 1,
-  },
-  name: "string",
-  description: "string",
-  isActive: true,
-  unitLabel: "string",
-  url: "https://github.com/phtn",
+export const useFetchProducts = () => {
+  const [fetchingProducts, setLoading] = useState(false);
+  const [productList, setProductList] = useState<
+    FindAllProductResponseSchema | undefined
+  >();
+
+  const handleFindAllProducts = () => {
+    setLoading(true);
+    findAllProducts()
+      .then((res) => {
+        const response: Record<string, unknown> = JSON.parse(
+          res,
+        ) as ProductControllerFindAllResponse200;
+        const result = response.data as FindAllProductResponseSchema;
+        setProductList(result);
+        setLoading(false);
+      })
+      .catch((e: Error) => {
+        setLoading(false);
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    handleFindAllProducts();
+  }, []);
+
+  return {
+    handleFindAllProducts,
+    fetchingProducts,
+    productList,
+  };
 };

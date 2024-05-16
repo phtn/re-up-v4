@@ -1,0 +1,45 @@
+// export const currencyList: CurrencyList[] = [
+//   {
+//     label: "PHP",
+//     value: "tfi",
+//     disabled: false,
+//     complete: "Philippine Peso",
+//     url: "https://upload.wikimedia.org/wikipedia/commons/4/47/Philippine_peso_in_classic_solid_style.svg",
+//     // url: "https://dashboard.copperx.io/assets/busd.00221d18.svg",
+//   },
+//   {
+//     label: "USDT",
+//     value: "usdt",
+//     disabled: false,
+//     complete: "Tether USD",
+//     url: "https://dashboard.copperx.io/assets/usdt.e3754238.svg",
+//   },
+//   {
+//     label: "BTC",
+//     value: "btc",
+//     disabled: false,
+//     complete: "Bitcoin",
+//     url: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Bitcoin-clean.svg",
+//   },
+//   {
+//     label: "ETH",
+//     value: "eth",
+//     disabled: false,
+//     complete: "Ethereum",
+//     url: "https://dashboard.copperx.io/assets/eth.47b45bb0.svg",
+//   },
+//   {
+//     label: "USDC",
+//     value: "usdc",
+//     disabled: false,
+//     complete: "USD Coin",
+//     url: "https://dashboard.copperx.io/assets/usdc.9dfea24f.svg",
+//   },
+//   {
+//     label: "BNB",
+//     value: "bnb",
+//     disabled: false,
+//     complete: "BNB Binance Chain Coin",
+//     url: "https://dashboard.copperx.io/assets/bnb.54da0e7e.svg",
+//   },
+// ];

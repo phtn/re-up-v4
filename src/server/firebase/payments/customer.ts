@@ -18,16 +18,13 @@ export const addCustomerInternal = async (
 
   const list = arrayUnion({ customerReferenceId, id });
   const userRef = doc(db, `users/${userId}`);
-  await updateDoc(userRef, {
-    payments: {
-      customers: {
-        count: increment(1),
-      },
-      list,
-    },
-  }).catch(Err);
 
-  const docRef = collection(db, `users/${userId}/payments/customers`);
+  await updateDoc(userRef, {
+    updatedAt: new Date().getTime(),
+    cprx_cs: increment(1),
+    cprx_ls: list,
+  });
+  const docRef = collection(db, `users/${userId}/payments/customers/copperx`);
   return await setDoc(doc(docRef, id), {
     ...responseData,
     createdAt: new Date().getTime(),

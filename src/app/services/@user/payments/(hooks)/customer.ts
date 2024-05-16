@@ -15,12 +15,22 @@ import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import type { AddCustomerHookParams } from "./types";
 import { addCustomerInternal } from "@src/trpc/internal/payments/customer";
+import { toggleState } from "@src/utils/helpers";
 
 const customerRoute = `/services/payments/customers`;
 
 export const useCustomerController = () => {
-  const [loading, setLoading] = useState(false);
+  const [customerLoading, setLoading] = useState(false);
+  const [sameAsShipping, setSameAsShipping] = useState(true);
+
+  const handleToggleSameAddress = () => toggleState(setSameAsShipping);
+
   const router = useRouter();
+
+  const handleCustomerPageRoute = (id: string) => () => {
+    setLoading(true);
+    router.push(`${customerRoute}/${id}`);
+  };
 
   const handleAddCustomerRoute = () => {
     setLoading(true);
@@ -44,20 +54,22 @@ export const useCustomerController = () => {
         country: data.country,
       },
       customerReferenceId: customerId,
-      shipping: {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        organizationName: data.organization,
-        address: {
-          line1: data.line1,
-          line2: "",
-          city: data.city,
-          state: data.state,
-          postalCode: data.postalCode,
-          country: data.country,
-        },
-      },
+      shipping: sameAsShipping
+        ? {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            organizationName: data.organization,
+            address: {
+              line1: data.line1,
+              line2: "",
+              city: data.city,
+              state: data.state,
+              postalCode: data.postalCode,
+              country: data.country,
+            },
+          }
+        : undefined,
       email: data.email,
       taxIds,
     };
@@ -65,15 +77,13 @@ export const useCustomerController = () => {
       const response: Record<string, unknown> = JSON.parse(
         res,
       ) as CustomerControllerCreateResponse200;
-
       const result: CopperxCustomerDataSchema =
         response.data as CopperxCustomerDataSchema;
-      console.log(result.name);
 
       /**
        * [FIREBASE INTERNAL]
+       * @name addCustomerInternal trpc/internal
        */
-
       addCustomerInternal({
         userId,
         id: result.id,
@@ -81,10 +91,12 @@ export const useCustomerController = () => {
         responseData: result,
       })
         .then()
-        .catch((e: Error) => console.log(e));
+        .catch((e: Error) => {
+          onError(e.name, "Unable to save customer data.");
+        });
 
       setLoading(false);
-      onSuccess("Customer created", `Customer ID: ${result.id}`);
+      onSuccess("Customer created", `Customer ID: ${result.name}`);
     });
   };
 
@@ -107,7 +119,10 @@ export const useCustomerController = () => {
     handleAddCustomerRoute,
     handleAddCustomer,
     handleDeleteCustomer,
-    loading,
+    handleToggleSameAddress,
+    handleCustomerPageRoute,
+    sameAsShipping,
+    customerLoading,
   };
 };
 
@@ -164,7 +179,7 @@ export const customer: CreateCustomerSchema = {
 };
 
 export const useFetchCustomer = () => {
-  const [cxFetchLoading, setLoading] = useState(false);
+  const [fetchingCustomers, setLoading] = useState(false);
   const [customerList, setCustomerList] = useState<
     FindAllCustomerResponseSchema | undefined
   >();
@@ -189,5 +204,5 @@ export const useFetchCustomer = () => {
     handleFindAllCustomers();
   }, []);
 
-  return { handleFindAllCustomers, cxFetchLoading, customerList };
+  return { handleFindAllCustomers, fetchingCustomers, customerList };
 };

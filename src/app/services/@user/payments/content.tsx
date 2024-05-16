@@ -3,20 +3,20 @@
 import { XCard } from "@src/app/(ui)/xcard";
 import { useCustomerController } from "./(hooks)/customer";
 import {
-  ClipboardPlusIcon,
+  PackagePlusIcon,
   FilePlus2Icon,
   UserRoundPlusIcon,
 } from "lucide-react";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import { PaymentsActivityChart } from "./(components)/chart";
 import { Header } from "./(components)/header";
-import { useAddProduct } from "./(hooks)/product";
-import { useCreateInvoice } from "./(hooks)/invoice";
+import { useProductController } from "./(hooks)/product";
+import { useInvoiceController } from "./(hooks)/invoice";
 
 export const PaymentsContent = () => {
-  const { handleAddCustomerRoute, loading } = useCustomerController();
-  const { handleAddProductRoute, productLoading } = useAddProduct();
-  const { handleCreateInvoiceRoute, invoiceLoading } = useCreateInvoice();
+  const { handleAddCustomerRoute, customerLoading } = useCustomerController();
+  const { handleAddProductRoute, productLoading } = useProductController();
+  const { handleCreateInvoiceRoute, invoiceLoading } = useInvoiceController();
 
   return (
     <div className="h-full w-full pl-4 pr-8">
@@ -35,7 +35,7 @@ export const PaymentsContent = () => {
             description="Add customers to your list."
             onClick={handleAddCustomerRoute}
             icon={UserRoundPlusIcon}
-            loading={loading}
+            loading={customerLoading}
           />
 
           <XCard
@@ -43,7 +43,7 @@ export const PaymentsContent = () => {
             description="Add products to your inventory."
             onClick={handleAddProductRoute}
             loading={productLoading}
-            icon={ClipboardPlusIcon}
+            icon={PackagePlusIcon}
           />
         </div>
         <div className="my-8 h-[180px]">

@@ -14,6 +14,8 @@ export const Currency = z.union([
   z.literal("tfi"),
 ]);
 
+export type CurrencySchema = z.infer<typeof Currency>;
+
 export const Interval = z.union([
   z.literal("day"),
   z.literal("week"),
@@ -26,6 +28,8 @@ export const PaymentType = z.union([
   z.literal("recurring"),
   z.literal("streaming"),
 ]);
+
+export type PaymentTypeSchema = z.infer<typeof PaymentType>;
 
 export const GetOneResource = z.object({
   id: z.string(),

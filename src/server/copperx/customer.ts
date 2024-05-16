@@ -32,7 +32,13 @@ export const findAllCustomers = async () => {
     .server(`${process.env.COPPERX_BASEURL}`);
 
   const response = await sdk
-    .customerController_findAll({ limit: 50 })
+    .customerController_findAll({
+      limit: 50,
+      // ids: "14f80426-ae43-4602-a434-f3a4c5af2021",
+      // "859f2845-9934-43f9-8064-c17e44b80040",
+      // ids: "14f80426-ae43-4602-a434-f3a4c5af2021",
+      // ids: "859f2845-9934-43f9-8064-c17e44b80040",
+    })
     .then((res) => JSON.stringify(res));
 
   return response;

@@ -1,6 +1,6 @@
 import { Sheet, SheetContent, SheetTrigger } from "@@ui/sheet";
 import { DarkTouch, Touch } from "@@ui/touch";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, Disc3Icon } from "lucide-react";
 import {
   forwardRef,
   useState,
@@ -17,9 +17,13 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export const Sign = () => {
   const [signupOpen, setSignupOpen] = useState(false);
   const [user] = useAuthState(auth);
+  const [loading, setLoading] = useState(false);
+  const handleServicesRoute = () => {
+    setLoading(true);
+  };
   return (
     <Container>
-      <ViewAllServices />
+      <ViewAllServices loading={loading} onClick={handleServicesRoute} />
       {!user ? (
         <SignUpSheet open={signupOpen} setOpen={setSignupOpen}>
           <LightButton />
@@ -69,19 +73,26 @@ export const SignUpSheet = ({ open, setOpen, children }: SignSheetProps) => {
   );
 };
 
-const ViewAllServices = forwardRef<HTMLButtonElement>((props, ref) => (
-  <Link href={`/services`}>
-    <DarkTouch
-      ref={ref}
-      size="md"
-      tail={ArrowRightIcon}
-      className="w-full text-sm portrait:w-[150px]"
-      {...props}
-    >
-      View All Services
-    </DarkTouch>
-  </Link>
-));
+type ViewAllServicesProps = {
+  loading: boolean;
+  onClick: () => void;
+};
+const ViewAllServices = forwardRef<HTMLButtonElement, ViewAllServicesProps>(
+  ({ loading, onClick }, ref) => (
+    <Link href={`/services`}>
+      <DarkTouch
+        ref={ref}
+        size="md"
+        tail={loading ? Disc3Icon : ArrowRightIcon}
+        iconClass={loading ? "animate-spin stroke-1" : ""}
+        className="w-full text-sm portrait:w-[150px]"
+        onClick={onClick}
+      >
+        View All Services
+      </DarkTouch>
+    </Link>
+  ),
+);
 
 ViewAllServices.displayName = "ViewAllServices";
 

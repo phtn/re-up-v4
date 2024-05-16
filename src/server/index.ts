@@ -4,8 +4,10 @@ import {
   copperxProductRouter,
   copperxCustomerRouter,
 } from "./router/copperx";
+import { cryptoRouter } from "./router/crypto";
 import { endpointRouter } from "./router/endpoint";
 import { eventTypeRouter } from "./router/event-type";
+import { icashRouter, merchantRouter } from "./router/icash";
 import { internalRouter } from "./router/internal";
 import { messageRouter } from "./router/message";
 import { netRouter } from "./router/net";
@@ -29,6 +31,9 @@ export const appRouter = mergeRouters(
   copperxProductRouter,
   copperxInvoiceRouter,
   internalRouter,
+  cryptoRouter,
+  icashRouter,
+  merchantRouter,
 );
 
 export type AppRouter = typeof appRouter;

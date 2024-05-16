@@ -5,13 +5,14 @@ import {
   deleteCustomer,
 } from "../copperx/customer";
 import { createInvoice, findAllInvoices } from "../copperx/invoice";
-import { addProductSession } from "../copperx/product";
+import { addProductSession, findAllProducts } from "../copperx/product";
 import {
   AddProductProcedure,
   CreateCustomerProcedure,
   CreateInvoiceProcedure,
   FindAll,
   FindAllCustomer,
+  FindAllProductsProcedure,
   GetOne,
 } from "../procedure/copperx";
 import { router } from "../trpc";
@@ -34,7 +35,9 @@ export const copperxCustomerRouter = router({
 export const copperxProductRouter = router({
   addProduct: AddProductProcedure.query(
     async ({ input }) => await addProductSession(input).then((res) => res),
-    // async ({ input }) => input,
+  ),
+  findAllProducts: FindAllProductsProcedure.query(
+    async () => await findAllProducts(),
   ),
 });
 

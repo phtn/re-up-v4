@@ -44,6 +44,8 @@ export const CreateCustomerResource = z.object({
 });
 
 export type CreateCustomerSchema = z.infer<typeof CreateCustomerResource>;
+export const CustomerDataObject = CreateCustomerResource;
+export type CustomerDataSchema = z.infer<typeof CustomerDataObject>;
 
 const AddressResponse = z.object({
   line1: z.string().or(z.undefined()),
