@@ -25,7 +25,6 @@ import {
 import { DataTablePagination } from "./pagination";
 import { DataTableToolbar } from "./toolbar";
 import { CogIcon, MessageSquareTextIcon } from "lucide-react";
-import { useCustomerController } from "../../(hooks)/customer";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -68,7 +67,6 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  const { handleCustomerPageRoute } = useCustomerController();
   // const { handleFindAllCustomers } = useFetchCustomer();
 
   // const handleDelete = (id: string) => async () => {
@@ -109,9 +107,9 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   // onClick={handleDelete(row.getValue("id"))}
-                  onClick={handleCustomerPageRoute(
-                    row.getValue("customerReferenceId"),
-                  )}
+                  // onClick={handleCustomerPageRoute(
+                  //   row.getValue("customerNumber"),
+                  // )}
                   className="cursor-pointer font-light text-dyan hover:bg-sky-50"
                   key={row.getValue("id")}
                   data-state={row.getIsSelected() && "selected"}

@@ -13,8 +13,8 @@ import type {
 } from "@src/server/resource/copperx/product";
 import { addProduct, findAllProducts } from "@src/trpc/copperx/product";
 import { addProductInternal } from "@src/trpc/internal/payments/product";
-import { toggleState } from "@src/utils/helpers";
-import { onError, onSuccess } from "@src/utils/toast";
+import { errHandler, toggleState } from "@src/utils/helpers";
+import { onSuccess } from "@src/utils/toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getUnitAmount } from "./helpers";
@@ -40,7 +40,6 @@ export const useProductController = () => {
         currency: data.currency as CurrencySchema,
         type: data.type as PaymentTypeSchema,
         unitAmount: getUnitAmount(Number(data.unitAmount)), // "50_000_000_000"
-        // unitAmount:,
       },
     };
     console.log(product);
@@ -91,15 +90,12 @@ export const useProductController = () => {
             setLoading(false);
             onSuccess("Product added!", `Name: ${result.name}`);
           })
-          .catch((_) => {
-            setLoading(false);
-            onError("Error", "Unabled to save product data.");
-          });
+          //"Error", "Unabled to save product data."
+          .catch((e: Error) =>
+            errHandler(e, setLoading, "Error", "Unabled to save product data."),
+          );
       })
-      .catch((e: Error) => {
-        setLoading(false);
-        onError("Error", e.message);
-      });
+      .catch((e: Error) => errHandler(e, setLoading));
   };
 
   return {

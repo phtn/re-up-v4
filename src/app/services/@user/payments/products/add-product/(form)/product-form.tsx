@@ -107,7 +107,6 @@ export const AddProductForm = ({ userId, route }: ProductFormProps) => {
                     <FormItem>
                       <FormControl>
                         <InputOption
-                          inputType={"text"}
                           props={{
                             item,
                             index,
@@ -147,7 +146,6 @@ export const AddProductForm = ({ userId, route }: ProductFormProps) => {
                     <FormItem>
                       <FormControl>
                         <InputOption
-                          inputType={"text"}
                           props={{
                             item,
                             index: index + 1,
@@ -189,7 +187,6 @@ export const AddProductForm = ({ userId, route }: ProductFormProps) => {
                 onValueChange={setCurrency}
                 transformer={transformer}
                 position="bottom"
-                // {...register("currency")}
               />
 
               <div className="py-4">

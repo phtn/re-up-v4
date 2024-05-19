@@ -84,6 +84,12 @@ export const GrayCard = ({ children }: { children: ReactNode }) => (
   </Cape>
 );
 
+export const CustomerCard = ({ children }: { children: ReactNode }) => (
+  <Cape>
+    <CardContainer className={customerCardStyle}>{children}</CardContainer>
+  </Cape>
+);
+
 export const GreyCard = ({ children }: { children: ReactNode }) => (
   <Cape>
     <CardContainer className={greyCardStyle}>{children}</CardContainer>

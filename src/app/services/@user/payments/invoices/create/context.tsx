@@ -38,7 +38,6 @@ export const CreateInvoiceProvider: React.FC<CreateInvoiceProviderProps> = ({
     useState<string[]>(initialProductIdList);
 
   useEffect(() => {
-    console.log(customerId);
     setCurrentCustomerId(customerId ?? "");
     setProductIdList(productIds ? productIds.split(",") : ["p"]);
   }, [customerId, productIds, baseRoute]);
@@ -51,7 +50,9 @@ export const CreateInvoiceProvider: React.FC<CreateInvoiceProviderProps> = ({
   };
 
   const addProduct = (productId: string) => {
-    const newProductIdList = [...productIdList, productId];
+    const newProductIdList = [...productIdList, productId].filter(
+      (element) => element !== "0",
+    );
     setProductIdList(newProductIdList);
     router.push(
       `${baseRoute}/${currentCustomerId}/${newProductIdList.join(",")}`,

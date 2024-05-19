@@ -25,6 +25,7 @@ import {
 import { DataTablePagination } from "./pagination";
 import { DataTableToolbar } from "./toolbar";
 import { CogIcon, MessageSquareTextIcon } from "lucide-react";
+import { Button } from "@src/app/(ui)/button";
 // import {
 //   useCustomerController,
 //   useFetchCustomer,
@@ -146,10 +147,17 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center font-jet"
                 >
-                  <div className="flex items-center justify-center space-x-4">
+                  <div className="flex items-center justify-center space-x-4 text-xs">
                     <span>{loading}</span>
                     <MessageSquareTextIcon className="h-6 w-6 stroke-[1px] text-opus" />
-                    <span>No data.</span>
+                    <p>You have no invoice yet.</p>
+                    <Button
+                      variant={"ghost"}
+                      size="sm"
+                      className="text-xs text-indigo-500 hover:bg-indigo-600/10 hover:text-indigo-500"
+                    >
+                      Create an invoice
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>

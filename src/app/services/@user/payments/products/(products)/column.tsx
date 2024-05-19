@@ -9,6 +9,8 @@ import type {
   PaymentTypeSchema,
 } from "@src/server/resource/copperx/common";
 import { getDecimalAmount } from "../../(hooks)/helpers";
+import { FileSlidersIcon } from "lucide-react";
+import Link from "next/link";
 
 export const columns: ColumnDef<CopperxProductDataSchema>[] = [
   // {
@@ -144,7 +146,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
       return (
         <div className={"flex w-[60px] justify-center"}>
           <p className={"font-sans text-xs font-medium uppercase"}>
-            {currency}
+            {currency === "tfi" ? "php" : currency}
           </p>
         </div>
       );
@@ -168,9 +170,38 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
 
       return (
         <div className="flex w-full items-center justify-end pr-2">
-          <span className="text-xs">{price}</span>
+          <span className="text-xs">
+            {typeof price === "string"
+              ? Number(price).toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 5,
+                })
+              : price}
+          </span>
         </div>
       );
     },
+  },
+  {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={""}
+        className="flex w-full justify-end"
+      />
+    ),
+    cell: ({ row }) => {
+      const id: string = row.getValue("id");
+      const baseRoute = "/services/payments/products";
+      return (
+        <Link href={`${baseRoute}/${id}`}>
+          <div className="flex w-full items-center justify-end pr-2">
+            <FileSlidersIcon className="size-4 text-dyan/40" />
+          </div>
+        </Link>
+      );
+    },
+    enableSorting: false,
   },
 ];

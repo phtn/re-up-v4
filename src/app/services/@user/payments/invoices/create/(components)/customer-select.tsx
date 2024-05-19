@@ -81,22 +81,28 @@ const TriggerContent = (props: TriggerContentProps) => {
   const selected = list?.find((item) => item.id === id);
 
   return (
-    <>
-      {id ? (
-        <UserRoundCheckIcon className="size-6 stroke-[1.5px] text-emerald-800" />
-      ) : (
-        <UserRoundPlusIcon className="size-6 stroke-[1.5px] text-dyan" />
-      )}
-      <div className="text-dyan">
-        <p>{selected?.name ?? `Select customer`}</p>
-        <p className="text-xs font-light">{selected?.email ?? ""}</p>
+    <div className="flex w-full items-center space-x-4">
+      <div className="flex w-[120px] justify-center">
+        {selected ? (
+          <UserRoundCheckIcon className="size-6 stroke-[1.5px] text-sky-600" />
+        ) : (
+          <UserRoundPlusIcon className="size-6 stroke-[1.5px] text-dyan" />
+        )}
       </div>
-      {id ? (
-        <CheckIcon className="size-5 stroke-[1.5px] text-emerald-700" />
-      ) : (
-        <ChevronDownIcon className="size-4 text-dyan/50" />
-      )}
-    </>
+      <div className="flex w-full">
+        <div className="text-dyan">
+          <p>{selected?.name ?? `Select customer`}</p>
+          <p className="text-xs font-light">{selected?.email ?? ""}</p>
+        </div>
+      </div>
+      <div className="flex w-[120px] justify-center">
+        {selected ? (
+          <CheckIcon className="size-5 stroke-[2.5px] text-sky-500" />
+        ) : (
+          <ChevronDownIcon className="size-4 text-dyan" />
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Form, FormControl, FormField, FormItem } from "@@ui/form";
+import { Form } from "@@ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@src/app/(ui)/button";
 import { cn } from "@src/utils/cn";
@@ -6,28 +6,28 @@ import {
   ContactRoundIcon,
   Disc3Icon,
   FilePenLineIcon,
+  HistoryIcon,
   MapPinIcon,
   PenLineIcon,
   PlusIcon,
-  XIcon,
   type LucideIcon,
 } from "lucide-react";
-import { useForm, type Control } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useInvoiceController } from "../../../(hooks)/invoice";
 import { type FormProps } from "../../../types";
 import {
   CreateInvoiceFormProps,
-  invoiceFields,
   invoiceFormDefaults,
   type CreateInvoiceFormSchema,
-  type InvoiceField,
 } from "./schema";
 // import { Checkbox } from "@src/app/(ui)/checkbox";
-import { FormCard, GreyCard } from "@src/app/services/(components)/form-card";
-import { InputOption } from "@src/app/services/(components)/field-options";
+import {
+  CustomerCard,
+  FormCard,
+} from "@src/app/services/(components)/form-card";
 import { type CopperxCustomerDataSchema } from "@src/server/resource/copperx/customer";
 import { type LineItemSchema } from "@src/server/resource/copperx/invoice";
-import { opts } from "@src/utils/helpers";
+import { opts, prettyDate } from "@src/utils/helpers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getDecimalAmount } from "../../../(hooks)/helpers";
 import { type CurrencySchema } from "@src/server/resource/copperx/common";
@@ -52,11 +52,18 @@ export const CreateInvoiceForm = ({
   // Invoice Hook
   const {
     lineItems,
-    handleCreateInvoice,
-    invoiceLoading,
     setProductIds,
     setAllProducts,
+    invoiceLoading,
+    setSelectedCustomer,
+    handleCreateInvoice,
   } = useInvoiceController();
+
+  useEffect(() => {
+    if (currentCustomerId) {
+      setSelectedCustomer(currentCustomerId);
+    }
+  }, [currentCustomerId, setSelectedCustomer]);
 
   useEffect(() => {
     setProductIds(productIdList);
@@ -66,15 +73,16 @@ export const CreateInvoiceForm = ({
     setAllProducts(productList);
   }, [productList, setAllProducts]);
 
-  const { handleSubmit, control, formState, reset } = form;
+  const { handleSubmit, formState, reset } = form;
 
-  const invoiceInfo = invoiceFields.slice(0, 2);
+  // const invoiceInfo = invoiceFields.slice(0, 2);
   const resetInputFields = () => reset(invoiceFormDefaults);
 
   const [customerEditor] = useState(false);
   const CustomerDetailOptions = useCallback(() => {
     const options = opts(
-      <CustomerEditInfo inputFields={invoiceInfo} control={control} />,
+      // <CustomerEditInfo inputFields={invoiceInfo} control={control} />,
+      <div />,
       <ContactDetailRenderer
         icon={ContactRoundIcon}
         list={customerList ?? []}
@@ -82,7 +90,7 @@ export const CreateInvoiceForm = ({
       />,
     );
     return <>{options.get(customerEditor)}</>;
-  }, [customerEditor, invoiceInfo, control, currentCustomerId, customerList]);
+  }, [customerEditor, currentCustomerId, customerList]);
 
   const onSubmit = (data: CreateInvoiceFormSchema) => {
     handleCreateInvoice({ data, userId: `${userId}` })
@@ -93,20 +101,20 @@ export const CreateInvoiceForm = ({
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 rounded-xl md:grid-cols-5">
-          <div className="col-span-2 h-fit space-y-4 rounded-xl rounded-tr-none border-dyan/50 bg-paper px-4 py-6">
+        <div className="grid grid-cols-1 gap-4 rounded-xl md:grid-cols-5">
+          <div className="col-span-2 h-fit space-y-4 rounded-xl rounded-tr-none border-dyan/50">
             <CustomerSelect
-              customerList={customerList}
               onSelect={onSelect}
+              customerList={customerList}
               currentCustomerId={currentCustomerId}
             />
 
-            <GreyCard>
+            <CustomerCard>
               <CustomerDetailOptions />
-            </GreyCard>
+            </CustomerCard>
           </div>
 
-          <div className="col-span-3 h-fit space-y-4 rounded-xl rounded-l-none border-[0px] bg-mojo px-4 py-6">
+          <div className="col-span-3 h-fit space-y-4">
             <ProductSelect
               productList={productList}
               onAddProduct={addProduct}
@@ -114,36 +122,27 @@ export const CreateInvoiceForm = ({
 
             <FormCard
               icon={FilePenLineIcon}
-              title={`Items@${productIdList.length - 1}`}
+              title={`Summary`}
               route={"grey"}
+              extra={<ItemCount itemCount={productIdList.length - 1} />}
             >
-              <ProductDetailRenderer list={lineItems ?? []} />
+              <div className="h-[341px]">
+                <ProductDetailRenderer list={lineItems ?? []} />
+              </div>
             </FormCard>
             <div className="flex w-full items-center justify-between">
               <div className="flex items-center space-x-4">
-                {formState.isDirty ? (
-                  <Button
-                    onClick={() => resetInputFields()}
-                    size={"default"}
-                    variant={"outline"}
-                    className={cn(
-                      "",
-                      formState.isValid
-                        ? `border-clay/50 text-clay hover:border-rose-500/50 hover:bg-rose-500 hover:text-white`
-                        : ``,
-                    )}
-                  >
-                    <XIcon className="" />
-
-                    <p className="pr-2">Reset all fields</p>
-                  </Button>
+                {invoiceLoading ? (
+                  <p className="font-mono text-xs text-dyan/60">
+                    Processing Request ...
+                  </p>
                 ) : null}
               </div>
               <Button
                 type="submit"
                 size={"lg"}
                 variant={formState.isValid ? "outline" : "default"}
-                // disabled={!formState.isValid || loading}
+                disabled={invoiceLoading}
                 className={cn(
                   "space-x-4 rounded-lg border-[0.33px] border-clay/50 font-semibold tracking-tight",
                   formState.isValid
@@ -167,37 +166,13 @@ export const CreateInvoiceForm = ({
   );
 };
 
-type CustomerInfoProps = {
-  inputFields: InvoiceField[];
-  control: Control<CreateInvoiceFormSchema>;
+type RecentCustomerProps = {
+  list: Record<string, string>[];
 };
-export const CustomerEditInfo = ({
-  inputFields,
-  control,
-}: CustomerInfoProps) => (
+export const RecentCustomers = ({ list }: RecentCustomerProps) => (
   <>
-    {inputFields.map((item, index) => (
-      <FormField
-        control={control}
-        name={item.name}
-        key={item.name}
-        render={({ field }) => (
-          <FormItem>
-            <FormControl>
-              <InputOption
-                inputType={item.inputType}
-                props={{
-                  item,
-                  index,
-                  field,
-                  length: inputFields.length,
-                }}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-    ))}
+    <p>Recents</p>
+    {list.map((item) => item)}
   </>
 );
 
@@ -242,13 +217,43 @@ const ContactDetailRenderer = (
 
   if (!customer) {
     return (
-      <div className="flex h-[100px] items-center justify-center">
-        <div />
+      <div className="h-[398.5px] py-3">
+        <div className="flex items-center justify-between px-1.5">
+          <div className="flex items-center space-x-1 rounded-lg bg-dyan/5 p-1.5">
+            <HistoryIcon className="size-4 text-dyan/50" />
+            <p className="text-xs font-medium tracking-tight text-dyan">
+              Recent customers
+            </p>
+          </div>
+        </div>
+
+        <div className="p-3">
+          {list?.map((item, i) => (
+            <div
+              key={i}
+              className="flex items-center justify-between rounded border-[0.33px] border-dyan/40 bg-white/50 p-2"
+            >
+              <div>
+                <p className="font-semibold">{item?.name}</p>
+                <p>{item?.organizationName}</p>
+              </div>
+              <div className="text-right text-xs font-medium tracking-tight text-dyan/80">
+                <p>Latest invoice</p>
+                <p className="font-mono text-dyan/50">
+                  {prettyDate(item?.createdAt).substring(
+                    0,
+                    prettyDate(item?.createdAt).indexOf("at"),
+                  )}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
   return (
-    <div className="space-y-4 px-3 py-4 text-sm font-medium text-dyan">
+    <div className="space-y-2.5 px-3 py-4 text-sm font-medium text-dyan">
       <DetailHeader title="Contact Details" id={id} icon={ContactRoundIcon} />
       <div className="rounded-[6px] border-[0.33px] border-clay/50 bg-slate-400/10">
         <DetailItem label="Contact Info" values={contactDetails ?? []} />
@@ -271,12 +276,12 @@ const DetailHeader = (props: DetailHeaderProps) => {
   const { title } = props;
   return (
     <div className="flex w-full items-center justify-between">
-      <div className="flex space-x-3 font-sans text-[17px] font-semibold tracking-tighter text-dyan">
-        <props.icon size={18} strokeWidth={1.5} className={cn("text-dyan")} />
-        <p>{title}</p>
+      <div className="flex space-x-3 font-sans text-[16px] font-semibold tracking-tighter text-dyan">
+        <props.icon className={cn("size-4 stroke-[1.5px] text-dyan/80")} />
+        <p className="text-dyan/80">{title}</p>
       </div>
       <div className="rounded p-[2px] hover:bg-slate-300/80">
-        <PenLineIcon className="size-4 text-dyan" />
+        <PenLineIcon className="size-4 text-sky-600" />
       </div>
     </div>
   );
@@ -340,19 +345,19 @@ const ProductDetailRenderer = ({
   }, [list]);
 
   return (
-    <div className="space-y-2 py-2">
-      <div className="grid w-full grid-cols-10 px-2 font-medium tracking-tight text-copper/70">
+    <div className="h-full flex-col space-y-2">
+      <div className="grid w-full grid-cols-10 px-2 font-medium tracking-tight text-dyan/60">
         <div className="col-span-5">Item</div>
         <div className="col-span-1 flex justify-center">Qty</div>
         <div className="col-span-2 flex justify-end">Unit Price</div>
         <div className="col-span-2 flex justify-end">Total</div>
       </div>
-      <div className="rounded-[6px] border-[0.33px] border-clay/50 bg-zap/80">
+      <div className="border-b border-dashed border-dyan/40" />
+      <div className="h-[232px] overflow-y-scroll rounded-[6px] border-[0px] border-clay/50 bg-zap/80">
         <LineItem items={list} label="Product Item" />
       </div>
-
-      <div className="h-2" />
-      <div className="flex h-14 items-center rounded-[6px] border-[0.33px] border-clay/50 bg-dyan px-3 text-zap">
+      <div className="border-b-2 border-dashed border-dyan/10" />
+      <div className="flex h-[56px] items-center rounded-[6px] border-[0.33px] border-clay/50 bg-dyan px-3 text-zap">
         <div className="grid w-full grid-cols-10">
           <div className="col-span-5 flex flex-col">
             <p className="text-[18px] font-semibold tracking-tight">Total</p>
@@ -367,7 +372,7 @@ const ProductDetailRenderer = ({
                 {total.toLocaleString("en-US", { minimumFractionDigits: 2 })}
               </p>
               <p className="text-[14px] font-medium uppercase tracking-tighter text-sky-400">
-                {`${list[0]?.priceData.currency}`}
+                {list[0]?.priceData.currency}
               </p>
             </div>
           </div>
@@ -436,20 +441,9 @@ const LineItem = (props: LineItemProps) => {
   );
 };
 
-// const AcceptCrypto = () => (
-//   <div className="flex items-center space-x-3">
-//     <p className="font-medium tracking-tight text-copper">Accept Crypto</p>
-//     <Checkbox
-//       checked={true}
-//       aria-label="Accept Crypto Payments"
-//       className="flex size-5 items-center justify-center text-copper"
-//     >
-//       <CheckIcon
-//         className={cn(
-//           "h-4 w-4 scale-50 stroke-[0.33px] text-cord transition-all duration-300",
-//           true ? `scale-100 stroke-[3px]` : `scale-0 stroke-[1px]`,
-//         )}
-//       />
-//     </Checkbox>
-//   </div>
-// );
+const ItemCount = ({ itemCount }: { itemCount: number | undefined }) => (
+  <div className="flex items-center space-x-1 px-2">
+    <p className="font-medium tracking-tight text-dyan/80">{itemCount}</p>
+    <p className="font-medium tracking-tight text-dyan/80">items</p>
+  </div>
+);

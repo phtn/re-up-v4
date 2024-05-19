@@ -2,7 +2,30 @@
 
 import { z } from "zod";
 import { Currency, Interval, PaymentType } from "./common";
-import { CustomerDataObject } from "./customer";
+import { CustomerDataObject, Shipping } from "./customer";
+
+export const CustomerData = z.object({
+  address: z.object({
+    line1: z.string(),
+    line2: z.string().or(z.undefined()),
+    city: z.string(),
+    state: z.string(),
+    postalCode: z.string(),
+    country: z.string(),
+  }),
+  createdAt: z.string(),
+  customerNumber: z.string(),
+  customerReferenceId: z.string().uuid(),
+  email: z.string().email(),
+  id: z.string().uuid(),
+  metadata: z.object({}),
+  name: z.string(),
+  organizationName: z.string(),
+  phone: z.string(),
+  shipping: Shipping.or(z.null()),
+  updatedAt: z.string(),
+  visibility: z.number().or(z.undefined()),
+});
 
 const CustomFields = z.object({
   fields: z.array(
@@ -14,7 +37,7 @@ const CustomFields = z.object({
 });
 
 const LineItem = z.object({
-  priceId: z.string().uuid(),
+  priceId: z.string().uuid().or(z.undefined()),
   priceData: z.object({
     currency: Currency,
     interval: Interval.or(z.undefined()),
@@ -36,7 +59,31 @@ const LineItem = z.object({
   periodEnd: z.string().datetime().or(z.undefined()),
 });
 
+const LineItemResponse = z.object({
+  priceId: z.string().uuid().or(z.undefined()),
+  price: z.object({
+    currency: Currency,
+    interval: Interval.or(z.null()),
+    intervalCount: z.number().or(z.null()),
+    unitAmount: z.string(),
+    productId: z.string().uuid(),
+    product: z.object({
+      name: z.string(),
+      description: z.string().or(z.null()),
+      images: z.array(z.string().or(z.null())),
+      unitLabel: z.string().or(z.null()),
+      url: z.string().or(z.null()),
+      visibility: z.number().or(z.undefined()),
+    }),
+    type: PaymentType,
+  }),
+  quantity: z.number(),
+  periodStart: z.string().datetime().or(z.null().or(z.undefined())),
+  periodEnd: z.string().datetime().or(z.null().or(z.undefined())),
+});
+
 export type LineItemSchema = z.infer<typeof LineItem>;
+export type LineItemResponseSchema = z.infer<typeof LineItemResponse>;
 
 export const CreateInvoiceResource = z.object({
   description: z.string(),
@@ -71,29 +118,116 @@ export const CopperxInvoiceData = z.object({
   collectionMethod: z.string(),
   createdAt: z.string(),
   currency: Currency,
-  customer: CustomerDataObject,
+  customer: CustomerData,
   customerId: z.string().uuid(),
   description: z.string(),
   dueDate: z.string(),
-  finalizeScheduleAt: z.string(),
-  finalizedAt: z.string(),
-  footer: z.string(),
-  fromInvoiceId: z.string().uuid().or(z.undefined()),
+  finalizeScheduleAt: z.string().or(z.null()),
+  finalizedAt: z.string().or(z.null()),
+  footer: z.string().or(z.null()),
+  fromInvoiceId: z.string().uuid().or(z.null()),
   id: z.string().uuid(),
   invoiceNumber: z.string(),
+  invoicePaidUrl: z.string().or(z.null().or(z.undefined())),
+  latestRevisionId: z.string().or(z.null()),
   lineItems: z.object({
     data: z.array(LineItem),
   }),
+  markedUncollectibleAt: z.string().or(z.null()),
+  metadata: z.object({}),
+  nextPaymentAttempt: z.string().or(z.null()),
+  organizationId: z.string(),
+  paid: z.boolean(),
+  paidAt: z.string().or(z.null()),
+  paidOutOfBand: z.boolean(),
+  paymentIntentId: z.string().or(z.null()),
   paymentSetting: z.object({
-    allowedChains: z.array(z.object({ chainId: z.number() })),
-    preferredChainId: z.number(),
-    preferredCurrency: Currency,
     allowSwap: z.boolean(),
+    allowedChains: z.array(z.object({ chainId: z.number() })),
+    allowedCurrencies: z.array(z.string()).or(z.null()),
+    applyFee: z.boolean(),
+    applyGasFee: z.boolean(),
+    createdAt: z.string().datetime(),
+    feePercentage: z.string().or(z.null()),
+    id: z.string(),
+    paymentMethodType: z.string().or(z.null().or(z.undefined())),
+    preferredChainId: z.number().or(z.string()),
+    preferredCurrency: Currency,
+    updatedAt: z.string().datetime(),
   }),
-  total: z.number(),
+  paymentSettingId: z.string().uuid(),
+  periodEnd: z.string().datetime().or(z.null()),
+  periodStart: z.string().datetime().or(z.null()),
+  status: z.string(),
+  subscriptionId: z.string().or(z.null()),
+  total: z.string(),
+  updatedAt: z.string().datetime(),
+  url: z.string().or(z.null()),
+  visibility: z.number().or(z.undefined()),
+});
+
+export const CopperxInvoiceResponseData = z.object({
+  allowPromotionCodes: z.boolean(),
+  attemptCount: z.number().or(z.null()),
+  attempted: z.boolean(),
+  autoAdvance: z.boolean(),
+  billingReason: z.string(),
+  clientReferenceId: z.string(),
+  collectionMethod: z.string(),
+  createdAt: z.string(),
+  currency: Currency,
+  customer: CustomerData,
+  customerId: z.string().uuid(),
+  description: z.string(),
+  dueDate: z.string(),
+  finalizeScheduleAt: z.string().or(z.null()),
+  finalizedAt: z.string().or(z.null()),
+  footer: z.string().or(z.null()),
+  fromInvoiceId: z.string().uuid().or(z.null()),
+  id: z.string().uuid(),
+  invoiceNumber: z.string(),
+  invoicePaidUrl: z.string().or(z.null().or(z.undefined())),
+  latestRevisionId: z.string().or(z.null()),
+  lineItems: z.object({
+    data: z.array(LineItemResponse),
+  }),
+  markedUncollectibleAt: z.string().or(z.null()),
+  metadata: z.object({}),
+  nextPaymentAttempt: z.string().or(z.null()),
+  organizationId: z.string(),
+  paid: z.boolean(),
+  paidAt: z.string().or(z.null()),
+  paidOutOfBand: z.boolean(),
+  paymentIntentId: z.string().or(z.null()),
+  paymentSetting: z.object({
+    allowSwap: z.boolean(),
+    allowedChains: z.array(z.object({ chainId: z.number() })),
+    allowedCurrencies: z.array(z.string()).or(z.null()),
+    applyFee: z.boolean(),
+    applyGasFee: z.boolean(),
+    createdAt: z.string().datetime(),
+    feePercentage: z.string().or(z.null()),
+    id: z.string(),
+    paymentMethodType: z.string().or(z.null().or(z.undefined())),
+    preferredChainId: z.number().or(z.string()),
+    preferredCurrency: Currency,
+    updatedAt: z.string().datetime(),
+  }),
+  paymentSettingId: z.string().uuid(),
+  periodEnd: z.string().datetime().or(z.null()),
+  periodStart: z.string().datetime().or(z.null()),
+  status: z.string(),
+  subscriptionId: z.string().or(z.null()),
+  total: z.string(),
+  updatedAt: z.string().datetime(),
+  url: z.string().or(z.null()),
+  visibility: z.number().or(z.undefined()),
 });
 
 export type CopperxInvoiceDataSchema = z.infer<typeof CopperxInvoiceData>;
+export type CopperxInvoiceResponseDataSchema = z.infer<
+  typeof CopperxInvoiceResponseData
+>;
 
 export const FindAllInvoiceResponse = z.object({
   count: z.number(),
@@ -118,32 +252,7 @@ export const FindAllInvoiceResponse = z.object({
       fromInvoiceId: z.string().uuid().or(z.undefined()),
       id: z.string().uuid(),
       invoiceNumber: z.string(),
-      lineItems: z.object({
-        data: z.array(
-          z.object({
-            priceId: z.string().uuid(),
-            priceData: z.object({
-              currency: Currency,
-              interval: Interval.or(z.undefined()),
-              intervalCount: z.number().or(z.undefined()),
-              unitAmount: z.number(),
-              productId: z.string().uuid(),
-              productData: z.object({
-                name: z.string(),
-                description: z.string(),
-                images: z.array(z.string()),
-                unitLabel: z.string().or(z.undefined()),
-                url: z.string().or(z.undefined()),
-                visibility: z.undefined(),
-              }),
-              type: PaymentType,
-            }),
-            quantity: z.number(),
-            periodStart: z.string().datetime().or(z.undefined()),
-            periodEnd: z.string().datetime().or(z.undefined()),
-          }),
-        ),
-      }),
+      lineItems: LineItemResponse,
       paymentSetting: z.object({
         allowedChains: z.array(z.object({ chainId: z.number() })),
         preferredChainId: z.number(),
@@ -379,3 +488,32 @@ export const res = {
 //   allowPromotionCodes: true,
 //   customerId: "4ad8dc39-1649-4560-8eac-159375a0249c",
 // };
+
+/**
+z.object({
+        data: z.array(
+          z.object({
+            priceId: z.string().uuid(),
+            priceData: z.object({
+              currency: Currency,
+              interval: Interval.or(z.undefined()),
+              intervalCount: z.number().or(z.undefined()),
+              unitAmount: z.number(),
+              productId: z.string().uuid(),
+              productData: z.object({
+                name: z.string(),
+                description: z.string(),
+                images: z.array(z.string()),
+                unitLabel: z.string().or(z.undefined()),
+                url: z.string().or(z.undefined()),
+                visibility: z.undefined(),
+              }),
+              type: PaymentType,
+            }),
+            quantity: z.number(),
+            periodStart: z.string().datetime().or(z.undefined()),
+            periodEnd: z.string().datetime().or(z.undefined()),
+          }),
+        ),
+      })
+*/

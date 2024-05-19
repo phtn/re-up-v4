@@ -3,6 +3,7 @@
 import { type Children } from "@src/app/(main)/types";
 import { auth, db } from "@src/lib/db";
 import { type CopperxCustomerDataSchema } from "@src/server/resource/copperx/customer";
+import { type CopperxInvoiceResponseDataSchema } from "@src/server/resource/copperx/invoice";
 import { type CopperxProductDataSchema } from "@src/server/resource/copperx/product";
 import {
   collection,
@@ -23,7 +24,10 @@ interface PaymentsContextValue {
     productList: CopperxProductDataSchema[] | undefined;
     fetchingProducts: boolean;
   };
-  invoices: undefined;
+  invoices: {
+    invoiceList: CopperxInvoiceResponseDataSchema[] | undefined;
+    fetchingInvoices: boolean;
+  };
 }
 
 export const PaymentsContext = createContext<
@@ -49,12 +53,20 @@ export const PaymentsProvider = ({ children }: Children) => {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
+  const invoiceRef = collection(
+    doc(db, `users/${user?.uid}/payments/invoices`),
+    "copperx",
+  ).withConverter(invoiceDataConverter);
+  const [invoiceList, fetchingInvoices] = useCollectionData(invoiceRef, {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
+
   return (
     <PaymentsContext.Provider
       value={{
         customers: { customerList, fetchingCustomers },
         products: { productList, fetchingProducts },
-        invoices: undefined,
+        invoices: { invoiceList, fetchingInvoices },
       }}
     >
       {children}
@@ -108,3 +120,56 @@ const productDataConverter: FirestoreDataConverter<CopperxProductDataSchema> = {
     };
   },
 };
+
+const invoiceDataConverter: FirestoreDataConverter<CopperxInvoiceResponseDataSchema> =
+  {
+    toFirestore(): DocumentData {
+      return {};
+    },
+    fromFirestore(snapshot, options): CopperxInvoiceResponseDataSchema {
+      const data = snapshot.data(options) as CopperxInvoiceResponseDataSchema;
+
+      return {
+        allowPromotionCodes: data.allowPromotionCodes,
+        attemptCount: data.attemptCount,
+        attempted: data.attempted,
+        autoAdvance: data.autoAdvance,
+        billingReason: data.billingReason,
+        clientReferenceId: data.clientReferenceId,
+        collectionMethod: data.collectionMethod,
+        createdAt: data.createdAt,
+        currency: data.currency,
+        customer: data.customer,
+        customerId: data.customerId,
+        description: data.description,
+        dueDate: data.dueDate,
+        finalizeScheduleAt: data.finalizeScheduleAt,
+        finalizedAt: data.finalizedAt,
+        footer: data.footer,
+        fromInvoiceId: data.fromInvoiceId,
+        invoiceNumber: data.invoiceNumber,
+        invoicePaidUrl: data.invoicePaidUrl,
+        latestRevisionId: data.latestRevisionId,
+        lineItems: data.lineItems,
+        markedUncollectibleAt: data.markedUncollectibleAt,
+        metadata: data.metadata,
+        nextPaymentAttempt: data.nextPaymentAttempt,
+        organizationId: data.organizationId,
+        paid: data.paid,
+        paidAt: data.paidAt,
+        paidOutOfBand: data.paidOutOfBand,
+        paymentIntentId: data.paymentIntentId,
+        paymentSetting: data.paymentSetting,
+        paymentSettingId: data.paymentSettingId,
+        periodEnd: data.periodEnd,
+        periodStart: data.periodStart,
+        status: data.status,
+        subscriptionId: data.subscriptionId,
+        total: data.total,
+        updatedAt: data.updatedAt,
+        url: data.url,
+        visibility: data.visibility,
+        id: snapshot.id,
+      };
+    },
+  };

@@ -39,6 +39,7 @@ const ProfileResource = z.object({
   premium: z.boolean().default(false),
   updatedAt: z.number(),
   webhookCount: z.number().default(0),
+  van: z.string(),
 });
 
 export type ProfileSchema = z.infer<typeof ProfileResource>;

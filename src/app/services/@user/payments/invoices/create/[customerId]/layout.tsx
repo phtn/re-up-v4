@@ -10,16 +10,14 @@ type CreateInvoiceLayoutProps = {
 
 const CreateInvoiceLayout = ({ children }: CreateInvoiceLayoutProps) => {
   return (
-    <>
+    <div className="h-[604px] overflow-y-scroll">
       <div className="flex items-center space-x-4">
         <FilePlusIcon className="size-5 text-copper/60" />
         <Header title="Create Invoice" />
       </div>
 
-      <div className="h-[540px] overflow-y-scroll pb-8 pr-8 text-xs">
-        {children}
-      </div>
-    </>
+      <div className="pb-8 pr-8 text-xs">{children}</div>
+    </div>
   );
 };
 export default CreateInvoiceLayout;

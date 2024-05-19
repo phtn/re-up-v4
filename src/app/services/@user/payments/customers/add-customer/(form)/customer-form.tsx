@@ -73,7 +73,6 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
                     <FormItem>
                       <FormControl>
                         <InputOption
-                          inputType={item.inputType}
                           props={{
                             item,
                             index,
@@ -102,7 +101,6 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
                     <FormItem>
                       <FormControl>
                         <InputOption
-                          inputType={item.inputType}
                           props={{
                             item,
                             index,
@@ -139,7 +137,6 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
                     <FormItem>
                       <FormControl>
                         <InputOption
-                          inputType={item.inputType}
                           props={{
                             item,
                             index,

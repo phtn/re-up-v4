@@ -1,27 +1,41 @@
 "use client";
-import { useContext } from "react";
-// import { useEffect, useState } from "react";
-import { Header } from "../../(components)/header";
+
+import { Button } from "@src/app/(ui)/button";
+import { prettyDate } from "@src/utils/helpers";
 import {
   BarcodeIcon,
   BuildingIcon,
-  type LucideIcon,
+  CalendarIcon,
+  FileSymlinkIcon,
   MailIcon,
+  MapPin,
+  SettingsIcon,
   SmartphoneIcon,
   UserRoundIcon,
-  CalendarIcon,
-  MapPin,
+  type LucideIcon,
 } from "lucide-react";
+import { useContext } from "react";
+import tw from "tailwind-styled-components";
+import { Header } from "../../(components)/header";
 import { PaymentsContext } from "../../(context)/context";
 import { useCustomerSettings } from "./hooks";
-import { prettyDate } from "@src/utils/helpers";
-import tw from "tailwind-styled-components";
+import { useRouter } from "next/navigation";
 
 export const CustomerContent = ({ id }: { id: string }) => {
-  const query = useContext(PaymentsContext)?.customers;
-  const customer = query?.customerList?.find(
-    (data) => data.customerReferenceId === id,
+  const query = useContext(PaymentsContext);
+  const customer = query?.customers?.customerList?.find(
+    (data) => data.customerNumber === id,
   );
+  const invoices = query?.invoices.invoiceList?.filter(
+    (item) => item?.customerId === customer?.id,
+  );
+
+  const router = useRouter();
+  const handleCreateInvoiceRoute = () => {
+    if (customer?.id) {
+      router.push(`/services/payments/invoices/create/${customer?.id}/0`);
+    }
+  };
 
   const createdAt = prettyDate(customer?.createdAt).split(" at ");
   const address = customer?.address;
@@ -29,20 +43,26 @@ export const CustomerContent = ({ id }: { id: string }) => {
 
   return (
     <div className="">
-      {/* <div
-        onClick={handleCopyInfo("customer id", customer?.customerNumber)}
-        className="flex items-center space-x-3 pt-5 text-dyan/60"
-      >
-        <BarcodeIcon size={15} />
-        <p className="cursor-pointer font-mono text-[13.5px] tracking-wide decoration-dyan/50 decoration-dashed underline-offset-4 hover:underline">
-          {customer?.customerNumber}
-        </p>
-      </div> */}
-      <div className="flex items-center space-x-3">
-        <UserRoundIcon className="size-5 text-copper/60" />
-        <Header title={`${customer?.name?.toUpperCase()}`} />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <UserRoundIcon className="size-5 text-copper/60" />
+          <Header title={`${customer?.name?.toUpperCase()}`} />
+          <p>{id}</p>
+        </div>
+        <div className="flex items-center space-x-4 px-4">
+          <Button
+            onClick={handleCreateInvoiceRoute}
+            className="flex h-[32px] items-center space-x-2 rounded border-[0.33px] border-indigo-500/50 bg-indigo-50 text-sm text-indigo-500 transition-colors duration-300 hover:bg-indigo-500 hover:text-white"
+          >
+            <p>Create Invoice</p>
+            <FileSymlinkIcon className="size-[15px] stroke-[1.5px]" />
+          </Button>
+          <Button className="h-[32px] rounded border-[0.33px] border-paper bg-paper text-dyan/50 transition-all duration-300 hover:border-dyan hover:text-dyan hover:shadow-sm">
+            <SettingsIcon className="size-4" />
+          </Button>
+        </div>
       </div>
-      <div className="h-[520px] overflow-scroll pr-4 text-xs text-dyan">
+      <div className="h-[520px] space-y-6 overflow-scroll pr-4 text-xs text-dyan">
         <div className="grid grid-cols-1 gap-x-2 md:grid-cols-8">
           <DetailContainer className="col-span-3">
             <Detail
@@ -81,13 +101,6 @@ export const CustomerContent = ({ id }: { id: string }) => {
               copy={handleCopyInfo}
             />
           </DetailContainer>
-          <DetailContainer className="col-span-2">
-            <Stats title="Invoices" value={0} />
-            <Stats title="Payments" value={0} />
-            <Stats title="Pending" value={0} />
-            <Stats title="Delayed" value={0} />
-            <Stats title="Total sales" value={"₱0.00"} />
-          </DetailContainer>
 
           <DetailContainer className="col-span-3">
             <BillingDetail
@@ -113,9 +126,18 @@ export const CustomerContent = ({ id }: { id: string }) => {
             />
           </DetailContainer>
         </div>
+        <div className="h-[120px] text-dyan">
+          <div className="grid h-full grid-cols-5">
+            <Stats label="total spent" value={0} />
+            <Stats label="invoices" value={invoices?.length} />
+            <Stats label="pending" value={0} />
+            <Stats label="delayed" value={0} />
+            <Stats label="completed" value={0} />
+          </div>
+        </div>
 
         <div>
-          <Header title="Payments" />
+          <Header title="Transactions" />
         </div>
       </div>
     </div>
@@ -131,7 +153,7 @@ type DetailProps = {
 };
 const Detail = (props: DetailProps) => (
   <div className="grid grid-cols-8 text-[13px]">
-    <div className="col-span-4 flex items-center space-x-2 font-mono font-light uppercase tracking-wider text-dyan/80">
+    <div className="col-span-4 flex items-center space-x-2 font-mono font-light text-dyan/80">
       <props.icon className="size-[13px] fill-sky-400/30 stroke-[1.5px] text-dyan" />
       <p className="">{props.title}</p>
     </div>
@@ -145,15 +167,15 @@ const Detail = (props: DetailProps) => (
 );
 
 type StatsProps = {
-  title: string;
+  label: string;
   value: number | string | undefined;
 };
 const Stats = (props: StatsProps) => (
-  <div className=" flex w-full items-center justify-between text-[13px]">
-    <div className="col-span-2space-x-2 font-mono font-light uppercase tracking-wider text-dyan/80">
-      <p className="">{props.title}</p>
+  <div className="flex flex-col items-start justify-center">
+    <div className="flex flex-col items-start justify-center">
+      <p className="text-xl font-semibold tracking-tight">{props.value}</p>
+      <p className="font-mono text-xs font-light text-dyan/80">{props.label}</p>
     </div>
-    <div className="col-span-3 my-[2px] cursor-pointer font-mono text-[16px] font-normal tracking-widest decoration-dyan/50 decoration-dashed underline-offset-4 hover:underline">{`${props?.value}`}</div>
   </div>
 );
 
@@ -161,7 +183,7 @@ const BillingDetail = (props: DetailProps) => {
   const line = props?.value?.split("*") ?? ["", "", ""];
   return (
     <div className="grid grid-cols-8 py-[4.55px] text-[13px]">
-      <div className="col-span-3 flex items-start space-x-2 font-mono font-light uppercase tracking-wider text-dyan/80">
+      <div className="col-span-3 flex items-start space-x-2 font-mono font-light text-dyan/80">
         <props.icon className="size-[13px] fill-sky-400/30 stroke-[1.5px] text-dyan" />
         <p>{props.title}</p>
       </div>

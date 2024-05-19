@@ -29,11 +29,26 @@ export const ProductSelect = ({
   return (
     <Sheet>
       <Trigger>
-        <PackagePlusIcon className="size-6 stroke-[1.5px] text-dyan" />
-        <div className="text-dyan">
-          <p>Add Product</p>
+        <div className="flex w-[120px] justify-center">
+          <PackagePlusIcon className="size-6 stroke-[1.5px] text-dyan" />
         </div>
-        <ChevronDownIcon className="size-4 text-dyan/50" />
+        <div className="flex w-full items-center justify-between text-dyan">
+          <p>Add Product</p>
+
+          <div className="flex items-center space-x-1.5">
+            <p className="text-lg font-semibold tracking-tight">
+              {productList?.length}
+            </p>
+            <p className="font-thin text-dyan/50">|</p>
+            <p className="text-xs font-normal tracking-normal text-dyan/80">
+              Products
+            </p>
+          </div>
+        </div>
+
+        <div className="flex w-[120px] justify-center">
+          <ChevronDownIcon className="size-4 text-dyan" />
+        </div>
       </Trigger>
       <Content>
         <Header>

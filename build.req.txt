@@ -1,0 +1,1 @@
+npx api install "@copperx/v0.0.1#d405nzlrt7easu"

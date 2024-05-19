@@ -2,15 +2,18 @@
 
 import { Button } from "@src/app/(ui)/button";
 import { Header } from "../(components)/header";
-import { useFetchInvoices, useInvoiceController } from "../(hooks)/invoice";
+import { useInvoiceController } from "../(hooks)/invoice";
 import { cn } from "@src/utils/cn";
 import { Disc3Icon, PlusIcon } from "lucide-react";
 import { DataTable } from "./(invoices)/data-table";
 import { columns } from "./(invoices)/column";
+import { useContext } from "react";
+import { PaymentsContext } from "../(context)/context";
 
 export const InvoicesContent = () => {
+  const invoices = useContext(PaymentsContext)?.invoices;
   const { handleCreateInvoiceRoute, invoiceLoading } = useInvoiceController();
-  const { fetchingInvoices, invoiceList } = useFetchInvoices();
+
   return (
     <div className="pr-4">
       <div className="flex items-center space-x-4">
@@ -26,10 +29,10 @@ export const InvoicesContent = () => {
           {invoiceLoading ? <Disc3Icon /> : <PlusIcon />}
         </Button>
       </div>
-      <div className="">
+      <div>
         <DataTable
-          data={invoiceList?.data ?? []}
-          loading={fetchingInvoices}
+          data={invoices?.invoiceList ?? []}
+          loading={invoices?.fetchingInvoices ?? true}
           columns={columns}
         />
       </div>

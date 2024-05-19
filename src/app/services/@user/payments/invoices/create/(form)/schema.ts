@@ -75,9 +75,9 @@ export const CreateInvoiceFormProps = z.object({
 export type CreateInvoiceFormSchema = z.infer<typeof CreateInvoiceFormProps>;
 
 export const invoiceFormDefaults: CreateInvoiceFormSchema = {
-  description: "Test Invoice",
-  dueDate: "2024-05-08T15:59:59.999Z",
-  currency: "usdt",
+  description: "",
+  dueDate: new Date().toISOString(),
+  currency: "tfi",
   type: "one_time",
 };
 

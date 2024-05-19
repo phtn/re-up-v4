@@ -219,6 +219,18 @@ export const extractAndCheck = (
   return [extracted, isKeyword];
 };
 
+export const errHandler = (
+  e: Error,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  ...args: string[]
+) => {
+  setLoading(false);
+  onError(args[0] ?? "Error", e.name);
+  if (args[1] && args[1].toLowerCase() === "log") {
+    console.log(args[0] ?? "Error", e.name, args[2] ?? "");
+  }
+};
+
 // const url = 'https://example.com/path/to/create/another/segment';
 // const result = extractAndCheck(url, 2, 'create');
 // console.log(result); // { extracted: 'https://example.com/path/to/create', isKeyword: true }

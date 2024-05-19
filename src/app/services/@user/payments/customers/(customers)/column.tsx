@@ -4,6 +4,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./header";
 import { copyFn, prettyDate } from "@src/utils/helpers";
 import { type CopperxCustomerDataSchema } from "@src/server/resource/copperx/customer";
+import Link from "next/link";
 
 export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
   // {
@@ -94,7 +95,7 @@ export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
     enableHiding: true,
   },
   {
-    accessorKey: "id",
+    accessorKey: "customerNumber",
     header: ({ column }) => (
       <DataTableColumnHeader
         className="flex w-[100px] text-sm text-copper"
@@ -103,7 +104,7 @@ export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
       />
     ),
     cell: ({ row }) => {
-      const id: string | undefined = row.getValue("id");
+      const id: string | undefined = row.getValue("customerNumber");
       const handleCopy = async () => {
         await copyFn({ specie: "success", text: id, label: "customer id" });
       };
@@ -113,9 +114,32 @@ export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
           className="group flex items-center text-xs text-dyan"
         >
           <span className="cursor-pointer decoration-dyan/60 decoration-dashed underline-offset-4 group-hover:underline">
-            {id?.slice(-6)}
+            {id}
           </span>
         </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="flex w-[100px] justify-center text-sm text-copper"
+        column={column}
+        title="Actions"
+      />
+    ),
+    cell: ({ row }) => {
+      const id: string | undefined = row.getValue("customerNumber");
+
+      return (
+        <Link href={`/services/payments/customers/${id}`}>
+          <div className="flex w-[100px] items-center justify-center text-xs font-semibold uppercase text-dyan hover:text-sky-600">
+            view
+          </div>
+        </Link>
       );
     },
     enableSorting: false,
@@ -143,33 +167,6 @@ export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
         </div>
       );
     },
-  },
-  {
-    accessorKey: "customerReferenceId",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="flex w-[100px] text-sm text-copper"
-        column={column}
-        title="Ref Id"
-      />
-    ),
-    cell: ({ row }) => {
-      const id: string | undefined = row.getValue("customerReferenceId");
-      const handleCopy = async () => {
-        await copyFn({ specie: "success", text: id, label: "Reference Id" });
-      };
-      return (
-        <div
-          onClick={handleCopy}
-          className="group flex items-center text-xs text-dyan"
-        >
-          <span className="cursor-pointer decoration-dyan/60 decoration-dashed underline-offset-4 group-hover:underline">
-            {id?.slice(-6)}
-          </span>
-        </div>
-      );
-    },
     enableSorting: false,
-    enableHiding: true,
   },
 ];

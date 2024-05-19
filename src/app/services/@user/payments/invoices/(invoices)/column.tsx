@@ -3,9 +3,10 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./header";
 import { copyFn, prettyDate } from "@src/utils/helpers";
-import type { CopperxInvoiceDataSchema } from "@src/server/resource/copperx/invoice";
+import type { CopperxInvoiceResponseDataSchema } from "@src/server/resource/copperx/invoice";
+import Link from "next/link";
 
-export const columns: ColumnDef<CopperxInvoiceDataSchema>[] = [
+export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
   {
     id: "createdAt",
     accessorKey: "createdAt",
@@ -82,35 +83,6 @@ export const columns: ColumnDef<CopperxInvoiceDataSchema>[] = [
     enableSorting: false,
   },
   {
-    id: "invoiceNumber",
-    accessorKey: "invoiceNumber",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="flex w-full text-sm text-copper"
-        column={column}
-        title="Invoice number"
-      />
-    ),
-    cell: (info) => {
-      const invoiceNumber = info.getValue() as string;
-      const handleCopy = async () => {
-        await copyFn({ specie: "product id", text: invoiceNumber });
-      };
-      return (
-        <div
-          onClick={handleCopy}
-          className="group flex items-center text-xs text-dyan"
-        >
-          <span className="cursor-pointer tracking-wide decoration-dashed underline-offset-4 group-hover:underline">
-            {invoiceNumber}
-          </span>
-        </div>
-      );
-    },
-    enableSorting: false,
-    enableHiding: true,
-  },
-  {
     id: "customer",
     accessorKey: "customer.name",
     header: ({ column }) => (
@@ -133,6 +105,36 @@ export const columns: ColumnDef<CopperxInvoiceDataSchema>[] = [
     enableSorting: true,
     enableHiding: true,
   },
+  {
+    id: "invoiceNumber",
+    accessorKey: "invoiceNumber",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="flex w-full text-sm text-copper"
+        column={column}
+        title="Customer number"
+      />
+    ),
+    cell: (info) => {
+      const invoiceNumber = info.getValue() as string;
+      const handleCopy = async () => {
+        await copyFn({ specie: "product id", text: invoiceNumber });
+      };
+      return (
+        <div
+          onClick={handleCopy}
+          className="group flex items-center text-xs text-dyan"
+        >
+          <span className="cursor-pointer tracking-wide decoration-dashed underline-offset-4 group-hover:underline">
+            {invoiceNumber}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
+  },
+
   {
     id: "dueDate",
     accessorKey: "dueDate",
@@ -166,13 +168,42 @@ export const columns: ColumnDef<CopperxInvoiceDataSchema>[] = [
         title="Status"
       />
     ),
-    cell: (info) => {
-      const status = info.getValue() as string;
+    cell: ({ row }) => {
+      const status: string = row.getValue("status");
+      const id: string = row.getValue("id");
 
       return (
-        <div className="flex justify-start pl-8">
-          <p className={"text-xs"}>{status}</p>
-        </div>
+        <Link href={`/services/payments/invoices/${id}`} className="group">
+          <div className="flex justify-start pl-8">
+            <p className={"text-xs group-hover:text-sky-600"}>{status}</p>
+          </div>
+        </Link>
+      );
+    },
+    enableSorting: true,
+    enableHiding: true,
+  },
+  {
+    id: "id",
+    accessorKey: "id",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="flex w-full justify-center text-sm text-copper"
+        column={column}
+        title="Ref"
+      />
+    ),
+    cell: ({ row }) => {
+      const id: string = row.getValue("id");
+
+      return (
+        <Link href={`/services/payments/invoices/${id}`} className="group">
+          <div className="flex justify-start pl-8">
+            <p className={"text-xs group-hover:text-sky-600"}>
+              {id.substring(0, 6)}
+            </p>
+          </div>
+        </Link>
       );
     },
     enableSorting: true,

@@ -9,7 +9,7 @@ const Address = z.object({
   country: z.string(),
 });
 
-const Shipping = z.object({
+export const Shipping = z.object({
   name: z.string(),
   email: z.string().email(),
   phone: z.string(),

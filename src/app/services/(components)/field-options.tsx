@@ -1,6 +1,6 @@
 import type { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { type LucideIcon } from "lucide-react";
-import { inputMap, type InputType } from "@src/utils/helpers";
+import { inputMap } from "@src/utils/helpers";
 import type { CustomerField } from "../@user/payments/customers/add-customer/(form)/schema";
 import type { ProductField } from "../@user/payments/products/add-product/(form)/schema";
 import type { InvoiceField } from "../@user/payments/invoices/create/(form)/schema";
@@ -17,20 +17,17 @@ export type FieldOptionProps<S extends FieldValues> = {
 };
 
 type InputOptionProps<P> = {
-  inputType: InputType;
   props: P;
 };
 
 export const InputOption = <F extends FieldValues>({
-  inputType,
   props,
 }: InputOptionProps<FieldOptionProps<F>>) => {
-  const type: InputType = inputType;
   const options = inputMap(
-    type,
+    "text",
     <TextInputOptions key={`${props.item.name}`} {...props} />,
   );
-  return <div>{options.get(type)}</div>;
+  return <div>{options.get("text")}</div>;
 };
 
 export interface FieldProps<T> {
@@ -38,20 +35,7 @@ export interface FieldProps<T> {
   alt: string;
   icon: LucideIcon;
   placeholder?: string;
-  inputType: InputType;
   label?: string;
   disabled: boolean;
   type: React.HTMLInputTypeAttribute;
 }
-
-// export type TextInputOptionProps<S extends FieldValues> = {
-//   item: InputCatType;
-//   index: number;
-//   length: number;
-//   field: ControllerRenderProps<S>;
-// };
-
-// type InputOptionProps<P> = {
-//   inputType: InputType;
-//   props: P;
-// };
