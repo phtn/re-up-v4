@@ -85,10 +85,10 @@ const ViewAllServices = forwardRef<HTMLButtonElement, ViewAllServicesProps>(
         size="md"
         tail={loading ? Disc3Icon : ArrowRightIcon}
         iconClass={loading ? "animate-spin stroke-1" : ""}
-        className="w-full text-sm portrait:w-[150px]"
+        className="w-full text-sm"
         onClick={onClick}
       >
-        View All Services
+        Dashboard
       </DarkTouch>
     </Link>
   ),
@@ -110,7 +110,7 @@ const LightButton = forwardRef<HTMLButtonElement>((props, ref) => (
 LightButton.displayName = "LightButton";
 
 const Container = tw.div`
-  flex items-center justify-between space-x-4 w-full
+  flex items-center portrait:justify-center justify-between space-x-4 w-full
  `;
 const Content = tw(SheetContent)`
   px-4 pb-12 md:absolute md:left-[calc(100vw-416px)] md:mb-4 md:w-[400px] md:p-6 portrait:w-full

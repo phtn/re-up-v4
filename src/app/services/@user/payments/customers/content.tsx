@@ -15,8 +15,8 @@ export const CustomersContent = () => {
   const customers = useContext(PaymentsContext)?.customers;
 
   return (
-    <div className="pr-4">
-      <div className="flex items-center space-x-4">
+    <div className="pr-4 portrait:pr-0">
+      <div className="flex items-center space-x-4 portrait:px-2">
         <Header title="Customers" />
         <Button
           size={"icon"}

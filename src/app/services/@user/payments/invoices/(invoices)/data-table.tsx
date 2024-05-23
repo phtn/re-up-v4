@@ -114,7 +114,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   // onClick={handleDelete(row.getValue("id"))}
                   className="font-light text-dyan hover:bg-sky-50"
-                  key={row.getValue("invoiceNumber")}
+                  key={row.getValue("id")}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -133,7 +133,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 py-4 text-center font-jet"
                 >
-                  <div className="flex items-center justify-center space-x-4">
+                  <div className="flex items-center justify-center space-x-4 portrait:justify-start portrait:px-4">
                     <span className="animate-pulse font-semibold text-cyan-700">
                       Updating table
                     </span>

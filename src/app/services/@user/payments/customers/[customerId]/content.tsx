@@ -3,6 +3,7 @@
 import { Button } from "@src/app/(ui)/button";
 import { prettyDate } from "@src/utils/helpers";
 import {
+  ArchiveXIcon,
   BarcodeIcon,
   BuildingIcon,
   CalendarIcon,
@@ -43,13 +44,13 @@ export const CustomerContent = ({ id }: { id: string }) => {
 
   return (
     <div className="">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <UserRoundIcon className="size-5 text-copper/60" />
+      <div className="flex items-center justify-between portrait:px-2">
+        <div className="flex items-center space-x-4 portrait:space-x-1">
+          <UserRoundIcon className="size-5 stroke-1 text-dyan/60 portrait:size-4" />
           <Header title={`${customer?.name?.toUpperCase()}`} />
-          <p>{id}</p>
+          <p className="portrait:hidden">{id}</p>
         </div>
-        <div className="flex items-center space-x-4 px-4">
+        <div className="flex items-center space-x-4 px-4 portrait:space-x-1 portrait:px-0">
           <Button
             onClick={handleCreateInvoiceRoute}
             className="flex h-[32px] items-center space-x-2 rounded border-[0.33px] border-indigo-500/50 bg-indigo-50 text-sm text-indigo-500 transition-colors duration-300 hover:bg-indigo-500 hover:text-white"
@@ -62,82 +63,131 @@ export const CustomerContent = ({ id }: { id: string }) => {
           </Button>
         </div>
       </div>
-      <div className="h-[520px] space-y-6 overflow-scroll pr-4 text-xs text-dyan">
-        <div className="grid grid-cols-1 gap-x-2 md:grid-cols-8">
-          <DetailContainer className="col-span-3">
-            <Detail
-              title="Id"
-              label="customer id"
-              icon={BarcodeIcon}
-              value={customer?.customerNumber}
+      <div className="h-[calc(100vh-175px)] space-y-6 overflow-y-scroll pr-4 text-xs text-dyan portrait:pr-0">
+        <div className="portrait:px-2">
+          <div>
+            <Header title="Basic Info" />
+          </div>
+          <div className="grid grid-cols-1 gap-2 sm:px-2 md:grid-cols-8">
+            <DetailContainer className="col-span-3">
+              <Detail
+                title="Id"
+                label="customer id"
+                icon={BarcodeIcon}
+                value={customer?.customerNumber}
+                copy={handleCopyInfo}
+              />
+              <Detail
+                title="Email"
+                label="email"
+                icon={MailIcon}
+                value={customer?.email}
+                copy={handleCopyInfo}
+              />
+              <Detail
+                title="Phone number"
+                label="phone number"
+                icon={SmartphoneIcon}
+                value={customer?.phone}
+                copy={handleCopyInfo}
+              />
+              <Detail
+                title="Organization"
+                label="organization name"
+                icon={BuildingIcon}
+                value={customer?.organizationName}
+                copy={handleCopyInfo}
+              />
+              <Detail
+                title="Customer since"
+                label="customer start date"
+                icon={CalendarIcon}
+                value={createdAt[0]}
+                copy={handleCopyInfo}
+              />
+            </DetailContainer>
+            <BillingInfo
+              email={`${customer?.email}**`}
+              address={`${address?.line1}*${address?.city}, ${address?.state}*${address?.country}, ${address?.postalCode}`}
+              shipping={`${address?.line1}*${address?.city}, ${address?.state}*${address?.country}, ${address?.postalCode}`}
               copy={handleCopyInfo}
             />
-            <Detail
-              title="Email"
-              label="email"
-              icon={MailIcon}
-              value={customer?.email}
-              copy={handleCopyInfo}
-            />
-            <Detail
-              title="Phone number"
-              label="phone number"
-              icon={SmartphoneIcon}
-              value={customer?.phone}
-              copy={handleCopyInfo}
-            />
-            <Detail
-              title="Organization"
-              label="organization name"
-              icon={BuildingIcon}
-              value={customer?.organizationName}
-              copy={handleCopyInfo}
-            />
-            <Detail
-              title="Customer since"
-              label="customer start date"
-              icon={CalendarIcon}
-              value={createdAt[0]}
-              copy={handleCopyInfo}
-            />
-          </DetailContainer>
-
-          <DetailContainer className="col-span-3">
-            <BillingDetail
-              title="Bill to"
-              label="billing email"
-              icon={MailIcon}
-              value={`${customer?.email}**`}
-              copy={handleCopyInfo}
-            />
-            <BillingDetail
-              title="Address"
-              label="billing address"
-              icon={MapPin}
-              value={`${address?.line1}*${address?.city}, ${address?.state}*${address?.country}, ${address?.postalCode}`}
-              copy={handleCopyInfo}
-            />
-            <BillingDetail
-              title="Shipping"
-              label="shipping address"
-              icon={MapPin}
-              value={`${address?.line1}*${address?.city}, ${address?.state}*${address?.country}, ${address?.postalCode}`}
-              copy={handleCopyInfo}
-            />
-          </DetailContainer>
-        </div>
-        <div className="h-[120px] text-dyan">
-          <div className="grid h-full grid-cols-5">
-            <Stats label="total spent" value={0} />
-            <Stats label="invoices" value={invoices?.length} />
-            <Stats label="pending" value={0} />
-            <Stats label="delayed" value={0} />
-            <Stats label="completed" value={0} />
           </div>
         </div>
 
-        <div>
-          <Header title="Transactions" />
+        <Stats invoices={invoices?.length} />
+        <Transactions />
+      </div>
+    </div>
+  );
+};
+
+type BillingInfoProps = {
+  email: string | undefined;
+  address: string;
+  shipping: string;
+  copy: (label: string, value: string | undefined) => () => void;
+};
+const BillingInfo = (props: BillingInfoProps) => {
+  const { email, address, shipping, copy } = props;
+  return (
+    <div className="col-span-5">
+      <DetailContainer>
+        <BillingDetail
+          title="Bill to"
+          label="billing email"
+          icon={MailIcon}
+          value={email}
+          copy={copy}
+        />
+        <BillingDetail
+          title="Address"
+          label="billing address"
+          icon={MapPin}
+          value={address}
+          copy={copy}
+        />
+        <BillingDetail
+          title="Shipping"
+          label="shipping address"
+          icon={MapPin}
+          value={shipping}
+          copy={copy}
+        />
+      </DetailContainer>
+    </div>
+  );
+};
+
+type StatsProps = {
+  invoices: number | undefined;
+};
+const Stats = (props: StatsProps) => {
+  const { invoices } = props;
+  return (
+    <div className="text-dyan portrait:h-fit portrait:px-2">
+      <Header title="Stats" />
+      <div className="grid h-full grid-cols-5 portrait:grid-cols-3 portrait:gap-y-4 portrait:px-2">
+        <Stat label="spent" value={0} />
+        <Stat label="invoices" value={invoices} />
+        <Stat label="pending" value={0} />
+        <Stat label="delayed" value={0} />
+        <Stat label="completed" value={0} />
+      </div>
+    </div>
+  );
+};
+
+const Transactions = () => {
+  return (
+    <div>
+      <div className="portrait:px-2">
+        <Header title="Transaction History" />
+      </div>
+      <div className="flex h-[200px] w-full items-center justify-center rounded bg-paper portrait:rounded-none">
+        <div className="flex items-center space-x-4 text-dyan/50 portrait:space-x-2">
+          <p>No records in history.</p>
+          <ArchiveXIcon className="size-4 stroke-1" />
         </div>
       </div>
     </div>
@@ -166,11 +216,11 @@ const Detail = (props: DetailProps) => (
   </div>
 );
 
-type StatsProps = {
+type StatProps = {
   label: string;
   value: number | string | undefined;
 };
-const Stats = (props: StatsProps) => (
+const Stat = (props: StatProps) => (
   <div className="flex flex-col items-start justify-center">
     <div className="flex flex-col items-start justify-center">
       <p className="text-xl font-semibold tracking-tight">{props.value}</p>

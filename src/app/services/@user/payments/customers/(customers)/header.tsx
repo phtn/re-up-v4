@@ -28,7 +28,14 @@ export function DataTableColumnHeader<TData, TValue>({
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
     return (
-      <div className={cn("font-sans font-semibold", className)}>{title}</div>
+      <div
+        className={cn(
+          "flex font-sans text-sm font-semibold text-dyan",
+          className,
+        )}
+      >
+        {title}
+      </div>
     );
   }
 
@@ -44,9 +51,11 @@ export function DataTableColumnHeader<TData, TValue>({
           <Button
             variant="ghost"
             size="sm"
-            className="my-1 h-8 px-1 ring-paper focus-visible:ring-0 focus-visible:ring-offset-1 data-[state=open]:bg-cyan-700/10 data-[state=open]:text-cyan-900"
+            className="my-1 h-8 px-1 ring-dyan/80 focus-visible:ring-0 focus-visible:ring-offset-1 data-[state=open]:bg-cyan-700/10 data-[state=open]:text-cyan-900"
           >
-            <span className="font-sans font-semibold text-copper">{title}</span>
+            <span className="font-sans text-sm font-semibold text-dyan">
+              {title}
+            </span>
             {column.getIsSorted() === "desc" ? (
               <ArrowDown01Icon className="ml-2 size-4 text-emerald-500" />
             ) : column.getIsSorted() === "asc" ? (

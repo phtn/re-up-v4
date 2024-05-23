@@ -1,9 +1,11 @@
 import { addCustomerInternal } from "../firebase/payments/customer";
 import { addInvoiceInternal } from "../firebase/payments/invoice";
 import { addProductInternal } from "../firebase/payments/product";
+import { updatePaymentInternal } from "../firebase/payments/updates";
 import { AddCustomerInternalProcedure } from "../procedure/payments/customer";
 import { AddInvoiceInternalProcedure } from "../procedure/payments/invoice";
 import { AddProductInternalProcedure } from "../procedure/payments/product";
+import { UpdatePaymentInternalProcedure } from "../procedure/payments/updates";
 import { router } from "../trpc";
 
 export const internalRouter = router({
@@ -15,6 +17,10 @@ export const internalRouter = router({
   ),
   addInvoiceInternal: AddInvoiceInternalProcedure.query(
     async ({ input }) => await addInvoiceInternal(input),
+  ),
+  updatePaymentInternal: UpdatePaymentInternalProcedure.query(
+    async ({ input }) => updatePaymentInternal(input),
+    // async ({ input }) => input,
   ),
 });
 

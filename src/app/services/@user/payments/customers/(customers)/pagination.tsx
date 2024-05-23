@@ -20,16 +20,14 @@ export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex w-full items-center overflow-x-scroll border-t-[0.33px] py-6 text-xs md:pb-2 md:pt-3">
+    <div className="flex w-full items-center overflow-x-scroll border-t-[0.33px] px-4 py-6 text-xs md:pb-2 md:pt-3">
       {/* <div className="text-muted-foreground flex-1 text-sm">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div> */}
       <div className="flex w-full items-center justify-between space-x-4 lg:space-x-8">
         <div className="flex items-center space-x-2 md:space-x-8">
-          <p className="font-sans text-xs font-light text-opus">
-            Rows per page
-          </p>
+          <p className="font-sans text-xs font-light text-opus">Rows</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value: string) => {
@@ -37,7 +35,7 @@ export function DataTablePagination<TData>({
             }}
           >
             <SelectTrigger
-              className="h-8 w-[75px] border-ash/80 font-jet text-sky-400"
+              className="h-8 border-ash/80 font-jet text-sky-400 portrait:w-[56px]"
               caretStyle="text-clay"
             >
               <SelectValue
@@ -58,9 +56,8 @@ export function DataTablePagination<TData>({
             </BeachSelect>
           </Select>
         </div>
-        <div className="flex w-[100px] items-center justify-center font-sans text-[11px] font-light text-opus">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+        <div className="flex w-[100px] items-center justify-center font-mono text-[11px] font-light text-opus">
+          {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2 px-4 md:space-x-4">
           <Button

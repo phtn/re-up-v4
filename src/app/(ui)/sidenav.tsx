@@ -50,11 +50,15 @@ const NavList = ({ navlist }: { navlist: Group[] }) => {
   const pathname = usePathname();
 
   return (
-    <nav className={cn("flex overflow-x-scroll lg:space-y-2")}>
+    <nav
+      className={cn(
+        "flex overflow-x-scroll lg:space-y-2 portrait:space-x-8 portrait:px-2",
+      )}
+    >
       {navlist.map((group) => (
         <div key={group.label} className="flex lg:flex-col">
           {group.values.map((item) => (
-            <Link key={item.value} href={item.href ?? `#`}>
+            <Link key={item.value} href={item.href ?? `#`} className="px-4">
               <GroupItem>
                 <IconContainer>
                   <item.icon
@@ -83,6 +87,9 @@ const Aside = tw.aside`
   lg:h-full w-full
   z-50 border-ash
   lg:border-b-[0px] md:border-b-[0.33px] portrait:w-screen
+  portrait:bg-paper/50
+  portrait:border-b-[0.33px] portrait:border-ash
+
   `;
 
 const Container = tw.div`
@@ -109,7 +116,7 @@ const Container = tw.div`
 // };
 
 const GroupItem = tw.div`
-  flex w-full space-x-3 mx-3
+  flex w-full space-x-2 mx-3 portrait:mx-0 portrait:space-x-0
   font-sans font-semibold text-md text-clay tracking-tighter
   transition-colors duration-200 delay-200 ease-in
   md:hover:text-sky-500
@@ -117,15 +124,15 @@ const GroupItem = tw.div`
   `;
 
 const ItemContent = tw.div`
-  flex h-[46px] w-full items-center
+  flex h-[46px] portrait:h-[36px] w-full items-center
   `;
 
 const IconContainer = tw.div`
-  flex items-center justify-center h-[46px] w-[46px]
+  flex portrait:items-center items-end justify-center h-[33px] portrait:h-[36px] w-[30px]
   `;
 
 const iconClass = `
-  md:size-[20px] size-[18px]
   group-hover:scale-[120%]
+  md:size-[20px] size-[16px] portrait:size-3
   transition-transform duration-200 delay-200 ease-out
   `;

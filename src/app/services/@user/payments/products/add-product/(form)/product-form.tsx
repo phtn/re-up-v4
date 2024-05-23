@@ -90,8 +90,8 @@ export const AddProductForm = ({ userId, route }: ProductFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-x-4 rounded-xl bg-mojo md:grid-cols-2">
-          <div className="h-fit space-y-8 rounded-xl border-dyan/50 bg-mojo px-4 py-6">
+        <div className="grid grid-cols-1 gap-x-4 rounded-xl md:grid-cols-2">
+          <div className="h-fit space-y-8 rounded-xl border-dyan/50">
             <FormCard
               icon={PackageOpenIcon}
               title="Product Info"
@@ -162,7 +162,7 @@ export const AddProductForm = ({ userId, route }: ProductFormProps) => {
             </FormCard>
           </div>
 
-          <div className="h-fit space-y-6 rounded-xl border-[0px] bg-mojo px-4 py-6">
+          <div className="h-fit space-y-6 rounded-xl border-[0px]">
             <FormCard
               icon={ReceiptTextIcon}
               title="Pricing"

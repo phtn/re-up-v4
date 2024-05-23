@@ -235,6 +235,39 @@ export const InputFile = React.forwardRef<
 });
 InputFile.displayName = "InputFile";
 
+export const ImageFile = React.forwardRef<
+  HTMLInputElement,
+  InputProps & IconPrefix
+>(({ className, type, ...props }, ref) => {
+  return (
+    <div
+      className={cn(
+        "relative flex cursor-pointer flex-col items-center justify-end rounded border portrait:justify-center",
+        className,
+      )}
+    >
+      <div className="absolute flex flex-col items-center justify-center">
+        <div className="flex items-center justify-center">
+          <props.icon className="size-7 stroke-[1px] text-dyan/50 portrait:size-4" />
+        </div>
+        <div className="flex items-center justify-center space-x-4 pb-2 pt-10 portrait:hidden portrait:pb-0">
+          <span className="py-1 font-mono text-[12px] text-dyan/50 portrait:hidden portrait:py-0">
+            JPG or PNG
+          </span>
+        </div>
+      </div>
+
+      <input
+        {...props}
+        type={type}
+        ref={ref}
+        className="flex h-[175px] w-full py-2 text-[15px] opacity-0 placeholder:text-slate-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 portrait:h-[56px] portrait:py-0"
+      />
+    </div>
+  );
+});
+ImageFile.displayName = "ImageFile";
+
 type FieldProps = {
   icon?: LucideIcon;
   label?: string;

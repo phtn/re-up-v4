@@ -5,6 +5,7 @@ import { DataTableColumnHeader } from "./header";
 import { copyFn, prettyDate } from "@src/utils/helpers";
 import { type CopperxCustomerDataSchema } from "@src/server/resource/copperx/customer";
 import Link from "next/link";
+import { SquareUserRound } from "lucide-react";
 
 export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
   // {
@@ -41,21 +42,40 @@ export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
   //   enableHiding: false,
   // },
   {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <DataTableColumnHeader className="w-[36px]" column={column} title="" />
+    ),
+    cell: ({ row }) => {
+      const id: string | undefined = row.getValue("customerNumber");
+
+      return (
+        <Link href={`/services/payments/customers/${id}`}>
+          <div className="flex h-[48px] items-start justify-center text-xs font-semibold uppercase text-dyan hover:text-sky-600 portrait:h-[32px]">
+            <SquareUserRound className="size-5 stroke-1 text-sky-500" />
+          </div>
+        </Link>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-[200px] text-copper"
+        className="w-[200px] portrait:w-[100px]"
         column={column}
         title="Name"
       />
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex flex-col items-start justify-center space-y-0.5">
-          <p className="font-sans font-semibold uppercase tracking-tight">
+        <div className="flex flex-col items-start justify-center overflow-x-scroll  portrait:w-[100px] portrait:-space-y-1.5">
+          <p className="font-sans font-semibold uppercase tracking-tight portrait:text-sm">
             {row.getValue("name")}
           </p>
-          <p className="text-[11px] capitalize">
+          <p className="text-[11px] font-light capitalize">
             {row.getValue("organizationName")}
           </p>
         </div>
@@ -68,39 +88,43 @@ export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
     accessorKey: "email",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-[150px] text-sm text-copper"
+        className="w-[150px] portrait:w-[100px]"
         column={column}
         title="Email"
       />
     ),
     cell: ({ row }) => {
-      return <p className={"text-xs"}>{row.getValue("email")}</p>;
+      return (
+        <div className="portrait:w-[100px] portrait:overflow-x-scroll">
+          <p className={"text-xs"}>{row.getValue("email")}</p>
+        </div>
+      );
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {
     accessorKey: "organizationName",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-[200px] text-xs text-copper"
+        className="w-[100px]"
         column={column}
-        title="Organization"
+        title="Org"
       />
     ),
     cell: ({ row }) => {
       return <p className={"text-xs"}>{row.getValue("organizationName")}</p>;
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {
     accessorKey: "customerNumber",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="flex w-[100px] text-sm text-copper"
+        className="flex w-[100px]"
         column={column}
-        title="Id"
+        title="ID"
       />
     ),
     cell: ({ row }) => {
@@ -122,36 +146,14 @@ export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
     enableSorting: false,
     enableHiding: true,
   },
-  {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="flex w-[100px] justify-center text-sm text-copper"
-        column={column}
-        title="Actions"
-      />
-    ),
-    cell: ({ row }) => {
-      const id: string | undefined = row.getValue("customerNumber");
 
-      return (
-        <Link href={`/services/payments/customers/${id}`}>
-          <div className="flex w-[100px] items-center justify-center text-xs font-semibold uppercase text-dyan hover:text-sky-600">
-            view
-          </div>
-        </Link>
-      );
-    },
-    enableSorting: false,
-    enableHiding: true,
-  },
   {
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
         title="Created On"
-        className="flex w-full justify-end"
+        className="w-full justify-end"
       />
     ),
     cell: ({ row }) => {
@@ -161,7 +163,7 @@ export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
       const datetime = timestamp.split(" at ");
 
       return (
-        <div className="flex w-full flex-col items-end justify-center px-2">
+        <div className="flex w-full flex-col items-end justify-center px-2 portrait:w-[100px] portrait:px-0">
           <p className="text-xs font-medium">{datetime[0]}</p>
           <p className="text-[11px] text-dyan/60">{datetime[1]}</p>
         </div>

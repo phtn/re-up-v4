@@ -5,37 +5,33 @@ import { DataTableColumnHeader } from "./header";
 import { copyFn, prettyDate } from "@src/utils/helpers";
 import type { CopperxInvoiceResponseDataSchema } from "@src/server/resource/copperx/invoice";
 import Link from "next/link";
+import { getValueAndCurrency } from "../../(context)/currency-list";
+import Image from "next/image";
+import { type CurrencySchema } from "@src/server/resource/copperx/common";
+import { FileSymlinkIcon } from "lucide-react";
 
 export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
   {
-    id: "createdAt",
-    accessorKey: "createdAt",
+    id: "id",
+    accessorKey: "id",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Date"
-        className="flex w-full justify-start"
-      />
+      <DataTableColumnHeader column={column} title="" className="w-[46px]" />
     ),
     cell: ({ row }) => {
-      const dateString: string | undefined = row.getValue("createdAt");
-
-      const timestamp = prettyDate(dateString);
-      const datetime = timestamp.split(" at ");
+      const id: string = row.getValue("id");
 
       return (
-        <div className="flex w-[100px] flex-col items-start justify-center space-y-0.5 px-1">
-          <p className="font-sans text-xs font-medium">{datetime[0]}</p>
-          <p className="text-[11px] tracking-wide text-dyan/60">
-            {datetime[1]}
-          </p>
-        </div>
+        <Link href={`/services/payments/invoices/${id}`}>
+          <div className="flex w-full items-center justify-center">
+            <FileSymlinkIcon className={"size-5 stroke-1 text-sky-600"} />
+          </div>
+        </Link>
       );
     },
+    enableSorting: false,
   },
-
   {
-    id: "amount",
+    id: "total",
     accessorKey: "total",
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -44,15 +40,24 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
         className="flex justify-end"
       />
     ),
-    cell: (info) => {
-      const amount = info.getValue() as string;
-      const total = (Number(BigInt(amount ?? 0)) / 100000000).toFixed(2);
-      // const currency = row.getValue("currency") as CurrencySchema;
-      // const total = row.getValue("total");
+    cell: ({ row }) => {
+      const total: string | undefined = row.getValue("total");
+      const currency: CurrencySchema | undefined = row.getValue("currency");
+      const [totalAmount, symbol] = getValueAndCurrency(total, currency);
 
       return (
         <div className="flex items-center justify-end">
-          <span className="font-sans text-[17px] font-medium">{total}</span>
+          {symbol ? (
+            <Image
+              alt="currency"
+              src={symbol as string}
+              width={0}
+              height={0}
+              className="h-[18px] w-auto px-1"
+              quality={100}
+            />
+          ) : null}
+          <p className="font-sans font-medium">{totalAmount}</p>
         </div>
       );
     },
@@ -64,30 +69,30 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title=""
-        className="flex h-[16px] w-[16px] justify-center rounded-full border border-indigo-400 bg-indigo-100 bg-[url('/svg/all_currency.svg')] bg-cover p-0.5 "
+        title="Currency"
+        className="flex"
       />
     ),
     cell: (info) => {
       const currency = info.getValue() as string;
 
       return (
-        <div className="flex w-[40px] items-center justify-start">
+        <div className="flex items-center justify-center">
           <span className="text-[13px] uppercase tracking-tighter">
             {currency}
           </span>
         </div>
       );
     },
-
-    enableSorting: false,
+    enableHiding: true,
+    enableSorting: true,
   },
   {
     id: "customer",
     accessorKey: "customer.name",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-[100px] text-xs text-copper"
+        className="w-[100px]"
         column={column}
         title="Customer"
       />
@@ -110,7 +115,7 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     accessorKey: "invoiceNumber",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="flex w-full text-sm text-copper"
+        className=""
         column={column}
         title="Customer number"
       />
@@ -139,11 +144,7 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     id: "dueDate",
     accessorKey: "dueDate",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        className="flex justify-center text-xs text-copper"
-        column={column}
-        title="Due"
-      />
+      <DataTableColumnHeader className="" column={column} title="Due" />
     ),
     cell: (info) => {
       const dateString = prettyDate(info.getValue() as string);
@@ -162,11 +163,7 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     id: "status",
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        className="flex w-full justify-center text-sm text-copper"
-        column={column}
-        title="Status"
-      />
+      <DataTableColumnHeader className="" column={column} title="Status" />
     ),
     cell: ({ row }) => {
       const status: string = row.getValue("status");
@@ -184,29 +181,29 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     enableHiding: true,
   },
   {
-    id: "id",
-    accessorKey: "id",
+    id: "createdAt",
+    accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="flex w-full justify-center text-sm text-copper"
         column={column}
-        title="Ref"
+        title="Created On"
+        className="flex"
       />
     ),
     cell: ({ row }) => {
-      const id: string = row.getValue("id");
+      const dateString: string | undefined = row.getValue("createdAt");
+
+      const timestamp = prettyDate(dateString);
+      const datetime = timestamp.split(" at ");
 
       return (
-        <Link href={`/services/payments/invoices/${id}`} className="group">
-          <div className="flex justify-start pl-8">
-            <p className={"text-xs group-hover:text-sky-600"}>
-              {id.substring(0, 6)}
-            </p>
-          </div>
-        </Link>
+        <div className="flex flex-col items-start justify-center space-y-0.5 px-1">
+          <p className="font-sans text-xs font-medium">{datetime[0]}</p>
+          <p className="text-[11px] tracking-wide text-dyan/60">
+            {datetime[1]}
+          </p>
+        </div>
       );
     },
-    enableSorting: true,
-    enableHiding: true,
   },
 ];

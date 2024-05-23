@@ -9,7 +9,7 @@ import type {
   PaymentTypeSchema,
 } from "@src/server/resource/copperx/common";
 import { getDecimalAmount } from "../../(hooks)/helpers";
-import { FileSlidersIcon } from "lucide-react";
+import { FileBoxIcon } from "lucide-react";
 import Link from "next/link";
 
 export const columns: ColumnDef<CopperxProductDataSchema>[] = [
@@ -47,10 +47,28 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
   //   enableHiding: false,
   // },
   {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={""} className="w-[36px]" />
+    ),
+    cell: ({ row }) => {
+      const id: string = row.getValue("id");
+      const baseRoute = "/services/payments/products";
+      return (
+        <Link href={`${baseRoute}/${id}`}>
+          <div className="flex h-[40px] w-full items-center justify-center">
+            <FileBoxIcon className="size-5 stroke-1 text-sky-600" />
+          </div>
+        </Link>
+      );
+    },
+    enableSorting: false,
+  },
+  {
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-[100px] text-copper"
+        className="w-[100px]"
         column={column}
         title="Name"
       />
@@ -69,7 +87,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
     accessorKey: "description",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-[150px] text-sm text-copper"
+        className="w-[150px]"
         column={column}
         title="Description"
       />
@@ -82,17 +100,13 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
         </div>
       );
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {
-    accessorKey: "id",
+    accessorKey: "ref",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        className="flex w-[100px] text-sm text-copper"
-        column={column}
-        title="ID"
-      />
+      <DataTableColumnHeader className="w-[100px]" column={column} title="ID" />
     ),
     cell: ({ row }) => {
       const id: string | undefined = row.getValue("id");
@@ -102,7 +116,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
       return (
         <div
           onClick={handleCopy}
-          className="group flex items-center text-xs text-dyan"
+          className="group flex items-center text-sm text-dyan portrait:text-xs"
         >
           <span className="cursor-pointer decoration-dashed underline-offset-4 group-hover:underline">
             {id?.slice(-6)}
@@ -118,7 +132,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
     accessorKey: "defaultPrice.type",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-[100px] text-xs text-copper"
+        className="w-[100px]"
         column={column}
         title="Type"
       />
@@ -134,11 +148,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
     id: "currency",
     accessorKey: "defaultPrice.currency",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        className="flex text-xs text-copper"
-        column={column}
-        title="Currency"
-      />
+      <DataTableColumnHeader className="" column={column} title="Currency" />
     ),
     cell: (info) => {
       const currency = info.getValue() as CurrencySchema;
@@ -161,7 +171,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
       <DataTableColumnHeader
         column={column}
         title="Unit Price"
-        className="flex w-full justify-end"
+        className="w-full justify-end"
       />
     ),
     cell: (info) => {
@@ -179,27 +189,6 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
               : price}
           </span>
         </div>
-      );
-    },
-  },
-  {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title={""}
-        className="flex w-full justify-end"
-      />
-    ),
-    cell: ({ row }) => {
-      const id: string = row.getValue("id");
-      const baseRoute = "/services/payments/products";
-      return (
-        <Link href={`${baseRoute}/${id}`}>
-          <div className="flex w-full items-center justify-end pr-2">
-            <FileSlidersIcon className="size-4 text-dyan/40" />
-          </div>
-        </Link>
       );
     },
     enableSorting: false,

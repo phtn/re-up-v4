@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex h-[64px] w-screen items-center space-x-4 overflow-x-scroll border-0 py-1 md:w-full">
+      <div className="flex h-[64px] w-screen items-center space-x-4 overflow-x-scroll border-0 py-1 md:w-full portrait:px-4">
         <FormHeader
           title="Products"
           onClick={handleAddProductRoute}
@@ -89,9 +89,9 @@ export function DataTable<TData, TValue>({
         />
         <DataTableToolbar table={table} />
       </div>
-      <div className="h-[520px] overflow-scroll rounded-[4px] border-[0.33px] border-dyan/40 bg-white font-jet text-xs font-light">
+      <div className="h-[520px] overflow-scroll rounded-[4px] border-[0.33px] border-dyan/40 bg-white font-jet text-xs font-light portrait:rounded-none">
         <Table>
-          <TableHeader className="sticky rounded-lg bg-paper tracking-tight">
+          <TableHeader className="sticky bg-paper tracking-tight portrait:rounded-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
@@ -137,7 +137,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center font-jet"
                 >
-                  <div className="flex items-center justify-center space-x-4">
+                  <div className="flex items-center justify-center space-x-4 portrait:justify-start portrait:px-4">
                     <span className="animate-pulse font-semibold text-cyan-700">
                       Updating table
                     </span>

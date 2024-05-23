@@ -21,6 +21,7 @@ export const Base = tw.div`
     w-full h-fit md:h-[714px]
     bg-void/80 overflow-scroll
     border-[0.33px] border-ash/60 rounded-[4px]
+    portrait:border-0 portrait:rounded-none
     shadow-xl shadow-stone-400
     `;
 export const Cape = tw.div`

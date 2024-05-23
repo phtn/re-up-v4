@@ -6,6 +6,15 @@ export function toggleState(setState: Dispatch<SetStateAction<boolean>>): void {
   setState((prevState) => !prevState);
 }
 
+export const formatMobile = (mobile_number: string) => {
+  const regex = /^0|^(63)|\D/g;
+  if (mobile_number) {
+    const formattedNumber = mobile_number.replace(regex, "");
+    return `+63${formattedNumber}`;
+  }
+  return "";
+};
+
 export const opts = (...args: ReactElement[]) => {
   return new Map([
     [true, args[0]],
@@ -229,6 +238,32 @@ export const errHandler = (
   if (args[1] && args[1].toLowerCase() === "log") {
     console.log(args[0] ?? "Error", e.name, args[2] ?? "");
   }
+};
+
+export const fileType = (file_type: string | undefined): string => {
+  if (!file_type) {
+    return "";
+  }
+  const match = file_type.match(/\/(\w+)$/);
+  return match?.[1] ?? "";
+};
+
+export const fileSize = (bytes: number | undefined): string => {
+  const units = ["bytes", "KB", "MB", "GB", "TB"];
+  let unitIndex = 0;
+
+  if (!bytes) {
+    return "";
+  }
+
+  while (bytes >= 1024 && unitIndex < units.length - 1) {
+    bytes /= 1024;
+    unitIndex++;
+  }
+
+  const roundedValue = unitIndex > 1 ? bytes.toFixed(2) : Math.round(bytes);
+
+  return `${roundedValue} ${units[unitIndex]}`;
 };
 
 // const url = 'https://example.com/path/to/create/another/segment';

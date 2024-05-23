@@ -12,8 +12,8 @@ export const Actions = () => {
 };
 
 const Container = tw.div`
-  w-full max-w-sm py-3
+  w-full border-0 border-dyan py-3
 `;
 const Content = tw.div`
-  flex items-center justify-center
+  flex items-center justify-center border-0 border-red-500
 `;

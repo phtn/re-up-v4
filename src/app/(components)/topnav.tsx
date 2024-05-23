@@ -43,7 +43,7 @@ export const TopNav = () => {
         <Link href="/" role="button" aria-label="home">
           <div className="flex w-full items-center space-x-3">
             <Logo />
-            <Stack stack={["Business", "Technologies"]} />
+            <Stack stack={["RE-UP", ""]} />
           </div>
         </Link>
         <AuthOptions />
@@ -69,7 +69,7 @@ const SignIn = forwardRef<HTMLButtonElement, { onClick: () => void }>(
 SignIn.displayName = "SignIn";
 
 export const Stack = ({ stack }: TopNavProps) => (
-  <div className="space-y-[2px] text-copper">
+  <div className="text-copper">
     {stack?.map((s, i) => <Title key={i}>{s}</Title>)}
   </div>
 );
@@ -81,5 +81,5 @@ const Logo = tw.div`
 const Title = tw.h1`
   text-transparent bg-clip-text from-void/70 via-dyan
   bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
-  max-w-[10ch] text-sm font-semibold leading-[15px] tracking-tighter
+  max-w-[10ch] text-[15px] font-normal leading-[15px] tracking-[2px]
 `;

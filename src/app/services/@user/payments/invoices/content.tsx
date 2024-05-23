@@ -15,8 +15,8 @@ export const InvoicesContent = () => {
   const { handleCreateInvoiceRoute, invoiceLoading } = useInvoiceController();
 
   return (
-    <div className="pr-4">
-      <div className="flex items-center space-x-4">
+    <div className="pr-4 portrait:w-full portrait:p-0">
+      <div className="flex items-center space-x-4 portrait:px-4">
         <Header title="Invoices" />
         <Button
           size={"icon"}

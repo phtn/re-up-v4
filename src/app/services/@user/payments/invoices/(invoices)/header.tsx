@@ -30,7 +30,7 @@ export function DataTableColumnHeader<TData, TValue>({
     return (
       <div
         className={cn(
-          "font-sans font-semibold tracking-tight text-copper",
+          "font-sans text-sm font-semibold tracking-tight text-dyan",
           className,
         )}
       >
@@ -40,7 +40,7 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("items-start space-x-2 text-sm text-copper", className)}>
+    <div className={cn("items-start space-x-2", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -48,7 +48,7 @@ export function DataTableColumnHeader<TData, TValue>({
             size="sm"
             className="my-1.5 h-8 px-1 data-[state=open]:bg-cyan-700/10 data-[state=open]:text-cyan-900"
           >
-            <span className="font-sans font-semibold tracking-tight text-copper ">
+            <span className="font-sans text-sm font-semibold tracking-tight text-dyan">
               {title}
             </span>
             {column.getIsSorted() === "desc" ? (

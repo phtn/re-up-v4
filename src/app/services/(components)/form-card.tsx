@@ -22,6 +22,7 @@ const invoiceCardStyle = `from-indigo-100/90 via-rose-100 to-sky-50 h-full w-ful
 const defaultCardStyle = `from-cyan-50/90 via-slate-100 to-sky-50 h-full w-full`;
 const greyCardStyle = `from-slate-100/90 via-gray-100 to-sky-50 h-full w-full`;
 const pinkCardStyle = `from-teal-100 via-blue-100/90 to-sky-50 h-full w-full`;
+const lightCardStyle = `from-zinc-200 via-white to-sky-50 h-full w-full`;
 
 export const FormCard = (props: CardProps) => {
   const { title, extra, iconStyle, onClick, loading, children, route } = props;
@@ -86,7 +87,7 @@ export const GrayCard = ({ children }: { children: ReactNode }) => (
 
 export const CustomerCard = ({ children }: { children: ReactNode }) => (
   <Cape>
-    <CardContainer className={customerCardStyle}>{children}</CardContainer>
+    <CardContainer className={lightCardStyle}>{children}</CardContainer>
   </Cape>
 );
 
@@ -99,13 +100,13 @@ export const GreyCard = ({ children }: { children: ReactNode }) => (
 const Cape = tw.div`
     bg-void/80 overflow-scroll
     shadow-sm shadow-slate-300
-    rounded-lg
+    rounded-lg portrait:h-fit
     transition-all duration-300
     `;
 
 const CardContainer = tw.div`
   overflow-clip xl:pr-[2px]
-  rounded-lg
+  rounded-lg portrait:h-fit
   border-clay/50 border-[0.33px]
   bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
 

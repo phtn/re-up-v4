@@ -57,7 +57,7 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 gap-x-8 md:grid-cols-2">
-          <div className=" h-fit space-y-8 rounded-2xl border-dyan/50 bg-paper px-4 py-6">
+          <div className=" h-fit space-y-8 rounded-2xl border-dyan/50">
             <FormCard
               icon={CircleUserRoundIcon}
               title="Customer Info"
@@ -116,7 +116,7 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
             </FormCard>
           </div>
 
-          <div className="space-y-6 rounded-2xl border-[0px] bg-paper px-4 py-6">
+          <div className="space-y-6 rounded-2xl border-[0px]">
             <FormCard
               icon={MapIcon}
               title="Customer Address"
@@ -167,7 +167,6 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
                 )}
               >
                 <XIcon className="" />
-
                 <p className="pr-2">Reset all fields</p>
               </Button>
             ) : null}
@@ -178,16 +177,16 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
             variant={formState.isValid ? "outline" : "default"}
             disabled={!formState.isValid || customerLoading}
             className={cn(
-              "space-x-4 border-[0.33px] border-clay",
+              "space-x-3 border-[0.33px] border-clay",
               formState.isValid
                 ? `border-sky-500 bg-sky-500 text-white hover:border-sky-500`
                 : `opacity-50`,
             )}
           >
             {customerLoading ? (
-              <Disc3Icon className="size-5 animate-spin stroke-1" />
+              <Disc3Icon className="size-4 animate-spin stroke-1" />
             ) : (
-              <PlusIcon />
+              <PlusIcon className="size-4" />
             )}
 
             <p>Add Customer</p>

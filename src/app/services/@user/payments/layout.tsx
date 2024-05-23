@@ -17,10 +17,12 @@ const PaymentsLayout = ({ children }: Children) => {
       <div className="h-full bg-gradient-to-b from-sky-400/80 via-sky-200 to-sky-100/50">
         <Header pathname={pathname} />
         <div className="grid grid-cols-5 overflow-hidden bg-white backdrop-blur-lg">
-          <div className="col-span-1 flex w-full justify-start px-4">
+          <div className="portrait:col-span-0 col-span-1 flex w-full justify-start px-4 portrait:px-0">
             <Sidebar navlist={navlist} />
           </div>
-          <div className="col-span-4 h-[640px] w-full">{children}</div>
+          <div className="col-span-4 h-[640px] w-full portrait:col-span-5">
+            {children}
+          </div>
         </div>
       </div>
     </PaymentsProvider>
@@ -31,24 +33,27 @@ type PaymentsHeaderProps = {
   pathname: string;
 };
 const Header = ({ pathname }: PaymentsHeaderProps) => (
-  <div className="flex h-[72px] w-full items-center justify-between px-4 text-sky-50">
-    <div className="flex items-center space-x-4">
-      <ListTreeIcon className="size-6" />
-      <p className="text-xl font-semibold tracking-tighter">
+  <div className="flex h-[72px] w-full items-center justify-between px-4 text-sky-50 portrait:h-[42px] portrait:px-2">
+    <div className="flex items-center space-x-2">
+      <ListTreeIcon className="size-6 portrait:hidden" />
+      <p className="text-xl font-semibold tracking-tighter portrait:text-sm">
         Payments <span className="font-light">&</span> Invoicing
       </p>
     </div>
 
     <div className="flex items-center space-x-8">
-      <div className="flex items-center space-x-8 text-sm font-medium tracking-tight">
+      <div className=" flex items-center space-x-8 text-sm font-medium tracking-tight portrait:hidden">
         <Link href={`${baseRoute}/invoices/create/0/0`}>Create Invoice</Link>
         <Link href={`${baseRoute}/customers/add-customer`}>+ Customer</Link>
         <Link href={`${baseRoute}/products/add-product`}>+ Product</Link>
       </div>
       {pathname === baseRoute ? null : (
-        <Link href={baseRoute} className="flex items-center space-x-2">
-          <SquareEqualIcon />
-          <ChevronRightIcon className="size-4" />
+        <Link
+          href={baseRoute}
+          className="flex items-center space-x-2 portrait:space-x-1"
+        >
+          <SquareEqualIcon className="size-5 stroke-[1.5px] portrait:size-4" />
+          <ChevronRightIcon className="size-4 stroke-1" />
         </Link>
       )}
     </div>

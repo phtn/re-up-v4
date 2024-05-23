@@ -23,12 +23,12 @@ export const Home = () => (
   <>
     <GridCol cols={5} top={72}>
       <ClearBase className="col-span-2">
-        <div className="flex h-[500px] items-end">
+        <div className="flex h-[500px] items-end border-0 border-blue-500 portrait:h-fit portrait:pt-16">
           <HeaderTwo />
         </div>
       </ClearBase>
       <ClearBase className="col-span-3 p-4">
-        <div className="mx-10 flex h-[500px] items-end">
+        <div className="mx-10 flex h-[500px] items-end portrait:mx-0 portrait:items-start portrait:pb-6 portrait:pt-4">
           <Carousel
             plugins={[Autoplay({ delay: 6000, stopOnInteraction: true })]}
           >
@@ -46,8 +46,8 @@ export const Home = () => (
                 <DatabaseCover />
               </CarouselItem>
             </CarouselContent>
-            <CarouselPrevious className="text-cyan-700" />
-            <CarouselNext className="text-cyan-700" />
+            <CarouselPrevious className="text-cyan-700 portrait:hidden" />
+            <CarouselNext className="text-cyan-700 portrait:hidden" />
           </Carousel>
         </div>
       </ClearBase>
@@ -58,17 +58,17 @@ export const Home = () => (
 const WebhooksCover = () => (
   <Pad>
     <SlideCover>
-      <div className="col-span-1 p-6">
+      <SlideHeader>
         <div className="flex items-start space-x-2">
           <div className="flex items-center py-1">
-            <WebhookIcon className="size-6 text-cyan-800" />
+            <WebhookIcon className="size-6 text-sky-900" />
           </div>
 
-          <h2 className="text-2xl font-bold tracking-tight text-cyan-950">
+          <h2 className="text-2xl font-bold tracking-tight text-dyan">
             Webhooks
           </h2>
         </div>
-      </div>
+      </SlideHeader>
       <div className="col-span-2 w-full">
         <PersV4 />
       </div>
@@ -79,16 +79,23 @@ const WebhooksCover = () => (
 const InvoicingCover = () => (
   <Pad>
     <AntiSlideCover>
-      <div className="col-span-1 p-6">
+      <SlideHeader>
         <div className="flex items-start space-x-2">
           <div className="flex items-center py-1">
             <ListTreeIcon className="size-6 text-sky-100" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-cyan-100">
-            Payments & Invoicing
-          </h2>
+
+          <div className="whitespace-nowrap">
+            <p className="text-2xl font-bold tracking-tight text-cyan-100">
+              Payments &
+            </p>
+
+            <p className="flex items-center text-2xl font-bold tracking-tight text-cyan-100">
+              {`Invoicing`}
+            </p>
+          </div>
         </div>
-      </div>
+      </SlideHeader>
       <div className="col-span-2 w-full">
         <PersV2 />
       </div>
@@ -99,16 +106,16 @@ const InvoicingCover = () => (
 const OCRCover = () => (
   <Pad>
     <SlideCoverV3>
-      <div className="col-span-1 p-6">
+      <SlideHeader>
         <div className="flex items-start space-x-2">
           <div className="flex items-center py-1">
             <ScanTextIcon className="size-6 text-cyan-800" />
           </div>
           <h2 className="text-2xl font-bold tracking-tight text-void/70">
-            OCR Document Reader
+            OCR Document Readers
           </h2>
         </div>
-      </div>
+      </SlideHeader>
       <div className="col-span-2 w-full">
         <PersV3 />
       </div>
@@ -119,16 +126,21 @@ const OCRCover = () => (
 const DatabaseCover = () => (
   <Pad>
     <SlideCoverV4>
-      <div className="col-span-1 p-6">
+      <SlideHeader>
         <div className="flex items-start space-x-2">
           <div className="flex items-center py-1">
             <DatabaseIcon className="size-6 text-cyan-500" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-cyan-100">
-            Database
-          </h2>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-cyan-100">
+              Realtime
+            </h2>
+            <h2 className="text-2xl font-bold tracking-tight text-cyan-100">
+              Database
+            </h2>
+          </div>
         </div>
-      </div>
+      </SlideHeader>
       <div className="col-span-2 w-full">
         <PersV1 />
       </div>
@@ -148,7 +160,11 @@ const PersV3 = tw.div`
 const PersV4 = tw.div`
   h-full bg-[url('/svg/pers_v4.svg')] bg-cover
 `;
-const SlideCover = tw.div`grid h-full grid-cols-3 bg-gradient-to-r from-transparent via-cyan-950/80 via-35% to-60% to-void`;
-const AntiSlideCover = tw.div`grid h-full grid-cols-3 bg-gradient-to-r from-sky-500 from-70% to-transparent`;
-const SlideCoverV3 = tw.div`grid h-full grid-cols-3 bg-gradient-to-r from-transparent to-rose-600/60 to-60%`;
-const SlideCoverV4 = tw.div`grid h-full grid-cols-3 bg-gradient-to-r from-indigo-700 to-transparent`;
+const SlideCover = tw.div`portrait:h-[200px] h-full grid grid-cols-3 bg-gradient-to-br from-transparent via-cyan-950/80 via-70% to-90% to-void`;
+const AntiSlideCover = tw.div`portrait:h-[200px] h-full grid grid-cols-3 bg-gradient-to-r from-sky-500 from-70% to-transparent`;
+const SlideCoverV3 = tw.div`portrait:h-[200px] h-full grid grid-cols-3 bg-gradient-to-r from-transparent to-rose-600/60 to-60%`;
+const SlideCoverV4 = tw.div`portrait:h-[200px] h-full grid grid-cols-3 bg-gradient-to-r from-indigo-700 to-transparent`;
+
+const SlideHeader = tw.div`
+  col-span-1 p-6 portrait:h-full portrait:p-3
+  `;

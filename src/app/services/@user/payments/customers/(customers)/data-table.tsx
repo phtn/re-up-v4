@@ -76,12 +76,12 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex h-[56px] w-screen items-start space-x-4 overflow-x-scroll pt-1 md:w-full">
+      <div className="flex h-[56px] w-screen items-start space-x-4 overflow-x-scroll pt-1 md:w-full portrait:hidden">
         <DataTableToolbar table={table} />
       </div>
-      <div className="h-[450px] overflow-scroll rounded-[4px] bg-white font-jet text-xs font-light text-clay">
+      <div className="h-[450px] overflow-scroll bg-white font-jet text-xs font-light text-clay">
         <Table>
-          <TableHeader className="sticky font-medium tracking-tight">
+          <TableHeader className="sticky rounded-[4px] border-[0.33px] border-dyan/40 bg-paper font-medium tracking-tight portrait:rounded-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
@@ -130,7 +130,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center font-jet"
                 >
-                  <div className="flex items-center justify-center space-x-4">
+                  <div className="flex items-center justify-center space-x-4 portrait:justify-start portrait:px-4">
                     <span className="animate-pulse font-semibold text-cyan-700">
                       Updating table
                     </span>

@@ -20,21 +20,21 @@ export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex w-full items-center overflow-x-scroll border-t-[0.33px] py-6 text-xs md:pb-2 md:pt-3">
+    <div className="flex w-full items-center overflow-x-scroll border-t-[0.33px] px-4 py-6 text-xs md:pb-2 md:pt-3">
       {/* <div className="text-muted-foreground flex-1 text-sm">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div> */}
-      <div className="flex w-full items-center justify-between space-x-4 lg:space-x-8">
+      <div className="flex w-full items-center justify-between lg:space-x-8">
         <div className="flex items-center space-x-2 md:space-x-8">
-          <p className="font-sans text-xs text-opus">Rows per page</p>
+          <p className="font-sans text-xs text-opus">Rows</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value: string) => {
               table.setPageSize(Number(value));
             }}
           >
-            <SelectTrigger className="h-8 w-[75px] border-ash font-jet text-sky-500">
+            <SelectTrigger className="h-8 w-[75px] rounded border-[0.33px] border-ash px-1 font-jet text-sky-500 portrait:w-[48px]">
               <SelectValue
                 className="font-jet"
                 placeholder={table.getState().pagination.pageSize}
@@ -53,14 +53,13 @@ export function DataTablePagination<TData>({
             </BeachSelect>
           </Select>
         </div>
-        <div className="flex w-[100px] items-center justify-center font-jet text-[10px] font-light text-opus">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+        <div className="flex w-[100px] items-center justify-center font-mono text-[11px] font-light text-opus">
+          {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
         </div>
-        <div className="flex items-center space-x-2 px-4 md:space-x-4">
+        <div className="flex items-center space-x-2 px-4 sm:px-0 md:space-x-4">
           <Button
             variant="default"
-            className="hidden size-8 border-gray-500 p-0 lg:flex"
+            className="hidden size-7 border-gray-500 p-0 lg:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
@@ -69,7 +68,7 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="default"
-            className="size-8 border-gray-500 p-0"
+            className="size-7 border-gray-500 p-0"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
@@ -78,7 +77,7 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="default"
-            className="size-8 border-gray-500 p-0"
+            className="size-7 border-gray-500 p-0"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -87,7 +86,7 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="default"
-            className="hidden size-8 border-gray-500 p-0 lg:flex"
+            className="hidden size-7 border-gray-500 p-0 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >

@@ -100,9 +100,12 @@ export const CreateInvoiceForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-4 rounded-xl md:grid-cols-5">
-          <div className="col-span-2 h-fit space-y-4 rounded-xl rounded-tr-none border-dyan/50">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 portrait:px-4"
+      >
+        <div className="grid w-full grid-cols-1 gap-4 rounded-xl md:grid-cols-5 portrait:gap-x-0 portrait:gap-y-4">
+          <div className="col-span-2 h-fit w-full space-y-4 rounded-xl rounded-tr-none border-dyan/50">
             <CustomerSelect
               onSelect={onSelect}
               customerList={customerList}
@@ -140,11 +143,11 @@ export const CreateInvoiceForm = ({
               </div>
               <Button
                 type="submit"
-                size={"lg"}
+                size={"sm"}
                 variant={formState.isValid ? "outline" : "default"}
                 disabled={invoiceLoading}
                 className={cn(
-                  "space-x-4 rounded-lg border-[0.33px] border-clay/50 font-semibold tracking-tight",
+                  "space-x-2 rounded-lg border-[0.33px] border-clay/50 font-semibold tracking-tight",
                   formState.isValid
                     ? `bg-sky-500 text-white hover:border-sky-500`
                     : ``,
@@ -153,7 +156,7 @@ export const CreateInvoiceForm = ({
                 {invoiceLoading ? (
                   <Disc3Icon className="size-5 animate-spin stroke-1" />
                 ) : (
-                  <PlusIcon />
+                  <PlusIcon className="size-4" />
                 )}
 
                 <p>Create Invoice</p>
@@ -217,10 +220,10 @@ const ContactDetailRenderer = (
 
   if (!customer) {
     return (
-      <div className="h-[398.5px] py-3">
+      <div className="h-[398.5px] py-3 portrait:h-fit">
         <div className="flex items-center justify-between px-1.5">
-          <div className="flex items-center space-x-1 rounded-lg bg-dyan/5 p-1.5">
-            <HistoryIcon className="size-4 text-dyan/50" />
+          <div className="flex items-center space-x-1 rounded-lg bg-dyan/5 px-2 py-1.5">
+            <HistoryIcon className="size-3 text-dyan/50" />
             <p className="text-xs font-medium tracking-tight text-dyan">
               Recent customers
             </p>

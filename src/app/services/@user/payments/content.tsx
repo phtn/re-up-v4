@@ -19,10 +19,10 @@ export const PaymentsContent = () => {
   const { handleCreateInvoiceRoute, invoiceLoading } = useInvoiceController();
 
   return (
-    <div className="h-full w-full pl-4 pr-8">
+    <div className="h-full w-full overflow-y-scroll pl-4 pr-8 portrait:p-0 portrait:px-4 ">
       <Header title="Today" />
-      <div className="h-full w-full overflow-y-scroll bg-white">
-        <div className="grid h-[180px] grid-cols-1 bg-white md:grid-cols-3 md:gap-8">
+      <div className="h-full w-full bg-white">
+        <div className="grid h-[180px] grid-cols-1 gap-8 bg-white md:grid-cols-3 portrait:h-fit portrait:gap-4">
           <XCard
             title="Create Invoice"
             description="Create and Send invoices."
@@ -60,6 +60,8 @@ export const PaymentsContent = () => {
 
         <Header title="Recent Payments" />
         <div className="h-[350px] bg-gray-100/40 bg-[url('/svg/atm.svg')] bg-center bg-no-repeat"></div>
+
+        <div className="h-[100px]"></div>
       </div>
     </div>
   );

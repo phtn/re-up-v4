@@ -192,9 +192,9 @@ const Extra = (props: ExtraProps) => (
 
 const Container = tw.div`
   flex h-[calc(100vh-218px)] md:h-[640px] w-full
-  md:px-6
+  md:px-6 overflow-y-scroll
 `;
 
 const Grid = tw.div`
-  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
+  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full
 `;
