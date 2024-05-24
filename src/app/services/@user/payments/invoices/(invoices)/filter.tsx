@@ -37,18 +37,14 @@ export function DataTableFacetedFilter<TData, TValue>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <DarkTouch
-          icon={CirclePlusIcon}
-          size="sm"
-          className="font-medium tracking-tight"
-        >
+        <DarkTouch icon={CirclePlusIcon} size="sm" className="">
           {title}
         </DarkTouch>
       </PopoverTrigger>
       <Beach
         className={cn(
           "-mr-[3px] mt-[10.33px]",
-          title === "customerId" ? "w-[200px]" : "w-[280px]",
+          title === "customerName" ? "w-[100px]" : "w-[200px]",
         )}
         align="end"
       >

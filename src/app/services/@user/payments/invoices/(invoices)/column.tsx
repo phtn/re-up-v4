@@ -31,6 +31,32 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     enableSorting: false,
   },
   {
+    id: "createdAt",
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Created On"
+        className="flex"
+      />
+    ),
+    cell: ({ row }) => {
+      const dateString: string | undefined = row.getValue("createdAt");
+
+      const timestamp = prettyDate(dateString);
+      const datetime = timestamp.split(" at ");
+
+      return (
+        <div className="flex flex-col items-start justify-center space-y-0.5 px-1">
+          <p className="font-sans text-xs font-medium">{datetime[0]}</p>
+          <p className="text-[11px] tracking-wide text-dyan/60">
+            {datetime[1]}
+          </p>
+        </div>
+      );
+    },
+  },
+  {
     id: "total",
     accessorKey: "total",
     header: ({ column }) => (
@@ -73,8 +99,8 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
         className="flex"
       />
     ),
-    cell: (info) => {
-      const currency = info.getValue() as string;
+    cell: ({ row }) => {
+      const currency: CurrencySchema | undefined = row.getValue("currency");
 
       return (
         <div className="flex items-center justify-center">
@@ -84,8 +110,11 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
         </div>
       );
     },
+    filterFn: (row, value, selectedValues: string[]) => {
+      return selectedValues.includes(String(row.getValue(value)));
+    },
     enableHiding: true,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     id: "customer",
@@ -179,31 +208,5 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     },
     enableSorting: true,
     enableHiding: true,
-  },
-  {
-    id: "createdAt",
-    accessorKey: "createdAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Created On"
-        className="flex"
-      />
-    ),
-    cell: ({ row }) => {
-      const dateString: string | undefined = row.getValue("createdAt");
-
-      const timestamp = prettyDate(dateString);
-      const datetime = timestamp.split(" at ");
-
-      return (
-        <div className="flex flex-col items-start justify-center space-y-0.5 px-1">
-          <p className="font-sans text-xs font-medium">{datetime[0]}</p>
-          <p className="text-[11px] tracking-wide text-dyan/60">
-            {datetime[1]}
-          </p>
-        </div>
-      );
-    },
   },
 ];

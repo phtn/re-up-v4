@@ -82,7 +82,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex h-[56px] w-screen items-start space-x-4 overflow-x-scroll pt-1 md:w-full">
+      <div className="flex h-[56px] w-screen items-start space-x-4 overflow-x-scroll pt-1 md:w-full portrait:hidden">
         <DataTableToolbar table={table} />
       </div>
       <div className="h-[450px] overflow-scroll rounded-[4px] bg-white font-jet text-xs font-light text-clay">

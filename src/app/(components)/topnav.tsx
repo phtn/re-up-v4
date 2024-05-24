@@ -9,6 +9,8 @@ import tw from "tailwind-styled-components";
 import { SignInSheet } from "../(login)/sign";
 import { AuthContext } from "../(main)/context";
 import { UserMenu } from "./user-menu";
+import { Button } from "../(ui)/button";
+import { getCryptoPrices } from "@src/trpc/crypto/prices";
 
 type TopNavProps = {
   stack?: string[];
@@ -37,6 +39,14 @@ export const TopNav = () => {
     return <>{options.get(isAuthed)}</>;
   }, [creds?.user, creds?.profile?.email, open]);
 
+  const handleCrypto = () => {
+    getCryptoPrices()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e: Error) => console.log(e));
+  };
+
   return (
     <nav className="z-5e absolute h-[72px] w-full md:px-[72px]">
       <div className="relative z-50 flex h-full items-center justify-between px-4 md:px-[0px]">
@@ -46,6 +56,7 @@ export const TopNav = () => {
             <Stack stack={["RE-UP", ""]} />
           </div>
         </Link>
+        <Button onClick={handleCrypto}>get crypto</Button>
         <AuthOptions />
       </div>
     </nav>

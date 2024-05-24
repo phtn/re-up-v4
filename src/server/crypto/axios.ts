@@ -12,7 +12,7 @@ export const createAxiosInstance = (config?: AxiosRequestConfig) =>
   });
 
 export const cryptoConfig = {
-  url: "/cryptocurrency/listings/latest",
+  url: "/cryptocurrency/quotes/latest?id=1",
 };
 
 // let response = null;

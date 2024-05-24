@@ -46,33 +46,26 @@ export const FormCard = (props: CardProps) => {
       <CardContainer className={themeSelector()}>
         <div className="space-y-4 p-3">
           <div className="flex w-full items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 portrait:space-x-2">
               {loading ? (
                 <Disc3Icon
                   strokeWidth={1.5}
-                  className="animate-spin text-sky-700"
+                  className="animate-spin stroke-1 text-sky-700"
                 />
               ) : (
                 <props.icon
                   size={18}
                   strokeWidth={1.5}
-                  className={cn("text-dyan", iconStyle)}
+                  className={cn("stroke-1 text-dyan", iconStyle)}
                 />
               )}
-              <div className="font-sans text-[17px] font-semibold tracking-tighter text-copper">
+              <div className="font-sans text-[16px] font-medium tracking-tighter text-copper">
                 {title}
               </div>
             </div>
             <div className="font-dyan flex font-mono text-[10px]">{extra}</div>
           </div>
           <div className="">{children}</div>
-          {/* <div className="mt-8 font-sans text-lg font-semibold tracking-tighter text-sky-600">
-            {title}
-          </div>
-          <div className="mb-4 text-[14px] text-sm font-light text-copper">
-            {description}
-          </div>
-          <div className="flex h-[20px] w-full items-end justify-end"></div> */}
         </div>
       </CardContainer>
     </Cape>

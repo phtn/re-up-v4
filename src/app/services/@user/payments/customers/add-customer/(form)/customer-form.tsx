@@ -56,12 +56,16 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-x-8 md:grid-cols-2">
-          <div className=" h-fit space-y-8 rounded-2xl border-dyan/50">
+        <div className="grid grid-cols-1 gap-x-8 md:grid-cols-2 portrait:gap-x-0 portrait:gap-y-4">
+          <div className=" h-fit space-y-8 rounded-2xl border-dyan/50 portrait:space-y-4">
             <FormCard
               icon={CircleUserRoundIcon}
-              title="Customer Info"
-              extra={customerId}
+              title="Basic"
+              extra={
+                <span className="font-mono text-dyan/80">
+                  {customerId.substring(0, 8)}
+                </span>
+              }
               route={route ?? "cusomers"}
             >
               {customerInfo.map((item, index) => (
@@ -89,7 +93,7 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
 
             <FormCard
               icon={NotebookTabsIcon}
-              title="Contact Details"
+              title="Contact"
               route={route ?? "customers"}
             >
               {contactInfo.map((item, index) => (
@@ -119,7 +123,7 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
           <div className="space-y-6 rounded-2xl border-[0px]">
             <FormCard
               icon={MapIcon}
-              title="Customer Address"
+              title="Address"
               extra={
                 <SameShippingAddress
                   checked={sameAsShipping}
@@ -152,7 +156,7 @@ export const AddCustomerForm = ({ userId, route }: CustomerFormProps) => {
             </FormCard>
           </div>
         </div>
-        <div className="flex w-full items-center justify-between">
+        <div className="flex h-[100px] w-full items-start justify-between">
           <div className="flex items-center space-x-4">
             {formState.isDirty ? (
               <Button

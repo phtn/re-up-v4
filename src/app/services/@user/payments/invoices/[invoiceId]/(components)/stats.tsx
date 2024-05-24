@@ -31,7 +31,7 @@ export const Stat = ({ label, value, extra }: StatProps) => {
       typeof value === "string" ? value?.split("@") : [value, null];
     const options = opts(
       <Link href={`/services/payments/customers/${customer[1]}`}>
-        <p className="font-sans text-sm font-bold tracking-tight text-dyan hover:text-sky-600">
+        <p className="hover:text-sky-00 font-sans text-sm font-bold tracking-tight text-dyan">
           {customer[0]}
         </p>
       </Link>,
