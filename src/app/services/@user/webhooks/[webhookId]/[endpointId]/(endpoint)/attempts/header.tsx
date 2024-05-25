@@ -55,7 +55,7 @@ export function DataTableColumnHeader<TData, TValue>({
             onClick={() => column.toggleSorting(false)}
             className={column.getIsSorted() === "asc" ? `bg-cyan-700/10` : ``}
           >
-            <ArrowUp10Icon className="mr-2 h-3.5 w-3.5 text-dyan" />
+            <ArrowUp10Icon className="mr-2 size-3.5 text-dyan" />
             Asc
           </BeachDropItem>
           <BeachDropItem

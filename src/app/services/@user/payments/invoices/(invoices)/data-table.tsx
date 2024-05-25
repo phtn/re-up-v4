@@ -113,7 +113,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   // onClick={handleDelete(row.getValue("id"))}
-                  className="font-light text-dyan hover:bg-sky-50"
+                  className="font-light text-dyan hover:bg-sky-50/20"
                   key={row.getValue("id")}
                   data-state={row.getIsSelected() && "selected"}
                 >
@@ -150,7 +150,7 @@ export function DataTable<TData, TValue>({
                   <div className="flex items-center justify-center space-x-4 text-xs">
                     <span>{loading}</span>
                     <MessageSquareTextIcon className="h-6 w-6 stroke-[1px] text-opus" />
-                    <p>You have no invoice yet.</p>
+                    <p>No records.</p>
                     <Button
                       variant={"ghost"}
                       size="sm"

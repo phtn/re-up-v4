@@ -1,91 +1,54 @@
 import {
-  CheckCheckIcon,
-  CircleAlertIcon,
-  CircleCheckBigIcon,
-  CircleXIcon,
-  EqualNotIcon,
-  ForwardIcon,
-  MoreHorizontalIcon,
-  OctagonXIcon,
-  ReplyAllIcon,
-  SearchXIcon,
-  ShieldAlertIcon,
-  TriangleAlertIcon,
+  CircleCheckBig,
+  CircleSlash2Icon,
+  CircleSlashIcon,
+  ClockIcon,
+  FilePenLineIcon,
+  type LucideIcon,
 } from "lucide-react";
 
-export const statuses = [
+export type InvoiceCellStatus = {
+  value: string;
+  label: string;
+  icon: LucideIcon;
+  color: string;
+  cell: string;
+};
+export const statuses: InvoiceCellStatus[] = [
   {
-    value: "0",
-    label: "Succeeded",
-    icon: CheckCheckIcon,
+    value: "draft",
+    label: "draft",
+    icon: FilePenLineIcon,
+    color: "text-gray-100 fill-gray-100/20",
+    cell: "border-[0.33px] border-gray-500 bg-gray-100 text-gray-500 fill-gray-100/20",
   },
   {
-    value: "1",
-    label: "Pending",
-    icon: MoreHorizontalIcon,
+    value: "open",
+    label: "open",
+    icon: ClockIcon,
+    color: "text-sky-200",
+    cell: "border-[0.33px] border-sky-500 bg-sky-100/40 text-sky-500",
   },
   {
-    value: "2",
-    label: "Failed",
-    icon: CircleXIcon,
+    value: "paid",
+    label: "paid",
+    icon: CircleCheckBig,
+    color: "text-teal-100",
+    cell: "border-[0.33px] border-teal-500 bg-teal-100/30 text-teal-500",
   },
   {
-    value: "3",
-    label: "Sending",
-    icon: MoreHorizontalIcon,
-  },
-];
-
-export const codes = [
-  {
-    value: "200",
-    label: "200 - OK",
-    icon: CircleCheckBigIcon,
+    value: "void",
+    label: "voided",
+    icon: CircleSlashIcon,
+    color: "text-rose-100",
+    cell: "border-[0.33px] border-rose-500 bg-rose-100/30 text-rose-500",
   },
   {
-    value: "400",
-    label: "400 - Bad Request",
-    icon: CircleAlertIcon,
-  },
-  {
-    value: "401",
-    label: "401 - Unauthorized",
-    icon: ShieldAlertIcon,
-  },
-  {
-    value: "403",
-    label: "403 - Forbidden",
-    icon: OctagonXIcon,
-  },
-  {
-    value: "404",
-    label: "404 - Not Found",
-    icon: SearchXIcon,
-  },
-  {
-    value: "429",
-    label: "429 - Too Many Requests",
-    icon: ReplyAllIcon,
-  },
-  {
-    value: "409",
-    label: "409 - Conflict",
-    icon: EqualNotIcon,
-  },
-  {
-    value: "422",
-    label: "422 - Unprocessable Entity",
-    icon: TriangleAlertIcon,
-  },
-  {
-    value: "308",
-    label: "308 - Permanent Redirect",
-    icon: ForwardIcon,
-  },
-  {
-    value: "307",
-    label: "307 - Temporary Redirect",
-    icon: ForwardIcon,
+    value: "uncollectible",
+    label: "unpaid",
+    icon: CircleSlash2Icon,
+    color: "text-indigo-200",
+    cell: "border-[0.33px] border-indigo-500 bg-indigo-100/30 text-indigo-500",
   },
 ];
 

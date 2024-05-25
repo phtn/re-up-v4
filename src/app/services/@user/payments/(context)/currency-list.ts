@@ -94,6 +94,8 @@ export const currencyList: SelectOptionType[] = [
   },
 ];
 
+export type CurrencyList = Omit<SelectOptionType, "disabled" | "hot">[];
+
 export const getCurrency = (currency: CurrencySchema | undefined) => {
   const symbol = currencyList.find((item) => item.value === currency);
   return symbol?.url;
@@ -105,15 +107,16 @@ export const getValueAndCurrency = (
 ) => {
   const unitAmount = getDecimalAmount(value);
   const unitPrice =
-    typeof unitAmount === "string"
-      ? Number(unitAmount).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 5,
-        })
-      : unitAmount;
+    typeof unitAmount === "string" ? Number(unitAmount) : unitAmount;
 
   const symbol = String(getCurrency(currency));
-  return [unitPrice, symbol];
+  return [
+    unitPrice.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }),
+    symbol,
+  ];
 };
 
 // BUSD

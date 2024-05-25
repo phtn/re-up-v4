@@ -73,8 +73,8 @@ export default {
         "i-br-dk": "inset -15px -30px 40px -30px rgba(255, 255, 255, 0.60)",
         "i-tl-dk-hv": "inset 20px 15px 60px -20px rgba(180, 180, 180, 0.7)",
         // Light
-        "i-tl-li": "inset 15px 20px 20px -15px rgba(150, 150, 150, 0.55)",
-        "i-br-li-hv": "inset -15px -20px 40px -30px rgba(150, 150, 150, 0.65)",
+        "i-tl-li": "inset 15px 20px 20px -15px rgba(200, 200, 200, 0.5)",
+        "i-br-li-hv": "inset -15px -20px 40px -30px rgba(200, 200, 200, 0.5)",
         // Dark
         "i-tl-dk": "inset 15px 15px 40px -25px rgba(255, 255, 255, 0.35)",
         "i-br-dk-hv": "inset -20px -20px 40px -30px rgba(255, 255, 255, 0.45)",

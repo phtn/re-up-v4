@@ -5,10 +5,11 @@ import { DataTableColumnHeader } from "./header";
 import { copyFn, prettyDate } from "@src/utils/helpers";
 import type { CopperxInvoiceResponseDataSchema } from "@src/server/resource/copperx/invoice";
 import Link from "next/link";
-import { getValueAndCurrency } from "../../(context)/currency-list";
-import Image from "next/image";
 import { type CurrencySchema } from "@src/server/resource/copperx/common";
 import { FileSymlinkIcon } from "lucide-react";
+import { AmountCell } from "../../(components)/amount-cell";
+import { statuses } from "./schema";
+import { cn } from "@src/utils/cn";
 
 export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
   {
@@ -63,29 +64,14 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
       <DataTableColumnHeader
         column={column}
         title="Amount"
-        className="flex justify-end"
+        className="flex w-[200px] justify-end"
       />
     ),
     cell: ({ row }) => {
       const total: string | undefined = row.getValue("total");
       const currency: CurrencySchema | undefined = row.getValue("currency");
-      const [totalAmount, symbol] = getValueAndCurrency(total, currency);
 
-      return (
-        <div className="flex items-center justify-end">
-          {symbol ? (
-            <Image
-              alt="currency"
-              src={symbol as string}
-              width={0}
-              height={0}
-              className="h-[18px] w-auto px-1"
-              quality={100}
-            />
-          ) : null}
-          <p className="font-sans font-medium">{totalAmount}</p>
-        </div>
-      );
+      return <AmountCell total={total} currency={currency} />;
     },
     enableSorting: false,
   },
@@ -104,7 +90,7 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
 
       return (
         <div className="flex items-center justify-center">
-          <span className="text-[13px] uppercase tracking-tighter">
+          <span className="font-sans text-[13px] uppercase tracking-tighter">
             {currency}
           </span>
         </div>
@@ -173,7 +159,11 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     id: "dueDate",
     accessorKey: "dueDate",
     header: ({ column }) => (
-      <DataTableColumnHeader className="" column={column} title="Due" />
+      <DataTableColumnHeader
+        className="flex w-full justify-center"
+        column={column}
+        title="Due"
+      />
     ),
     cell: (info) => {
       const dateString = prettyDate(info.getValue() as string);
@@ -192,21 +182,38 @@ export const columns: ColumnDef<CopperxInvoiceResponseDataSchema>[] = [
     id: "status",
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader className="" column={column} title="Status" />
+      <DataTableColumnHeader
+        className="flex w-full justify-center"
+        column={column}
+        title="Status"
+      />
     ),
     cell: ({ row }) => {
-      const status: string = row.getValue("status");
+      // const status = statuses.find(
+      //   (item) => item.value === String(row.getValue("status")),
+      // );
+
+      const status = statuses[4];
       const id: string = row.getValue("id");
 
       return (
         <Link href={`/services/payments/invoices/${id}`} className="group">
-          <div className="flex justify-start pl-8">
-            <p className={"text-xs group-hover:text-sky-600"}>{status}</p>
+          <div
+            className={cn(
+              status?.cell,
+              "flex w-[72px] items-center justify-center space-x-2 rounded-[8px] px-1 py-1.5 font-sans font-medium tracking-tight",
+            )}
+          >
+            {status?.icon && <status.icon className="size-3" />}
+            <p className={cn("text-xs")}>{status?.label}</p>
           </div>
         </Link>
       );
     },
-    enableSorting: true,
+    filterFn: (row, value, selectedValues: string[]) => {
+      return selectedValues.includes(String(row.getValue(value)));
+    },
+    enableSorting: false,
     enableHiding: true,
   },
 ];

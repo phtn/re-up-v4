@@ -1,18 +1,21 @@
-import axios, { type AxiosRequestConfig } from "axios";
+import axios from "axios";
 
-export const createAxiosInstance = (config?: AxiosRequestConfig) =>
+export const createAxiosInstance = () =>
   axios.create({
-    ...config,
     headers: {
-      Accept: "application/json",
-      "Accept-Encoding": "deflate, gzip",
       "X-CMC_PRO_API_KEY": `${process.env.COINMARKETCAP}`,
     },
-    baseURL: "https://sandbox-api.coinmarketcap.com/v1",
+    baseURL: `https://pro-api.coinmarketcap.com`,
+    method: "GET",
   });
 
-export const cryptoConfig = {
-  url: "/cryptocurrency/quotes/latest?id=1",
+export const query = {
+  quotes: "/v1/cryptocurrency/quotes/latest",
+  listings:
+    "/v1/cryptocurrency/listings/latest?convert_id=1&2781&convert_id=1,2803",
+  fiat: "/v1/fiat/map",
+  crypto_prices: "/v1/cryptocurrency/listings/latest?convert_id",
+  // crypto_php: "/v1/cryptocurrency/listings/latest?convert_id=2803",
 };
 
 // let response = null;

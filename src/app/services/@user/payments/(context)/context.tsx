@@ -2,19 +2,32 @@
 
 import { type Children } from "@src/app/(main)/types";
 import { auth, db } from "@src/lib/db";
+import { type ListingsResultDataSchema } from "@src/server/resource/cmc/crypto";
 import { type CopperxCustomerDataSchema } from "@src/server/resource/copperx/customer";
 import { type CopperxInvoiceResponseDataSchema } from "@src/server/resource/copperx/invoice";
 import { type CopperxProductDataSchema } from "@src/server/resource/copperx/product";
+import { getCryptoPrices } from "@src/trpc/crypto/prices";
 import {
   collection,
   doc,
   type DocumentData,
   type FirestoreDataConverter,
 } from "firebase/firestore";
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+// 15 45 135 270 900 1800 3600
+// 15 60 195
+// 10 30 90 270
+//php 2803
+//usd 2781
+//eur 2790
+//jpy 2797
+// type Currencies = "usd" | "btc" | "php"
+// interface CurrencyPairs {
+//   btcusd:
 
+// }
 interface PaymentsContextValue {
   customers: {
     customerList: CopperxCustomerDataSchema[] | undefined;
@@ -28,6 +41,8 @@ interface PaymentsContextValue {
     invoiceList: CopperxInvoiceResponseDataSchema[] | undefined;
     fetchingInvoices: boolean;
   };
+  usd: ListingsResultDataSchema | undefined;
+  php: ListingsResultDataSchema | undefined;
 }
 
 export const PaymentsContext = createContext<
@@ -61,12 +76,31 @@ export const PaymentsProvider = ({ children }: Children) => {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
+  const [php, setPHP] = useState<ListingsResultDataSchema | undefined>();
+  const [usd, setUSD] = useState<ListingsResultDataSchema | undefined>();
+
+  useEffect(() => {
+    getCryptoPrices(2803)
+      .then((res) => {
+        setPHP(res.data);
+      })
+      .catch((e: Error) => console.log(e));
+
+    getCryptoPrices(2781)
+      .then((res) => {
+        setUSD(res.data);
+      })
+      .catch((e: Error) => console.log(e));
+  }, []);
+
   return (
     <PaymentsContext.Provider
       value={{
         customers: { customerList, fetchingCustomers },
         products: { productList, fetchingProducts },
         invoices: { invoiceList, fetchingInvoices },
+        php,
+        usd,
       }}
     >
       {children}

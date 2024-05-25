@@ -85,6 +85,16 @@ const LineItemResponse = z.object({
 export type LineItemSchema = z.infer<typeof LineItem>;
 export type LineItemResponseSchema = z.infer<typeof LineItemResponse>;
 
+export const InvoiceStatus = z.union([
+  z.literal("draft"),
+  z.literal("open"),
+  z.literal("paid"),
+  z.literal("void"),
+  z.literal("uncollectible"),
+]);
+
+export type InvoiceStatusSchema = z.infer<typeof InvoiceStatus>;
+
 export const CreateInvoiceResource = z.object({
   description: z.string(),
   customFields: CustomFields,
@@ -158,7 +168,7 @@ export const CopperxInvoiceData = z.object({
   paymentSettingId: z.string().uuid(),
   periodEnd: z.string().datetime().or(z.null()),
   periodStart: z.string().datetime().or(z.null()),
-  status: z.string(),
+  status: InvoiceStatus,
   subscriptionId: z.string().or(z.null()),
   total: z.string(),
   updatedAt: z.string().datetime(),

@@ -40,13 +40,13 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("items-start space-x-2", className)}>
+    <div className={cn("items-start space-x-2 text-mojo", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
-            className="my-1.5 h-8 px-1 data-[state=open]:bg-cyan-700/10 data-[state=open]:text-cyan-900"
+            className="data-[state=open]:bg-dyan-700/10 my-1.5 h-8 px-1 data-[state=open]:text-cyan-900"
           >
             <span className="font-sans text-sm font-semibold tracking-tight text-dyan">
               {title}
@@ -66,23 +66,24 @@ export function DataTableColumnHeader<TData, TValue>({
             onClick={() => column.toggleSorting(false)}
             className={column.getIsSorted() === "asc" ? `bg-cyan-700/10` : ``}
           >
-            <ArrowUp10Icon className="mr-2 h-3.5 w-3.5 text-dyan" />
-            Asc
+            <ArrowUp10Icon className="mr-2 size-3.5 text-indigo-300" />
+
+            <span className="text-indigo-300">Asc</span>
           </BeachDropItem>
           <BeachDropItem
             selected={column.getIsSorted() === "desc"}
             onClick={() => column.toggleSorting(true)}
           >
-            <ArrowDown01Icon className="mr-2 h-3.5 w-3.5 text-copper" />
-            Desc
+            <ArrowDown01Icon className="mr-2 size-3.5 text-teal-300" />
+            <span className="text-teal-300">Desc</span>
           </BeachDropItem>
           <DropdownMenuSeparator />
           <BeachDropItem
             selected={column.getIsVisible() === false}
             onClick={() => column.toggleVisibility(false)}
           >
-            <EyeOffIcon className="mr-2 h-3.5 w-3.5 text-dyan" />
-            Hide
+            <EyeOffIcon className="mr-2 size-3.5 text-mojo" />
+            <span className="text-mojo">Hide</span>
           </BeachDropItem>
         </BeachDrop>
       </DropdownMenu>

@@ -7,7 +7,7 @@ import tw from "tailwind-styled-components";
 
 const touchDefaultClass = `
   text-xs font-medium border-[0.33px] cursor-pointer space-x-3
-  inline-flex items-center justify-center whitespace-nowrap rounded-[3.0px]
+  inline-flex items-center justify-center whitespace-nowrap rounded-[4px]
   focus-visible:outline-none focus-visible:ring-2
   focus-visible:ring-ring focus-visible:ring-offset-4
   disabled:pointer-events-none disabled:opacity-80
@@ -20,6 +20,7 @@ const defaultClass = `
   hover:text-teal-600 disabled:hover:text-clay/60
   tracking-tight
 `;
+
 const primaryClass = `
   bg-white text-cyan-600 border-ash/[30%]
   hover:shadow-i-br-li-hv shadow-i-tl-li
@@ -141,12 +142,12 @@ export const Touch = forwardRef<
 Touch.displayName = "Touch";
 
 const Case = tw.div`
-  flex items-center justify-center bg-zap p-[2px]
-  rounded-[4px] border-[0.33px] border-ash/70
-  transition-all duration-300 drop-shadow-sm
-  hover:shadow-i-tl-li-hv shadow-i-br-li
+  flex items-center justify-center bg-zap p-[1.5px]
+  rounded-[4.5px] border-[0.33px] border-ash
+  transition-all duration-300 shadow-sm
   md:active:scale-[95%] active:border-ash
 `;
+// hover:shadow-i-tl-li-hv shadow-i-br-li
 
 /**
  * @name DarkTouch

@@ -7,6 +7,5 @@ export const getDecimalAmount = (unitValue: string | undefined | null) => {
   if (unitValue === "null") {
     return 0;
   }
-  const decimalValue = Number(BigInt(unitValue ?? "0")) / 100000000; // 100,000,000
-  return decimalValue.toFixed(2);
+  return (Number(BigInt(unitValue ?? "0")) / 100000000).toFixed(2); // 100,000,000
 };

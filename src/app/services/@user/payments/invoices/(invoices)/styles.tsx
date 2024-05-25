@@ -13,9 +13,9 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 // bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
 // from-cyan-800/50 via-orange-50 backdrop-blur-xl
 export const content = `
-  rounded-md border-[0.33px] border-opus p-0
+  rounded-md border-[0.0px] border-opus p-0
   bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
-  from-cyan-200 via-orange-50
+  from-slate-900 via-zinc-800/80 to-yello-500 backdrop-blur-lg
   overflow-clip
 
   `;
@@ -24,7 +24,7 @@ const item = `
   h-[36px] rounded-none cursor-pointer
   font-jet text-xs text-void/80 font-medium
   transition-colors duration-200 ease-in-out
-  hover:bg-cyan-700/10
+  hover:bg-slate-900/50
   `;
 
 type SelectedItem = {
@@ -36,7 +36,7 @@ export const Beach = tw(PopoverContent)`
   `;
 
 export const BeachItem = tw(CommandItem)<SelectedItem>`
-  ${({ selected }) => item + (selected ? " bg-cyan-700/5" : "")}
+  ${({ selected }) => item + (selected ? " bg-slate-900/20" : "")}
   `;
 
 export const BeachDrop = tw(DropdownMenuContent)`
@@ -45,7 +45,7 @@ export const BeachDrop = tw(DropdownMenuContent)`
   `;
 
 export const BeachDropItem = tw(DropdownMenuItem)<SelectedItem>`
-  ${({ selected }) => item + (selected ? " bg-cyan-700/5" : "")}
+  ${({ selected }) => item + (selected ? " bg-slate-900/20" : "")}
   `;
 
 export const BeachCheckItem = tw(DropdownMenuCheckboxItem)<SelectedItem>`
@@ -61,7 +61,8 @@ export const BeachSelectItem = tw(SelectItem)<SelectedItem>`
   `;
 
 export const SpaceX = tw(Cross2Icon)`
-  size-0 -rotate-45 text-white
+  size-0 -rotate-45 text-white hidden animate-in
   transition-all duration-300 ease-in-out
-  group-hover:ml-2 group-hover:size-4 group-hover:rotate-90
+  group-hover:ml-2 group-hover:size-4
+  group-hover:rotate-90 group-hover:flex
   `;

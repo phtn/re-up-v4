@@ -11,6 +11,8 @@ import { AuthContext } from "../(main)/context";
 import { UserMenu } from "./user-menu";
 import { Button } from "../(ui)/button";
 import { getCryptoPrices } from "@src/trpc/crypto/prices";
+import { getFiatMap } from "@src/trpc/crypto/fiat";
+import type { FiatMapResultSchema } from "@src/server/resource/cmc/fiat";
 
 type TopNavProps = {
   stack?: string[];
@@ -40,9 +42,26 @@ export const TopNav = () => {
   }, [creds?.user, creds?.profile?.email, open]);
 
   const handleCrypto = () => {
-    getCryptoPrices()
+    getCryptoPrices(2803)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
+      })
+      .catch((e: Error) => console.log(e));
+  };
+
+  const handleFiat = () => {
+    getFiatMap()
+      .then((result: FiatMapResultSchema) => {
+        // const php = data?.find((item) => item.symbol === "PHP");
+        const php = result.data.find((fiat) => fiat.symbol === "PHP");
+        const eur = result.data.find((fiat) => fiat.symbol === "EUR");
+        const usd = result.data.find((fiat) => fiat.symbol === "USD");
+        const jpy = result.data.find((fiat) => fiat.symbol === "JPY");
+        console.log(php, eur, usd, jpy);
+        //php 2803
+        //usd 2781
+        //eur 2790
+        //jpy 2797
       })
       .catch((e: Error) => console.log(e));
   };
@@ -57,6 +76,7 @@ export const TopNav = () => {
           </div>
         </Link>
         <Button onClick={handleCrypto}>get crypto</Button>
+        <Button onClick={handleFiat}>Get Php</Button>
         <AuthOptions />
       </div>
     </nav>

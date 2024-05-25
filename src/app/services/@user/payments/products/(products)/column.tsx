@@ -8,9 +8,9 @@ import type {
   CurrencySchema,
   PaymentTypeSchema,
 } from "@src/server/resource/copperx/common";
-import { getDecimalAmount } from "../../(hooks)/helpers";
 import { FileBoxIcon } from "lucide-react";
 import Link from "next/link";
+import { AmountCell } from "../../(components)/amount-cell";
 
 export const columns: ColumnDef<CopperxProductDataSchema>[] = [
   // {
@@ -154,7 +154,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
       const currency = info.getValue() as CurrencySchema;
 
       return (
-        <div className={"flex w-[60px] justify-center"}>
+        <div className={"flex w-[40px] justify-center"}>
           <p className={"font-sans text-xs font-medium uppercase"}>
             {currency === "tfi" ? "php" : currency}
           </p>
@@ -171,25 +171,14 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
       <DataTableColumnHeader
         column={column}
         title="Unit Price"
-        className="w-full justify-end"
+        className="w-[200px] justify-end"
       />
     ),
-    cell: (info) => {
-      const unitAmount = info.getValue() as string;
-      const price = getDecimalAmount(unitAmount);
+    cell: ({ row }) => {
+      const total: string | undefined = row.getValue("unitPrice");
+      const currency: CurrencySchema | undefined = row.getValue("currency");
 
-      return (
-        <div className="flex w-full items-center justify-end pr-2">
-          <span className="text-xs">
-            {typeof price === "string"
-              ? Number(price).toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 5,
-                })
-              : price}
-          </span>
-        </div>
-      );
+      return <AmountCell total={total} currency={currency} />;
     },
     enableSorting: false,
   },

@@ -266,6 +266,21 @@ export const fileSize = (bytes: number | undefined): string => {
   return `${roundedValue} ${units[unitIndex]}`;
 };
 
+export const currencyFormat = (
+  val: number | undefined,
+  currency: string | undefined,
+) => {
+  if (!val) return;
+  // const sign = Math.sign(Number(val));
+  // Nine Zeroes for Billions
+  return (Math.round(val) / 1.0e8).toLocaleString("en-US", {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    style: "currency",
+    currency,
+  });
+};
+
 // const url = 'https://example.com/path/to/create/another/segment';
 // const result = extractAndCheck(url, 2, 'create');
 // console.log(result); // { extracted: 'https://example.com/path/to/create', isKeyword: true }
