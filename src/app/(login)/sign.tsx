@@ -12,23 +12,36 @@ import tw from "tailwind-styled-components";
 import { Login } from "./sign-in";
 import Link from "next/link";
 import { auth } from "@src/lib/db";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
 export const Sign = () => {
-  const [signupOpen, setSignupOpen] = useState(false);
-  const [user] = useAuthState(auth);
-  const [loading, setLoading] = useState(false);
+  // const [signupOpen, setSignupOpen] = useState(false);
+  // const [creds] = useAuthState(auth);
+  const [servicesLoading, setLoading] = useState(false);
   const handleServicesRoute = () => {
     setLoading(true);
   };
+  const [signInWithGoogle, user] = useSignInWithGoogle(auth);
+
+  const handleSignInWithGoogle = () => {
+    signInWithGoogle()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e: Error) => console.log(e));
+  };
+
   return (
     <Container>
-      <ViewAllServices loading={loading} onClick={handleServicesRoute} />
+      <ViewAllServices
+        loading={servicesLoading}
+        onClick={handleServicesRoute}
+      />
       {!user ? (
-        <SignUpSheet open={signupOpen} setOpen={setSignupOpen}>
-          <LightButton />
-        </SignUpSheet>
-      ) : null}
+        // <SignUpSheet open={signupOpen} setOpen={setSignupOpen}>
+        <Touch onClick={handleSignInWithGoogle}>Continue with Google</Touch>
+      ) : // </SignUpSheet>
+      null}
     </Container>
   );
 };
@@ -103,7 +116,7 @@ const LightButton = forwardRef<HTMLButtonElement>((props, ref) => (
     size="md"
     {...props}
   >
-    Sign up
+    Sign in with Google
   </Touch>
 ));
 

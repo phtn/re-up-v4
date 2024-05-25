@@ -8,7 +8,7 @@ import {
   PackageIcon,
   SettingsIcon,
 } from "lucide-react";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext } from "react";
 import { storage } from "@src/lib/db";
 import { ref } from "firebase/storage";
 import { Header } from "../../(components)/header";
@@ -41,14 +41,6 @@ export const ProductContent = ({ id }: { id: string }) => {
 
   const path = `${user?.uid}/payments/products/${product?.id}`;
   const [value, loading] = useDownloadURL(ref(storage, path));
-
-  useEffect(() => {
-    if (value) {
-      console.log("content img value", value);
-    } else {
-      console.log(value);
-    }
-  }, [value]);
 
   const [unitPrice, currency] = getValueAndCurrency(
     product?.defaultPrice.unitAmount,
@@ -137,7 +129,7 @@ export const ProductContent = ({ id }: { id: string }) => {
               label="unit price"
               value={unitPrice}
               imageUrl={
-                (currency as string) ??
+                currency ??
                 `https://upload.wikimedia.org/wikipedia/commons/d/d4/Currency_sign.svg`
               }
             />
