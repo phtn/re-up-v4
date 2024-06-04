@@ -23,8 +23,9 @@ const ServicesLayout = ({ guest, user }: ServicesLayoutProps) => {
     <RootView>
       <ProductContainer>
         {cred ? <WebhookProvider>{user}</WebhookProvider> : guest}
+
+        <Footer />
       </ProductContainer>
-      <Footer />
     </RootView>
   );
 };

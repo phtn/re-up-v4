@@ -95,7 +95,7 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-b-[0.33px] border-sky-400/50"
+                className="border-b-[1.5px] border-slate-500/20"
               >
                 {headerGroup.headers.map((header) => {
                   return (
@@ -103,9 +103,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
@@ -117,7 +117,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   // onClick={handleDelete(row.getValue("id"))}
-                  className="h-[56px] font-light text-dyan hover:bg-sky-50"
+                  className="h-[56px] font-light text-dyan hover:bg-ghost"
                   key={row.getValue("id")}
                   data-state={row.getIsSelected() && "selected"}
                 >

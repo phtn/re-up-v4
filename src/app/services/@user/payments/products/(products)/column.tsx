@@ -9,8 +9,8 @@ import type {
   PaymentTypeSchema,
 } from "@src/server/resource/copperx/common";
 import { FileBoxIcon } from "lucide-react";
-import Link from "next/link";
 import { AmountCell } from "../../(components)/amount-cell";
+import { PageLink } from "../../(components)/page-link";
 
 export const columns: ColumnDef<CopperxProductDataSchema>[] = [
   // {
@@ -49,17 +49,18 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={""} className="w-[36px]" />
+      <DataTableColumnHeader
+        column={column}
+        title={""}
+        className="w-fit portrait:w-[46px]"
+      />
     ),
     cell: ({ row }) => {
       const id: string = row.getValue("id");
-      const baseRoute = "/services/payments/products";
       return (
-        <Link href={`${baseRoute}/${id}`}>
-          <div className="flex h-[40px] w-full items-center justify-center">
-            <FileBoxIcon className="size-5 stroke-1 text-sky-600" />
-          </div>
-        </Link>
+        <PageLink page="products" id={id}>
+          <FileBoxIcon className="size-4 stroke-1 text-sky-600" />
+        </PageLink>
       );
     },
     enableSorting: false,
@@ -106,7 +107,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
   {
     accessorKey: "ref",
     header: ({ column }) => (
-      <DataTableColumnHeader className="w-[100px]" column={column} title="ID" />
+      <DataTableColumnHeader className="w-fit" column={column} title="ID" />
     ),
     cell: ({ row }) => {
       const id: string | undefined = row.getValue("id");
@@ -116,7 +117,7 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
       return (
         <div
           onClick={handleCopy}
-          className="group flex items-center text-sm text-dyan portrait:text-xs"
+          className="group flex items-center text-xs text-dyan portrait:text-xs"
         >
           <span className="cursor-pointer decoration-dashed underline-offset-4 group-hover:underline">
             {id?.slice(-6)}
@@ -132,36 +133,47 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
     accessorKey: "defaultPrice.type",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-[100px]"
+        className="flex w-full justify-center"
         column={column}
-        title="Type"
+        title="Payment Type"
       />
     ),
     cell: (info) => {
       const paymentType = info.getValue() as PaymentTypeSchema;
-      return <p className={"text-xs"}>{paymentType}</p>;
+      return (
+        <div className="flex w-full justify-center">
+          <p className={"text-xs"}>{paymentType}</p>
+        </div>
+      );
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {
     id: "currency",
     accessorKey: "defaultPrice.currency",
     header: ({ column }) => (
-      <DataTableColumnHeader className="" column={column} title="Currency" />
+      <DataTableColumnHeader
+        className="flex justify-center"
+        column={column}
+        title="Currency"
+      />
     ),
     cell: (info) => {
       const currency = info.getValue() as CurrencySchema;
 
       return (
-        <div className={"flex w-[40px] justify-center"}>
-          <p className={"font-sans text-xs font-medium uppercase"}>
+        <div className="flex w-[40px] items-center justify-center">
+          <p className="font-sans text-xs font-medium uppercase">
             {currency === "tfi" ? "php" : currency}
           </p>
         </div>
       );
     },
-    enableSorting: true,
+    filterFn: (row, value, selectedValues: string[]) => {
+      return selectedValues.includes(String(row.getValue(value)));
+    },
+    enableSorting: false,
     enableHiding: true,
   },
   {
@@ -171,14 +183,18 @@ export const columns: ColumnDef<CopperxProductDataSchema>[] = [
       <DataTableColumnHeader
         column={column}
         title="Unit Price"
-        className="w-[200px] justify-end"
+        className="flex w-full justify-end pr-4"
       />
     ),
     cell: ({ row }) => {
       const total: string | undefined = row.getValue("unitPrice");
       const currency: CurrencySchema | undefined = row.getValue("currency");
 
-      return <AmountCell total={total} currency={currency} />;
+      return (
+        <div className="flex w-full justify-end pr-4">
+          <AmountCell total={total} currency={currency} />
+        </div>
+      );
     },
     enableSorting: false,
   },

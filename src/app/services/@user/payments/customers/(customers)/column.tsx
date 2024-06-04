@@ -4,57 +4,26 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./header";
 import { copyFn, prettyDate } from "@src/utils/helpers";
 import { type CopperxCustomerDataSchema } from "@src/server/resource/copperx/customer";
-import Link from "next/link";
 import { SquareUserRound } from "lucide-react";
+import { PageLink } from "../../(components)/page-link";
 
 export const columns: ColumnDef<CopperxCustomerDataSchema>[] = [
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //       className="translate-y-[2px]"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //       className="translate-y-[2px]"
-  //     >
-  //       <CheckIcon
-  //         className={cn(
-  //           "h-4 w-4 scale-50 stroke-[0.33px] text-cord transition-all duration-300",
-  //           row.getIsSelected()
-  //             ? `scale-100 stroke-[3px]`
-  //             : `scale-0 stroke-[1px]`,
-  //         )}
-  //       />
-  //     </Checkbox>
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <DataTableColumnHeader className="w-[36px]" column={column} title="" />
+      <DataTableColumnHeader
+        className="w-fit portrait:w-[46px]"
+        column={column}
+        title=""
+      />
     ),
     cell: ({ row }) => {
       const id: string | undefined = row.getValue("customerNumber");
 
       return (
-        <Link href={`/services/payments/customers/${id}`}>
-          <div className="flex h-[48px] items-start justify-center text-xs font-semibold uppercase text-dyan hover:text-sky-600 portrait:h-[32px]">
-            <SquareUserRound className="size-5 stroke-1 text-sky-500" />
-          </div>
-        </Link>
+        <PageLink page="customers" id={id}>
+          <SquareUserRound className="size-4 stroke-1 text-sky-500" />
+        </PageLink>
       );
     },
     enableSorting: false,

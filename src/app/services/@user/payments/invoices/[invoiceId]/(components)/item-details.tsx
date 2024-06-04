@@ -8,7 +8,7 @@ export const ItemDetails = ({ items, label }: LineItemProps) => {
   return (
     <div className="">
       <Title text="Item Details" />
-      <div className="rounded border-[0.33px] border-sky-600/30 bg-sky-50/50 p-2 shadow-sm">
+      <div className="min-h-[130px] rounded border-[0.33px] border-dyan/20 bg-ghost px-2 py-4 shadow-sm">
         <div className="grid h-6 w-full grid-cols-10 px-2 text-xs font-medium tracking-tight text-dyan">
           <div className="col-span-5">Product</div>
           <div className="col-span-1 flex justify-center">Qty</div>
@@ -63,7 +63,9 @@ const LineItem = (props: LineItemProps) => {
                   {getDecimalAmount(String(item.price?.unitAmount))}
                 </p>
                 <p className="font-mono text-sm text-sky-600 portrait:hidden">
-                  {item.price?.currency}
+                  {item.price?.currency === "tfi"
+                    ? "php"
+                    : item.price?.currency}
                 </p>
               </div>
             </div>
@@ -75,7 +77,9 @@ const LineItem = (props: LineItemProps) => {
                   )}
                 </p>
                 <p className="font-mono text-sm text-sky-600 portrait:hidden">
-                  {item.price?.currency}
+                  {item.price?.currency === "tfi"
+                    ? "php"
+                    : item.price?.currency}
                 </p>
               </div>
             </div>

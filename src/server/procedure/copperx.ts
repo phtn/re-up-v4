@@ -1,6 +1,9 @@
 import { GetOneResource } from "../resource/copperx/common";
 import { CreateCustomerResource } from "../resource/copperx/customer";
-import { CreateInvoiceResource } from "../resource/copperx/invoice";
+import {
+  CreateInvoiceResource,
+  SendInvoiceResource,
+} from "../resource/copperx/invoice";
 import { AddProductResource } from "../resource/copperx/product";
 import { procedure } from "../trpc";
 
@@ -11,6 +14,7 @@ export const AddProductProcedure = procedure.input(AddProductResource);
 export const FindAllProductsProcedure = procedure;
 
 export const CreateInvoiceProcedure = procedure.input(CreateInvoiceResource);
+export const SendInvoiceProcedure = procedure.input(SendInvoiceResource);
 export const FindAllInvoices = procedure;
 
 export const FindAll = procedure;

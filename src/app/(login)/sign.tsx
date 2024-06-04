@@ -1,6 +1,10 @@
 import { Sheet, SheetContent, SheetTrigger } from "@@ui/sheet";
 import { DarkTouch, Touch } from "@@ui/touch";
-import { ArrowRightIcon, Disc3Icon } from "lucide-react";
+import { auth, db } from "@src/lib/db";
+import { Err, Ok } from "@src/utils/results";
+import { collection } from "firebase/firestore";
+import { ArrowUpRightIcon, Disc3Icon, LayoutDashboardIcon } from "lucide-react";
+import Link from "next/link";
 import {
   forwardRef,
   useState,
@@ -8,40 +12,75 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
+import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
 import tw from "tailwind-styled-components";
+import { useSignIn } from "./hooks";
 import { Login } from "./sign-in";
-import Link from "next/link";
-import { auth } from "@src/lib/db";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
+// type SignProps = {
+//   children: ReactNode;
+// };
 export const Sign = () => {
-  // const [signupOpen, setSignupOpen] = useState(false);
-  // const [creds] = useAuthState(auth);
+  const [creds] = useAuthState(auth);
   const [servicesLoading, setLoading] = useState(false);
-  const handleServicesRoute = () => {
+  const servicesRoute = () => {
     setLoading(true);
   };
-  const [signInWithGoogle, user] = useSignInWithGoogle(auth);
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
+  const [query] = useCollection(collection(db, "users"));
+  const { signIn } = useSignIn();
 
-  const handleSignInWithGoogle = () => {
-    signInWithGoogle()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e: Error) => console.log(e));
+  const onSignIn = () => {
+    signIn({ signInWithGoogle, query }).then(Ok).catch(Err);
+  };
+  const withCreds = creds?.uid !== undefined;
+
+  const props: HeroActionProps = {
+    loading: servicesLoading,
+    handleRoute: servicesRoute,
+    signIn: onSignIn,
+    withCreds,
   };
 
+  // const childrenWithProps = Children.map<P,>(children, (child) => {
+  //   if (isValidElement(child)) {
+  //     if (child)
+  //       return cloneElement<props: P>(child, props);
+  //   }
+  //   return child;
+  // });
+
+  return <HeroActions {...props} />;
+};
+
+type HeroActionProps = {
+  loading: boolean;
+  handleRoute: () => void;
+  signIn: () => void;
+  withCreds: boolean;
+};
+export const HeroActions = ({
+  loading,
+  handleRoute,
+  signIn,
+  withCreds,
+}: HeroActionProps) => {
   return (
     <Container>
       <ViewAllServices
-        loading={servicesLoading}
-        onClick={handleServicesRoute}
+        loading={loading}
+        onClick={handleRoute}
+        withCreds={withCreds}
       />
-      {!user ? (
-        // <SignUpSheet open={signupOpen} setOpen={setSignupOpen}>
-        <Touch onClick={handleSignInWithGoogle}>Continue with Google</Touch>
-      ) : // </SignUpSheet>
-      null}
+      {!withCreds ? (
+        <Touch onClick={signIn} className="px-2.5 tracking-tighter">
+          <div className="flex items-center space-x-1">
+            <div className="pr-1 text-gray-500">Sign in with Google</div>
+            <div className="h-[20px] w-[20px] bg-[url('/svg/g_logo.svg')] bg-contain bg-no-repeat" />
+          </div>
+        </Touch>
+      ) : null}
     </Container>
   );
 };
@@ -58,11 +97,11 @@ export const SignInSheet = ({ open, setOpen, children }: SignSheetProps) => {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <Content side={"bottom"}>
         <Login
-          title={"Sign in to your account"}
+          accountType="BUSINESS"
           description={`with your email & password.`}
           newAccount={false}
-          accountType="BUSINESS"
           setOpen={setOpen}
+          title={"Sign in to your account"}
         />
       </Content>
     </Sheet>
@@ -89,19 +128,25 @@ export const SignUpSheet = ({ open, setOpen, children }: SignSheetProps) => {
 type ViewAllServicesProps = {
   loading: boolean;
   onClick: () => void;
+  withCreds: boolean;
 };
 const ViewAllServices = forwardRef<HTMLButtonElement, ViewAllServicesProps>(
-  ({ loading, onClick }, ref) => (
+  ({ loading, onClick, withCreds }, ref) => (
     <Link href={`/services`}>
       <DarkTouch
         ref={ref}
-        size="md"
-        tail={loading ? Disc3Icon : ArrowRightIcon}
+        tail={
+          loading
+            ? Disc3Icon
+            : withCreds
+              ? LayoutDashboardIcon
+              : ArrowUpRightIcon
+        }
         iconClass={loading ? "animate-spin stroke-1" : ""}
-        className="w-full text-sm"
+        className="w-full"
         onClick={onClick}
       >
-        Dashboard
+        {withCreds ? "Dashboard" : "View Services"}
       </DarkTouch>
     </Link>
   ),

@@ -106,11 +106,10 @@ export const useWebhookInterface = () => {
            */
           console.log("postParams", postParams);
           return await addEndpoint(postParams).then((response) => {
-            const [message, statusCode] = response;
-            if (response && statusCode === 1) {
+            if (response) {
               setCreateState({ state: "Endpoint Created!", active: false });
               setLoading(false);
-              onSuccess("New Endpoint created!", `server : ${String(message)}`);
+              onSuccess("New Endpoint created!");
             } else {
               setCreateState({ state: "Create Endpoint", active: true });
               setLoading(false);

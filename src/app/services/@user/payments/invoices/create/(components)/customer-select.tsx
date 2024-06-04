@@ -160,9 +160,10 @@ const Trigger = tw(SheetTrigger)`
   `;
 
 const Content = tw(SheetContent)`
-  border-[0.33px] border-dyan/20 border h-full
+  border-[0.33px] border-dyan/20 border h-screen overflow-y-scroll
   bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
   from-slate-800 via-zinc-800/60 to-yellow-500 backdrop-blur-2xl
+
   `;
 
 const Header = tw(SheetHeader)`

@@ -15,7 +15,7 @@ export const DateSettings = (props: DateSetterProps) => {
   return (
     <div className="w-full">
       <Title text="Date Settings" />
-      <div className="flex h-[120px] items-center rounded border-[0.33px] border-dyan/50 bg-paper p-4 shadow-sm portrait:h-fit">
+      <div className="bg-ghost flex h-[120px] items-center rounded border-[0.33px] border-dyan/20 p-4 shadow-sm portrait:h-fit">
         <DateSetter {...props} />
       </div>
     </div>
@@ -127,10 +127,10 @@ const DatePicker = ({
           <Button
             className={cn(
               id === "dueDate"
-                ? "border-sky-700/20 bg-sky-50"
+                ? "border-sky-500 bg-sky-100"
                 : id === "periodStart"
-                  ? "border-emerald-700/20 bg-emerald-50"
-                  : "border-rose-700/20 bg-rose-50",
+                  ? "border-emerald-500 bg-emerald-100"
+                  : "border-rose-500 bg-rose-100",
               "flex h-[32px] items-center space-x-6 border-[0.33px] px-2.5 text-xs shadow-sm",
             )}
           >
@@ -161,7 +161,7 @@ const ConfirmUpdate = ({ loading, update }: ConfirmUpdateProps) => {
   return (
     <div className="min-w-[200px] space-y-2">
       <p className="text-sm font-medium tracking-tight text-sky-500">
-        Ready to update?
+        Save changes?
       </p>
       <div className="flex items-center space-x-4">
         <Button className="flex h-[32px] items-center border-[0.33px] bg-white px-2.5 text-xs shadow-sm">

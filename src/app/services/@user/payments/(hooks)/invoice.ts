@@ -7,9 +7,15 @@ import type {
   LineItemSchema,
   CreateInvoiceSchema,
   CopperxInvoiceResponseDataSchema,
+  SendInvoiceSchema,
 } from "@src/server/resource/copperx/invoice";
-import { createInvoice, findAllInvoices } from "@src/trpc/copperx/invoice";
-import { onError, onSuccess } from "@src/utils/toast";
+import {
+  createInvoice,
+  findAllInvoices,
+  getInvoice,
+  sendInvoice,
+} from "@src/trpc/copperx/invoice";
+import { onSuccess } from "@src/utils/toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { CreateInvoiceHookParams } from "./types";
@@ -21,14 +27,10 @@ import { type CopperxProductDataSchema } from "@src/server/resource/copperx/prod
 // import { getCryptoPrices } from "@src/trpc/crypto/prices";
 import {
   icashAuth,
-  icashCreateVA,
   icashGenQRCode,
   icashGetVA,
 } from "@src/trpc/icash/merchant";
-import type {
-  IcashCreateVASchema,
-  IcashGenQRResponseSchema,
-} from "@src/server/resource/icash";
+import type { IcashGenQRResponseSchema } from "@src/server/resource/icash";
 import { v4 as uuid } from "uuid";
 import { errHandler } from "@src/utils/helpers";
 import { addInvoiceInternal } from "@src/trpc/internal/payments/invoice";
@@ -40,9 +42,32 @@ type CreateLineItemProps = {
 
 const invoicesRoute = `/services/payments/invoices`;
 
+export const icash_auth = {
+  merchantCode: `${process.env.NEXT_PUBLIC_ICASH_CODE}`,
+  merchantUsername: `${process.env.NEXT_PUBLIC_ICASH_USER}`,
+  merchantPassword: `${process.env.NEXT_PUBLIC_ICASH_PASS}`,
+};
+
 export const useInvoiceController = () => {
   const [invoiceLoading, setLoading] = useState(false);
   const router = useRouter();
+
+  const handleGetInvoice = (id: string | undefined) => {
+    if (!id) return;
+    getInvoice({ id })
+      .then((result) => {
+        console.log(JSON.parse(result));
+      })
+      .catch((e: Error) => errHandler(e, setLoading));
+  };
+
+  const handleSendInvoice = (params: SendInvoiceSchema) => {
+    sendInvoice(params)
+      .then((result) => {
+        console.log(JSON.parse(result));
+      })
+      .catch((e: Error) => errHandler(e, setLoading));
+  };
 
   const handleCreateInvoiceRoute = () => {
     setLoading(true);
@@ -121,6 +146,8 @@ export const useInvoiceController = () => {
   return {
     handleCreateInvoiceRoute,
     handleCreateInvoice,
+    handleGetInvoice,
+    handleSendInvoice,
     invoiceLoading,
     selectedCustomer,
     setSelectedCustomer,
@@ -185,9 +212,7 @@ export const useFetchInvoices = () => {
         // const data = response.data as CopperxInvoiceDataSchema;
         // console.log(data);
       })
-      .catch((e: Error) => {
-        onError("Error", e.message);
-      });
+      .catch((e: Error) => errHandler(e, setLoading));
   };
 
   useEffect(() => {
@@ -209,26 +234,11 @@ export const useIcash = () => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [icashLoading, setLoading] = useState(false);
 
-  const icash_auth = {
-    merchantCode: `${process.env.NEXT_PUBLIC_ICASH_CODE}`,
-    merchantUsername: `${process.env.NEXT_PUBLIC_ICASH_USER}`,
-    merchantPassword: `${process.env.NEXT_PUBLIC_ICASH_PASS}`,
+  const handleGetVA = async (customerId: string) => {
+    const response = await icashGetVA(customerId);
+    console.log(response);
   };
 
-  const va_resource: IcashCreateVASchema = {
-    ...icash_auth,
-    merchantCustomerId: "370b9afc-43f2-40f5-ae5f-907a1dfbe397", // 370b9afc-43f2-40f5-ae5f-907a1dfbe397
-    firstName: "re-up.ph", // van: 77022052965
-    lastName: "Wed Services",
-  };
-  const handleGetVA = async () => {
-    const response = await icashGetVA("370b9afc-43f2-40f5-ae5f-907a1dfbe397");
-    console.log(response);
-  };
-  const handleCreateVA = async () => {
-    const response = await icashCreateVA(va_resource);
-    console.log(response);
-  };
   const handleAuth = async () => {
     const response = await icashAuth(icash_auth);
     console.log(response);
@@ -241,18 +251,18 @@ export const useIcash = () => {
       ...resource,
       merchantTransactionId: uuid(),
     };
-
-    const response = await icashGenQRCode(qr_resource);
-    setQr(response);
-    console.log(response.merchantTransactionId);
-
-    const imageData = response.base64Image as string;
-    if (imageData) {
-      setLoading(false);
-    }
-    setImageUrl(getImageUrl(imageData));
-
-    onSuccess("QR Generated!", `TxnID: ${response.merchantTransactionId}`);
+    icashGenQRCode(qr_resource)
+      .then((response) => {
+        setQr(response);
+        setLoading(false);
+        const imageData = response.base64Image as string;
+        if (imageData) {
+          setLoading(false);
+        }
+        setImageUrl(getImageUrl(imageData));
+        onSuccess("QR Generated!", `ref: ${response.merchantTransactionId}`);
+      })
+      .catch((e: Error) => errHandler(e, setLoading));
   };
 
   return {
@@ -262,7 +272,6 @@ export const useIcash = () => {
     handleAuth,
     handleGetVA,
     icashLoading,
-    handleCreateVA,
   };
 };
 

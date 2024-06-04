@@ -116,6 +116,9 @@ export default {
         fwhb: "#EBF3F0",
         whr: "#e03838",
         copper: "#13171F",
+        ghost: "#F7FAFD",
+        icash: "#0000FD",
+        copperx: "#4C62ED",
       },
       transitionDuration: {
         "2000": "2000ms",

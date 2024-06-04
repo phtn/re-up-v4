@@ -4,17 +4,10 @@ import {
   CircleSlashIcon,
   ClockIcon,
   FilePenLineIcon,
-  type LucideIcon,
 } from "lucide-react";
+import { type Option } from "../../(components)/filter-facets";
 
-export type InvoiceCellStatus = {
-  value: string;
-  label: string;
-  icon: LucideIcon;
-  color: string;
-  cell: string;
-};
-export const statuses: InvoiceCellStatus[] = [
+export const statuses: Option[] = [
   {
     value: "draft",
     label: "draft",

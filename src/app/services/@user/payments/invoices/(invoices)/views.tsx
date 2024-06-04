@@ -31,11 +31,11 @@ export function DataTableViewOptions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <BeachDrop align="end">
-        <DropdownMenuLabel className="flex h-[45px] items-center space-x-2 bg-cyan-900/5 px-2.5">
-          <RepeatIcon className="size-3 -rotate-45 text-cyan-900" />
-          <p className="tracking-tighter">Toggle Columns</p>
+        <DropdownMenuLabel className="flex h-[45px] items-center space-x-2 px-2.5">
+          <RepeatIcon className="size-3 -rotate-45 text-sky-400" />
+          <p className="tracking-tighter text-sky-300">Toggle Columns</p>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator className="m-0 h-[0.33px] bg-opus" />
+        <DropdownMenuSeparator className="m-0 h-[0.33px] bg-opus/20" />
         {table
           .getAllColumns()
           .filter(
@@ -50,7 +50,7 @@ export function DataTableViewOptions<TData>({
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                <span className="text-sky-50">{column.id}</span>
               </BeachCheckItem>
             );
           })}

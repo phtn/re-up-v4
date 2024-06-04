@@ -12,7 +12,7 @@ export const Err = (
 ) => {
   onError(message ?? "Error", err.message);
   setState && setState(false);
-  return [0, err];
+  return 0;
 };
 
 /**
@@ -20,5 +20,5 @@ export const Err = (
  * location: \@src/app/utils/results.ts
  */
 export const Ok = () => {
-  return [1, "success"];
+  return 1;
 };

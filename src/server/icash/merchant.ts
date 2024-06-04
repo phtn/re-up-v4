@@ -56,11 +56,12 @@ const onCreateVA = async (
   values: IcashCreateVASchema,
   axiosInstance: AxiosInstance,
 ) => {
-  const { data } = await axiosInstance.post<{
-    data: IcashCreateVAResponseSchema;
-  }>(icashCreateVAConfig.url, values);
-  if (data?.data) {
-    return data.data;
+  const { data } = await axiosInstance.post<IcashCreateVAResponseSchema>(
+    icashCreateVAConfig.url,
+    values,
+  );
+  if (data) {
+    return data;
   }
   return data;
 };

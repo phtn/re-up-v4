@@ -7,6 +7,8 @@ import { Button } from "@@ui/button";
 import { DataTableViewOptions } from "./views";
 import { SpaceX } from "./styles";
 import { InputLight } from "@src/app/(ui)/input";
+import { DataTableCurrencyFilter } from "../../(components)/filter-facets";
+import { currencyList } from "../../(context)/currency-list";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -28,18 +30,14 @@ export function DataTableToolbar<TData>({
           }
           className="h-10 w-[250px] font-jet font-light portrait:hidden"
         />
-        {/* {table.getColumn("email") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("email")}
-            title="Email"
+
+        {table.getColumn("currency") && (
+          <DataTableCurrencyFilter
+            column={table.getColumn("currency")}
+            title="Currency"
+            options={currencyList}
           />
         )}
-        {table.getColumn("organizationName") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("organizationName")}
-            title="Organization"
-          />
-        )} */}
         {isFiltered && (
           <Button
             variant="outline"

@@ -4,7 +4,12 @@ import {
   getCustomer,
   deleteCustomer,
 } from "../copperx/customer";
-import { createInvoice, findAllInvoices } from "../copperx/invoice";
+import {
+  getInvoice,
+  createInvoice,
+  findAllInvoices,
+  sendInvoice,
+} from "../copperx/invoice";
 import { addProductSession, findAllProducts } from "../copperx/product";
 import {
   AddProductProcedure,
@@ -14,6 +19,7 @@ import {
   FindAllCustomer,
   FindAllProductsProcedure,
   GetOne,
+  SendInvoiceProcedure,
 } from "../procedure/copperx";
 import { router } from "../trpc";
 
@@ -44,6 +50,10 @@ export const copperxProductRouter = router({
 export const copperxInvoiceRouter = router({
   createInvoice: CreateInvoiceProcedure.query(
     async ({ input }) => await createInvoice(input).then((res) => res),
+  ),
+  getInvoice: GetOne.query(async ({ input }) => await getInvoice(input)),
+  sendInvoice: SendInvoiceProcedure.query(
+    async ({ input }) => await sendInvoice(input),
   ),
   findAllInvoices: FindAll.query(
     async () => await findAllInvoices().then((res) => res),

@@ -14,7 +14,7 @@ export const DashboardContainer = ({ children }: Children) => {
   return <Wrapper>{children}</Wrapper>;
 };
 const Wrapper = tw.div`
-  md:h-[714px] h-fit w-full overflow-scroll
+  md:h-[calc(100vh)] h-fit w-full overflow-scroll
   bg-void rounded-[3px]
 `;
 
@@ -34,7 +34,7 @@ export const ProductContainer = ({
   inner,
 }: ContainerProps) => {
   return (
-    <div className={cn(outer, "flex h-fit pt-[72px]")}>
+    <div className={cn(outer, "flex h-fit pt-[72px] md:h-[calc(100vh+72px)]")}>
       <div className={cn(inner, "w-full md:px-[72px]")}>{children}</div>
     </div>
   );
@@ -45,7 +45,7 @@ export const ProductContainer = ({
  * @description (ui)/views.tsx (Base View)
  */
 export const RootView = tw.div`
-  h-full md:h-screen
+  h-[calc(100vh+72px)] md:h-screen
   bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
   from-cyan-100 via-orange-100
 `;

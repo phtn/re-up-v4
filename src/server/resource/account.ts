@@ -6,8 +6,8 @@ export const AccountType = z.union([
 ]);
 
 export const CreateAccountResource = z.object({
-  userId: z.string(),
-  email: z.string().email(),
+  userId: z.string().or(z.undefined()),
+  email: z.string().email().or(z.null().or(z.undefined())),
   accountType: AccountType,
 });
 
@@ -43,3 +43,20 @@ const ProfileResource = z.object({
 });
 
 export type ProfileSchema = z.infer<typeof ProfileResource>;
+
+export const UpdateUserDataResource = z.object({
+  userId: z.string().or(z.undefined()),
+  payload: z.record(
+    z.string(),
+    z.union([
+      z.number(),
+      z.boolean(),
+      z.date(),
+      z.null(),
+      z.undefined(),
+      z.record(z.string()),
+    ]),
+  ),
+});
+
+export type UpdateUserDataSchema = z.infer<typeof UpdateUserDataResource>;

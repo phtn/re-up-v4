@@ -46,6 +46,7 @@ export function DataTablePagination<TData>({
                   selected={pageSize === table.getState().pagination.pageSize}
                   key={pageSize}
                   value={`${pageSize}`}
+                  className="text-sky-50"
                 >
                   {pageSize}
                 </BeachSelectItem>

@@ -375,7 +375,9 @@ const ProductDetailRenderer = ({
                 {total.toLocaleString("en-US", { minimumFractionDigits: 2 })}
               </p>
               <p className="text-[14px] font-medium uppercase tracking-tighter text-sky-400">
-                {list[0]?.priceData.currency}
+                {list[0]?.priceData.currency === "tfi"
+                  ? "php"
+                  : list[0]?.priceData.currency}
               </p>
             </div>
           </div>
@@ -421,7 +423,9 @@ const LineItem = (props: LineItemProps) => {
                   {getDecimalAmount(String(item.priceData.unitAmount))}
                 </p>
                 <p className="text-[12px] font-normal text-dyan/50">
-                  {item.priceData.currency}
+                  {item.priceData.currency === "tfi"
+                    ? "php"
+                    : item.priceData.currency}
                 </p>
               </div>
             </div>
@@ -433,7 +437,9 @@ const LineItem = (props: LineItemProps) => {
                   )}
                 </p>
                 <p className="font-mono text-xs text-dyan/50">
-                  {item.priceData.currency}
+                  {item.priceData.currency === "tfi"
+                    ? "php"
+                    : item.priceData.currency}
                 </p>
               </div>
             </div>

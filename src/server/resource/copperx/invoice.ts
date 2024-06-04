@@ -283,6 +283,28 @@ export const FindAllInvoiceResponse = z.object({
 
 export type FindAllInvoiceSchema = z.infer<typeof FindAllInvoiceResponse>;
 
+// interface SendInvoiceParams {
+//   body: {
+//     cc?: string[] | undefined;
+//     finalizedScheduleAt?: string | undefined;
+//   };
+//   metadata: {
+//     id: string;
+//   };
+// }
+
+export const SendInvoiceResource = z.object({
+  body: z.object({
+    cc: z.array(z.string()).or(z.undefined()),
+    finalizedScheduleAt: z.string().or(z.undefined()),
+  }),
+  metadata: z.object({
+    id: z.string(),
+  }),
+});
+
+export type SendInvoiceSchema = z.infer<typeof SendInvoiceResource>;
+
 export const res = {
   page: 1,
   limit: 10,

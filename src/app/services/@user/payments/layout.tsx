@@ -14,13 +14,13 @@ const PaymentsLayout = ({ children }: Children) => {
   const pathname = usePathname();
   return (
     <PaymentsProvider>
-      <div className="h-full bg-gradient-to-b from-sky-400/80 via-sky-200 to-sky-100/50">
+      <div className="h-full border bg-gradient-to-b from-sky-400/80 via-sky-200 to-sky-100/50">
         <Header pathname={pathname} />
         <div className="grid grid-cols-5 overflow-hidden bg-white backdrop-blur-lg">
           <div className="portrait:col-span-0 col-span-1 flex w-full justify-start px-4 portrait:px-0">
             <Sidebar navlist={navlist} />
           </div>
-          <div className="col-span-4 h-[640px] w-full portrait:col-span-5">
+          <div className="col-span-4 h-[calc(100vh-144px)] w-full portrait:col-span-5">
             {children}
           </div>
         </div>

@@ -113,7 +113,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   // onClick={handleDelete(row.getValue("id"))}
-                  className="font-light text-dyan hover:bg-sky-50/20"
+                  className="hover:bg-ghost/50 font-light text-dyan"
                   key={row.getValue("id")}
                   data-state={row.getIsSelected() && "selected"}
                 >

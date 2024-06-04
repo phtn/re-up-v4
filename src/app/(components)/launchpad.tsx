@@ -18,20 +18,20 @@ export const Pad = ({ children }: Children) => {
 };
 
 export const Base = tw.div`
-    w-full h-fit md:h-[714px]
+    w-full h-fit md:h-[calc(100vh-72px)]
     bg-void/80 overflow-scroll
-    border-[0.33px] border-ash/60 rounded-[4px]
+    border-[0.0px] border-ash/60 rounded-[4px]
     portrait:border-0 portrait:rounded-none
-    shadow-xl shadow-stone-400
+    shadow-xl
     `;
 export const Cape = tw.div`
     w-full h-fit md:h-[400px]
     bg-void/80 overflow-scroll
     border-[0.33px] border-ash/60 rounded-[4px]
-    shadow-lg shadow-stone-400
+    shadow-lg
     `;
 export const ClearBase = tw.div`
-    w-full h-fit md:h-[714px]
+    w-full h-fit md:h-[calc(100vh-72px)]
     overflow-scroll
     `;
 export const StageZero = tw.div`
@@ -39,7 +39,7 @@ export const StageZero = tw.div`
     from-indigo-300/50 via-slate-300 to-orange-50 h-full w-full
     `;
 export const GroundZero = tw.div`
-    h-full md:h-screen pt-[72px] md:px-[72px]
+    h-[calc(100vh+72px)] md:h-screen pt-[72px] md:px-[72px]
     bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
     from-cyan-100 via-orange-100
   `;

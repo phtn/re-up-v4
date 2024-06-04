@@ -18,7 +18,7 @@ import {
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
-  title: string;
+  title?: string;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
@@ -40,13 +40,13 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("items-start space-x-2 text-mojo", className)}>
+    <div className={cn("items-start space-x-2 text-dyan", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
-            className="data-[state=open]:bg-dyan-700/10 my-1.5 h-8 px-1 data-[state=open]:text-cyan-900"
+            className="data-[state=open]:bg-dyan-700/10 my-1.5 h-8 px-1 data-[state=open]:text-dyan"
           >
             <span className="font-sans text-sm font-semibold tracking-tight text-dyan">
               {title}

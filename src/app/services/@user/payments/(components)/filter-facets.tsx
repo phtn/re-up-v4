@@ -12,17 +12,29 @@ import { Checkbox } from "@src/app/(ui)/checkbox";
 import { Touch } from "@src/app/(ui)/touch";
 import { cn } from "@src/utils/cn";
 import { type Column } from "@tanstack/react-table";
-import { BotMessageSquareIcon, CheckIcon, CirclePlusIcon } from "lucide-react";
+import {
+  BotMessageSquareIcon,
+  CheckIcon,
+  CirclePlusIcon,
+  type LucideIcon,
+} from "lucide-react";
 import Image from "next/image";
 import * as React from "react";
-import { type CurrencyList } from "../../(context)/currency-list";
-import { type InvoiceCellStatus } from "./schema";
 import { Beach, BeachItem, SpaceX } from "./styles";
+import { type CurrencyList } from "../(context)/currency-list";
+
+export type Option = {
+  value: string;
+  label: string;
+  icon: LucideIcon;
+  color: string;
+  cell: string;
+};
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
-  options?: InvoiceCellStatus[];
+  options?: Option[];
 }
 
 export function DataTableFacetedFilter<TData, TValue>({

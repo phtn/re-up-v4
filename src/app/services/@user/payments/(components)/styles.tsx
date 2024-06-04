@@ -10,6 +10,8 @@ import { SelectContent, SelectItem } from "@@ui/select";
 import tw from "tailwind-styled-components";
 import { Cross2Icon } from "@radix-ui/react-icons";
 
+// bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
+// from-cyan-800/50 via-orange-50 backdrop-blur-xl
 export const content = `
   rounded-md border-[0.0px] border-opus p-0
   bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]

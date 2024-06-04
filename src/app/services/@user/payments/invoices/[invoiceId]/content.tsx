@@ -7,25 +7,50 @@ import { useContext, useMemo } from "react";
 import { Header } from "../../(components)/header";
 import { PaymentsContext } from "../../(context)/context";
 import { getDecimalAmount } from "../../(hooks)/helpers";
-import { useIcash, type QrResource } from "../../(hooks)/invoice";
+import {
+  useIcash,
+  useInvoiceController,
+  type QrResource,
+} from "../../(hooks)/invoice";
 import {
   DateSettings,
   type DateSetterProps,
 } from "./(components)/date-settings";
 import { ItemDetails } from "./(components)/item-details";
-import { PaymentOptions } from "./(components)/payment-options";
+import { PaymentOptionsTabs } from "./(components)/payment-options";
 import { SendActions } from "./(components)/send-action";
 import { Container, Title } from "./(components)/styles";
 import { Stat } from "./(components)/stats";
-import { getValueAndCurrency } from "../../(context)/currency-list";
+import { AmountCell } from "../../(components)/amount-cell";
+import { useCallback } from "react";
 
 export const InvoiceContent = ({ id }: { id: string | undefined }) => {
   const userProfile = useContext(AuthContext)?.profile;
   const invoices = useContext(PaymentsContext)?.invoices;
+
+  const { handleGetInvoice, handleSendInvoice } = useInvoiceController();
+
   const invoice = useMemo(
     () => invoices?.invoiceList?.find((item) => item.id === id),
     [invoices, id],
   );
+
+  const getInvoice = () => {
+    handleGetInvoice(invoice?.id);
+  };
+
+  const sendInvoice = useCallback(() => {
+    const datestring = new Date();
+    if (invoice?.id) {
+      handleSendInvoice({
+        body: {
+          cc: ["kimtablizo@gmail.com"],
+          finalizedScheduleAt: datestring.toISOString(),
+        },
+        metadata: { id: invoice?.id },
+      });
+    }
+  }, [invoice?.id, handleSendInvoice]);
 
   const invoiceDates: DateSetterProps = useMemo(
     () => ({
@@ -57,12 +82,30 @@ export const InvoiceContent = ({ id }: { id: string | undefined }) => {
   );
 
   const { generateQR, imageUrl, icashLoading } = useIcash();
-  const [amount, currency] = getValueAndCurrency(
+
+  const gateway = useMemo(() => {
+    const handleGenerateQr = () => generateQR(qr_resource);
+    return {
+      imageUrl,
+      loading: icashLoading,
+      onGenerate: handleGenerateQr,
+      amount: invoice?.total,
+      currency: invoice?.currency,
+    };
+  }, [
     invoice?.total,
     invoice?.currency,
-  );
+    icashLoading,
+    imageUrl,
+    generateQR,
+    qr_resource,
+  ]);
 
-  const handleGenerateQr = () => generateQR(qr_resource);
+  const copperx = {
+    getInvoice,
+    sendInvoice,
+  };
+
   return (
     <div className="pr-4 portrait:pr-0">
       <div className="flex items-center justify-between border-b-[0.33px] portrait:px-2">
@@ -89,7 +132,9 @@ export const InvoiceContent = ({ id }: { id: string | undefined }) => {
               label="customer"
               value={`${invoice?.customer?.name}@${invoice?.customer.customerNumber}`}
             />
-            <Stat label="amount" value={amount} extra={`${currency}`} />
+            <Stat label="amount" value={""}>
+              <AmountCell total={invoice?.total} currency={invoice?.currency} />
+            </Stat>
             <Stat label="status" value={invoice?.status} />
             <Stat
               label="due on "
@@ -102,11 +147,7 @@ export const InvoiceContent = ({ id }: { id: string | undefined }) => {
         </div>
         <ItemDetails items={invoice?.lineItems.data} label={"Item"} />
         <DateSettings {...invoiceDates} />
-        <PaymentOptions
-          imageUrl={imageUrl}
-          loading={icashLoading}
-          onGenerate={handleGenerateQr}
-        />
+        <PaymentOptionsTabs gateway={gateway} copperx={copperx} />
         <SendActions email={invoice?.customer?.email} />
       </Container>
     </div>

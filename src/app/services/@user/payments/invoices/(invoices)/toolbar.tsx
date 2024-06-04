@@ -10,7 +10,7 @@ import { InputLight } from "@src/app/(ui)/input";
 import {
   DataTableFacetedFilter,
   DataTableCurrencyFilter,
-} from "../../invoices/(invoices)/filter";
+} from "../../(components)/filter-facets";
 import { statuses } from "./schema";
 import { currencyList } from "../../(context)/currency-list";
 
@@ -34,7 +34,7 @@ export function DataTableToolbar<TData>({
           onChange={(event) =>
             table.getColumn("customer")?.setFilterValue(event.target.value)
           }
-          className="h-10 w-[200px] font-jet font-light"
+          className="h-10 w-[200px] bg-ghost font-jet font-light"
         />
         {table.getColumn("currency") && (
           <DataTableFacetedFilter

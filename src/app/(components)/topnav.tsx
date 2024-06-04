@@ -9,10 +9,7 @@ import tw from "tailwind-styled-components";
 import { SignInSheet } from "../(login)/sign";
 import { AuthContext } from "../(main)/context";
 import { UserMenu } from "./user-menu";
-import { Button } from "../(ui)/button";
-import { getCryptoPrices } from "@src/trpc/crypto/prices";
-import { getFiatMap } from "@src/trpc/crypto/fiat";
-import type { FiatMapResultSchema } from "@src/server/resource/cmc/fiat";
+// import { Login } from "../(login)/sign-in";
 
 type TopNavProps = {
   stack?: string[];
@@ -35,48 +32,21 @@ export const TopNav = () => {
     const options = opts(
       <UserMenu user={creds?.profile?.email as string} />,
       <SignInSheet open={open} setOpen={setOpen}>
-        <SignIn onClick={() => setOpen} />
+        <p>Sign in</p>
       </SignInSheet>,
     );
     return <>{options.get(isAuthed)}</>;
-  }, [creds?.user, creds?.profile?.email, open]);
-
-  const handleCrypto = () => {
-    getCryptoPrices(2803)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((e: Error) => console.log(e));
-  };
-
-  const handleFiat = () => {
-    getFiatMap()
-      .then((result: FiatMapResultSchema) => {
-        // const php = data?.find((item) => item.symbol === "PHP");
-        const php = result.data.find((fiat) => fiat.symbol === "PHP");
-        const eur = result.data.find((fiat) => fiat.symbol === "EUR");
-        const usd = result.data.find((fiat) => fiat.symbol === "USD");
-        const jpy = result.data.find((fiat) => fiat.symbol === "JPY");
-        console.log(php, eur, usd, jpy);
-        //php 2803
-        //usd 2781
-        //eur 2790
-        //jpy 2797
-      })
-      .catch((e: Error) => console.log(e));
-  };
+  }, [creds?.user, creds?.profile?.email, open, setOpen]);
 
   return (
-    <nav className="z-5e absolute h-[72px] w-full md:px-[72px]">
+    <nav className="z-5 absolute h-[72px] w-full md:px-[72px]">
       <div className="relative z-50 flex h-full items-center justify-between px-4 md:px-[0px]">
         <Link href="/" role="button" aria-label="home">
           <div className="flex w-full items-center space-x-3">
             <Logo />
-            <Stack stack={["RE-UP", ""]} />
+            <Stack stack={["re-up.ph", ""]} />
           </div>
         </Link>
-        <Button onClick={handleCrypto}>get crypto</Button>
-        <Button onClick={handleFiat}>Get Php</Button>
         <AuthOptions />
       </div>
     </nav>
@@ -91,7 +61,7 @@ const SignIn = forwardRef<HTMLButtonElement, { onClick: () => void }>(
       tail={LogInIcon}
       onClick={onClick}
       ref={ref}
-      className="font-sans text-sm font-medium tracking-tighter text-void/80"
+      className="font-sans text-sm font-medium tracking-tighter text-dyan"
     >
       {`Sign in`}
     </Touch>
@@ -100,9 +70,7 @@ const SignIn = forwardRef<HTMLButtonElement, { onClick: () => void }>(
 SignIn.displayName = "SignIn";
 
 export const Stack = ({ stack }: TopNavProps) => (
-  <div className="text-copper">
-    {stack?.map((s, i) => <Title key={i}>{s}</Title>)}
-  </div>
+  <div className="">{stack?.map((s, i) => <Title key={i}>{s}</Title>)}</div>
 );
 
 const Logo = tw.div`
@@ -112,5 +80,5 @@ const Logo = tw.div`
 const Title = tw.h1`
   text-transparent bg-clip-text from-void/70 via-dyan
   bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
-  max-w-[10ch] text-[15px] font-normal leading-[15px] tracking-[2px]
+  max-w-[10ch] text-[15px] font-medium leading-[15px] tracking-tighter
 `;

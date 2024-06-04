@@ -1,19 +1,12 @@
 import { db } from "@@lib/db";
-import { type NewUserPayload } from "@@resource/account";
-import { type FirebaseError } from "firebase/app";
-import { doc, setDoc } from "firebase/firestore";
+import type { UpdateUserDataSchema, NewUserPayload } from "@@resource/account";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { Err, Ok } from "@src/utils/results";
 
 export const createUserAccount = async (user: NewUserPayload) => {
-  const Err = (err: FirebaseError) => {
-    return [0, err.code];
-  };
-  const Ok = () => {
-    return [1, "success"];
-  };
-
   if (user) {
     const { email, userId, accountType } = user;
-    await setDoc(doc(db, "users", userId), {
+    await setDoc(doc(db, `users/${userId}`), {
       userId,
       email,
       accountType,
@@ -39,4 +32,18 @@ export const createUserAccount = async (user: NewUserPayload) => {
   } else {
     return "Unable to read payload.";
   }
+};
+
+export const updateUserData = async (params: UpdateUserDataSchema) => {
+  const { payload, userId } = params;
+  if (!userId) return Promise.reject(new Error("No user id provided"));
+
+  const userRef = doc(db, `users/${userId}`);
+
+  await updateDoc(userRef, {
+    ...payload,
+    updatedAt: new Date().getTime(),
+  })
+    .then(Ok)
+    .catch(Err);
 };

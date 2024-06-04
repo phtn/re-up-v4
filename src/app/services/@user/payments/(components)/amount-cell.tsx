@@ -81,7 +81,7 @@ export const AmountCell = (props: AmountCellProps) => {
 
   return (
     <div className="space-y-1">
-      <div className="flex w-[200px] items-center justify-end">
+      <div className="flex w-[120px] items-center justify-end">
         {symbol ? (
           <Image
             alt="currency"
@@ -90,20 +90,21 @@ export const AmountCell = (props: AmountCellProps) => {
             height={0}
             className="h-[14px] w-auto px-1"
             quality={100}
+            blurDataURL="https://github.com/phtn"
           />
         ) : null}
         <p className="font-sans text-[16px] font-medium">{totalAmount}</p>
       </div>
-      <div className="flex w-[200px] items-center justify-end space-x-2 text-[10px]">
+      <div className="flex w-[120px] items-center justify-end space-x-2 text-[10px]">
         <ViewOptions />
         <Button
           size={"sm"}
           variant={"ghost"}
           disabled={currency === "tfi"}
-          className="h-[18px] rounded-full p-1 hover:bg-neutral-300/20 hover:text-sky-900 disabled:opacity-20"
+          className="h-[18px] rounded-full p-1 hover:bg-white hover:text-sky-900 hover:shadow-sm disabled:opacity-20"
           onClick={toggleView}
         >
-          <RepeatIcon className="size-3 -rotate-12 stroke-[2.5px] text-sky-800/80" />
+          <RepeatIcon className="size-3 -rotate-12 stroke-[1.5px] text-sky-600" />
         </Button>
       </div>
     </div>

@@ -30,7 +30,7 @@ export function DataTableColumnHeader<TData, TValue>({
     return (
       <div
         className={cn(
-          "flex font-sans text-sm font-semibold tracking-tight text-dyan",
+          "font-sans text-sm font-semibold tracking-tight text-dyan",
           className,
         )}
       >
@@ -46,9 +46,11 @@ export function DataTableColumnHeader<TData, TValue>({
           <Button
             variant="ghost"
             size="sm"
-            className="my-1.5 h-8 px-1 text-sm data-[state=open]:bg-cyan-700/10 data-[state=open]:text-cyan-900"
+            className="my-1.5 h-8 px-1 text-sm data-[state=open]:bg-cyan-700/10 data-[state=open]:text-dyan"
           >
-            <span className="text-dyan">{title}</span>
+            <span className="font-sans text-sm font-semibold tracking-tight text-dyan">
+              {title}
+            </span>
             {column.getIsSorted() === "desc" ? (
               <ArrowDown01Icon className="ml-2 size-4 text-emerald-500" />
             ) : column.getIsSorted() === "asc" ? (
