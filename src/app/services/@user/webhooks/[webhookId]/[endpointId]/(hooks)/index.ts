@@ -49,8 +49,10 @@ export const useMessageAttempInterface = ({
   const [attempts, setAttempts] = useState<MessageAttemptOut[]>(
     [] as MessageAttemptOut[],
   );
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     if (!app_id && !endpoint_id) return;
     const getMessageAttempts = async () =>
       await listMessageAttempts({ app_id, endpoint_id });
@@ -62,12 +64,13 @@ export const useMessageAttempInterface = ({
             response,
           ) as ListMessagesByEndpointResponseSchema;
           setAttempts(result.data);
+          setLoading(false);
         }
       })
       .catch(Err);
   }, [app_id, endpoint_id]);
 
-  return { attempts };
+  return { attempts, loading };
 };
 
 export const useActiveControls = () => {

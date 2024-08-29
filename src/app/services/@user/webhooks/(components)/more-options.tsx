@@ -20,8 +20,12 @@ type MoreOptionsProps = {
  * MoreOptions
  * @location /webhooks/(components)
  */
+
 export const MoreOptions = ({ webhookId }: MoreOptionsProps) => {
   const [open, setOpen] = useState(false);
+  const openForm = () => {
+    setOpen(false);
+  };
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -41,7 +45,10 @@ export const MoreOptions = ({ webhookId }: MoreOptionsProps) => {
               heading="Webhook Menu"
               className="font-jet text-cyan-950"
             >
-              <CommandItem className="space-x-4 rounded-none px-4 hover:bg-cyan-700/10">
+              <CommandItem
+                onSelect={openForm}
+                className="space-x-4 rounded-none px-4 hover:bg-cyan-700/10"
+              >
                 <PlusIcon className="size-4 text-opus" />
                 <div className="flex h-[50px] flex-col justify-center">
                   <p className="text-sm font-bold tracking-tight text-cyan-950">

@@ -1,4 +1,4 @@
-import { LineChart, CartesianGrid, XAxis, Tooltip, Line } from "recharts";
+import { LineChart, CartesianGrid, Tooltip, Line } from "recharts";
 
 type ActivityChartProps = {
   width: number;
@@ -21,7 +21,6 @@ export const EndpointActivityChart = ({
         strokeOpacity={0.15}
         strokeDasharray="2 2"
       />
-      <XAxis dataKey={"name".slice(-1)} />
       {/* <YAxis /> */}
       <Tooltip />
       {/* <Legend /> */}

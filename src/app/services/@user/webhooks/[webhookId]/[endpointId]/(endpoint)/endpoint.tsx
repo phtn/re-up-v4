@@ -25,7 +25,7 @@ export const DetailContent = memo(({ endpointId }: DetailContentProps) => {
   const pathName = usePathname();
   const webhookId = pathName.split("/")[3];
 
-  const { attempts } = useMessageAttempInterface({
+  const { attempts, loading } = useMessageAttempInterface({
     app_id: `${webhookId}`,
     endpoint_id: endpointId,
   });
@@ -75,11 +75,7 @@ export const DetailContent = memo(({ endpointId }: DetailContentProps) => {
 
           <div className="col-span-2 h-fit overflow-scroll border-t-[0.33px] border-opus/30 md:h-fit">
             <div className="flex-1 flex-col space-y-4 md:flex">
-              <DataTable
-                data={attempts}
-                loading={!!attempts}
-                columns={columns}
-              />
+              <DataTable data={attempts} loading={loading} columns={columns} />
             </div>
           </div>
         </div>

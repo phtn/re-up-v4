@@ -22,7 +22,7 @@ interface Action {
   actionMode?: "dark" | "light";
 }
 
-interface RuphToastProps {
+interface ReupToastProps {
   title?: string;
   description?: string;
   specie?: string;
@@ -50,7 +50,7 @@ interface RuphToastProps {
  * @example - toast(RuphToast)
  *
  */
-export const RuphToast = (props: RuphToastProps) => {
+export const ReupToast = (props: ReupToastProps) => {
   const { title, description, specie, action, style, iconStyle } = props;
   return (
     <Base>
@@ -124,7 +124,7 @@ const ActionContainer = tw.div`
   w-[72px] h-full flex items-start justify-center
   `;
 
-type RuphToastType =
+type ReupToastType =
   | "success"
   | "error"
   | "warning"
@@ -168,11 +168,11 @@ const iconStyles = {
  */
 export const toaster = (...args: string[]) => {
   const [title, description, specie] = args;
-  const icon = icons[specie as RuphToastType];
-  const iconStyle = iconStyles[specie as RuphToastType];
+  const icon = icons[specie as ReupToastType];
+  const iconStyle = iconStyles[specie as ReupToastType];
 
-  const ruphprops = { title, description, icon, iconStyle, specie };
-  return toast(<RuphToast {...ruphprops} />);
+  const props = { title, description, icon, iconStyle, specie };
+  return toast(<ReupToast {...props} />);
 };
 
 export type SigninToast = {
@@ -190,14 +190,14 @@ export const loadster = ({ b }: SigninToast) => {
   const icon = b ? icons.success : icons.indeterminate;
   const iconStyle = b ? iconStyles.success : iconStyles.indeterminate;
 
-  const ruphprops = {
+  const props = {
     title: b ? "Sign in successful!" : "Signing in...",
     description: b ? "Home sweet home!" : "We're glad you're back!",
     icon,
     iconStyle,
     specie: "Auth",
   };
-  return toast(<RuphToast {...ruphprops} />, {
+  return toast(<ReupToast {...props} />, {
     duration: 5000,
   });
 };
